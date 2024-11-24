@@ -72,7 +72,6 @@ const FlightCard = ({ deal }) => {
           alt={`${deal.destination} view`}
           className="w-full h-40 object-cover rounded-lg"
         />
-        {/* Perbaikan Badge */}
         {(deal.discount || deal.isLimited) && (
           <div className="absolute top-4 right-4 px-4 py-2 bg-purple-500 text-sm text-white rounded-l-full">
             {deal.discount || "Limited!"}
@@ -95,7 +94,6 @@ const FlightCard = ({ deal }) => {
     </div>
   );
 };
-
 
 const FlightDeals = () => {
   const [deals, setDeals] = useState([]);
@@ -133,7 +131,11 @@ const FlightDeals = () => {
                 key={index}
                 className="p-4 bg-white border rounded-lg shadow-sm h-[350px]"
               >
-                <Skeleton width="100%" height={150} className="mb-8 rounded-lg" />
+                <Skeleton
+                  width="100%"
+                  height={150}
+                  className="mb-8 rounded-lg"
+                />
                 <Skeleton width="90%" height={20} className="mb-2" />
                 <Skeleton width="35%" height={20} className="mb-1" />
                 <Skeleton width="65%" height={20} className="mb-1" />
