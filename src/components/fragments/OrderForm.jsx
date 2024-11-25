@@ -60,11 +60,6 @@ const PaymentForm = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const calculateTotal = () => {
-    const { adults, baby, tax } = FLIGHT_DATA.price;
-    return adults.count * adults.price + baby.count * baby.price + tax;
-  };
-
   const handlePaymentMethodClick = (method) => {
     setSelectedPaymentMethod(method);
     setIsMethodExpanded((prev) => ({
@@ -147,7 +142,7 @@ const PaymentForm = () => {
   return (
     <div className="w-full min-h-screen bg-gray-50 p-2 md:p-4 font-sans md:px-40 px-4">
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center gap-2 text-sm md:text-base text-gray-600 mb-4 overflow-x-auto">
+        {/* <div className="flex items-center gap-2 text-sm md:text-base text-gray-600 mb-4 overflow-x-auto">
           <span>Isi Data Diri</span>
           <span>&gt;</span>
           <span>Bayar</span>
@@ -157,7 +152,7 @@ const PaymentForm = () => {
 
         <div className="bg-red-500 text-white p-2 md:p-3 rounded-lg text-center mb-4 md:mb-6 text-sm md:text-base">
           Selesaikan Pembayaran sampai 10 Maret 2023 12:00
-        </div>
+        </div> */}
 
         <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
           <div className="flex-1">
