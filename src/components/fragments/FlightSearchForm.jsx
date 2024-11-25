@@ -54,7 +54,7 @@ const FlightSearchForm = () => {
             </div>
             <div className="flex gap-4 flex-wrap">
               <div className="space-y-1">
-                <span className="text-sm sm:text-base text-gray-500">
+                <span className="text-sm sm:text-base text-[#8A8A8A]">
                   Departure
                 </span>
                 <p className="border-b-[1.5px] w-auto max-w-[140px] border-gray-300 pb-2 font-medium text-base">
@@ -89,7 +89,7 @@ const FlightSearchForm = () => {
             </div>
             <div className="flex gap-4 flex-wrap">
               <div className="space-y-1">
-                <span className="text-sm sm:text-base text-gray-500">
+                <span className="text-sm sm:text-base text-[#8A8A8A]">
                   Passengers
                 </span>
                 <p className="border-b-[1.5px] border-gray-300 pb-2 font-medium text-base">
@@ -97,7 +97,7 @@ const FlightSearchForm = () => {
                 </p>
               </div>
               <div className="space-y-1">
-                <span className="text-sm sm:text-base text-gray-500">
+                <span className="text-sm sm:text-base text-[#8A8A8A]">
                   Seat Class
                 </span>
                 <p className="border-b-[1.5px] w-[140px] border-gray-300 pb-2 font-medium text-base">
