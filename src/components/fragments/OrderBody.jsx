@@ -11,13 +11,19 @@ const OrderBody = () => {
             <div className='flex'>
                 <div className='left-section w-7/12 flex flex-col gap-10'>
                     <DataPemesan />
-                    <DataPenumpang/>
-                    <PesananKursi/>
+                    <DataPenumpang />
+                    <PesananKursi />
+                    <div className="flex justify-center">
+                        <button className="w-11/12 max-w-2xl bg-[#7126B5] text-white py-4 rounded-lg text-xl hover:opacity-90 transition-opacity shadow-md">
+                            Simpan
+                        </button>
+                    </div>
                 </div>
                 <div className="right-section w-5/12">
-                    <DetailPenerbangan/>
+                    <DetailPenerbangan />
                 </div>
             </div>
+
         </div>
     )
 }

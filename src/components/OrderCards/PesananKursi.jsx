@@ -151,14 +151,7 @@ const PesananKursi = () => {
                         </div>
                     </div>
                 </div>
-            </div>
-
-            {/* Save button outside the border */}
-            <div className="flex justify-center mt-8">
-                <button className="w-5/6 max-w-2xl bg-[#7126B5] text-white py-4 rounded-lg text-xl hover:opacity-90 transition-opacity shadow-md">
-                    Simpan
-                </button>
-            </div>
+            </div>            
         </div>
     );
 };
