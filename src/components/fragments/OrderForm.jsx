@@ -115,7 +115,7 @@ const PaymentForm = () => {
       const paymentData = {
         method: selectedPaymentMethod,
         bookingCode: FLIGHT_DATA.bookingCode,
-        amount: calculateTotal(),
+        amount: "",
         ...formData,
       };
 
@@ -407,7 +407,8 @@ const PaymentForm = () => {
                   </div>
                   <div className="flex justify-between font-semibold text-purple-600 pt-2 border-t">
                     <span>Total</span>
-                    <span>IDR {calculateTotal().toLocaleString()}</span>
+                    {/* <span>IDR {calculateTotal().toLocaleString()}</span> */}
+                    <span>IDR 9.850.000</span>
                   </div>
                 </div>
               </div>
