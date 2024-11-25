@@ -17,7 +17,7 @@ const ContinentFilter = () => {
   };
 
   return (
-      <div className="px-8 space-y-5">
+      <div className="px-8 space-y-5 md:px-36">
           <h1 className="font-bold text-lg">Destinasi Favorit</h1>
       <div className="flex flex-wrap gap-2">
         {continents.map((continent) => (

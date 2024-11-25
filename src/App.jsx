@@ -4,14 +4,14 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import HomePage from './pages/HomePage'
-import OrderPage from './pages/OrderPage'
+import Payment from './pages/Payment'
 
 function App() {
   return (
   <Router>
     <Routes>
     <Route path="/" element={<HomePage />} />
-    <Route path='/checkout' element={<OrderPage />} />
+    <Route path="/payment" element={<Payment />} />
     </Routes>
   </Router>
   )
