@@ -1,9 +1,9 @@
 import React from "react";
 import Logo from "../../assets/Images/logo.png";
-import Button from "../Button/Button";
 import Search from "../Search/Search";
+import IconGrubNavbar from "../elements/IconGrubNavbar";
 
-const Navbar = () => {
+const NavbarAuthentication = () => {
   return (
     <header className="bg-white shadow-md">
       <div className="mx-auto flex h-[84px] w-full max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8 md:px-16">
@@ -13,9 +13,10 @@ const Navbar = () => {
         <Search />
         <div className="flex flex-1 items-center justify-end md:justify-between">
           <nav aria-label="Global" className="hidden md:block">
+            {/* Add navigation items here if necessary */}
           </nav>
           <div className="flex items-center gap-4">
-            <Button />
+            <IconGrubNavbar />
           </div>
         </div>
       </div>
@@ -23,4 +24,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default NavbarAuthentication;
