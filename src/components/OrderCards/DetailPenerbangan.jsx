@@ -93,4 +93,4 @@ const DetailPenerbangan = () => {
     )
 }
 
-export default DetailPenerbangan
+export default DetailPenerbangan    
