@@ -1,6 +1,6 @@
 import React from 'react';
 import { X } from 'lucide-react';
-import { User, Users, Baby } from 'lucide-react';
+import { FaChild, FaChildDress, FaChildReaching} from "react-icons/fa6";
 
 const PassengerSelector = ({
   isOpen,
@@ -29,7 +29,7 @@ const PassengerSelector = ({
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="absolute inset-0 bg-black/20" onClick={onClose} />
-      <div className="relative bg-white rounded-3xl shadow-xl w-[90%] max-w-sm mx-4 overflow-hidden">
+      <div className="relative bg-white rounded-3xl shadow-xl w-[360px] max-w-sm mx-4 overflow-hidden">
         <div className="pt-4 px-6 flex justify-end border-b pb-4">
           <button
             onClick={onClose}
@@ -41,9 +41,9 @@ const PassengerSelector = ({
 
         <div className="p-6">
           <div className="space-y-8">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between border-b-[1px] pb-2">
               <div className="flex items-center gap-4">
-                <User size={24} className="text-gray-600" />
+                <FaChild size={24} className="text-gray-600" />
                 <div>
                   <h3 className="text-lg font-semibold">Dewasa</h3>
                   <p className="text-sm text-gray-400">(12 tahun keatas)</p>
@@ -68,9 +68,9 @@ const PassengerSelector = ({
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between border-b-[1px] pb-2">
               <div className="flex items-center gap-4">
-                <Users size={24} className="text-gray-600" />
+                <FaChildDress size={24} className="text-gray-600" />
                 <div>
                   <h3 className="text-lg font-semibold">Anak</h3>
                   <p className="text-sm text-gray-400">(2 - 11 tahun)</p>
@@ -95,9 +95,9 @@ const PassengerSelector = ({
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between border-b-[1px] pb-2">
               <div className="flex items-center gap-4">
-                <Baby size={24} className="text-gray-600" />
+                <FaChildReaching size={24} className="text-gray-600" />
                 <div>
                   <h3 className="text-lg font-semibold">Bayi</h3>
                   <p className="text-sm text-gray-400">(Dibawah 2 tahun)</p>
@@ -125,7 +125,7 @@ const PassengerSelector = ({
 
           <button
             onClick={onClose}
-            className="w-full mt-8 bg-purple-600 text-white py-3 rounded-xl text-lg font-semibold hover:bg-purple-700 transition-colors"
+            className="w-full mt-8 bg-purple-600 text-white py-3 rounded-xl text-lg font-semibold hover:bg-[#4B1979] transition-colors"
           >
             Simpan
           </button>

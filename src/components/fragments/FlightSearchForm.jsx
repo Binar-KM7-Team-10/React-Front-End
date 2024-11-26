@@ -9,6 +9,8 @@ import logoreturn from "../../assets/Images/return.svg";
 import CitySelectionModal from "../Modals/CitySelectionModal";
 import PassengerSelector from "../Modals/PassengerModal";
 import DatePickModal from "../Modals/DateModal";
+import Switch from "../Switch/Switch";
+import SeatClassModal from "../Modals/SeatModal";
 
 const FlightSearchForm = () => {
   const [isRoundTrip, setIsRoundTrip] = useState(true);
@@ -27,6 +29,9 @@ const FlightSearchForm = () => {
   const [isSelectingDeparture, setIsSelectingDeparture] = useState(true);
   const [departureDate, setDepartureDate] = useState(null);
   const [returnDate, setReturnDate] = useState(null);
+
+  const [seatClassModalOpen, setSeatClassModalOpen] = useState(false);
+  const [selectedSeatClass, setSelectedSeatClass] = useState("Business");
 
   const handleModalOpen = (isFrom) => {
     setIsSelectingFrom(isFrom);
@@ -74,6 +79,18 @@ const FlightSearchForm = () => {
       setReturnDate(date);
     }
     setDateModalOpen(false);
+  };
+
+  const handleSeatClassModalOpen = () => {
+    setSeatClassModalOpen(true);
+  };
+
+  const handleSeatClassModalClose = () => {
+    setSeatClassModalOpen(false);
+  };
+
+  const handleSelectSeatClass = (seatClass) => {
+    setSelectedSeatClass(seatClass);
   };
 
   return (
@@ -183,6 +200,7 @@ const FlightSearchForm = () => {
                   </p>
                 </div>
               )}
+              <Switch />
             </div>
           </div>
 
@@ -203,19 +221,22 @@ const FlightSearchForm = () => {
                   {`${passengerCounts.adult + passengerCounts.child + passengerCounts.infant} Penumpang`}
                 </p>
               </div>
-              <div className="space-y-1">
+              <div
+                className="space-y-1 cursor-pointer"
+                onClick={handleSeatClassModalOpen}
+              >
                 <span className="text-sm sm:text-base text-[#8A8A8A]">
                   Seat Class
                 </span>
                 <p className="border-b-[1.5px] w-[140px] border-gray-300 pb-2 font-medium text-base">
-                  Business
+                  {selectedSeatClass}
                 </p>
               </div>
             </div>
           </div>
         </div>
 
-        <button className="w-full bg-purple-600 text-white py-3 rounded-xl font-bold text-sm sm:text-base hover:bg-purple-700 transition">
+        <button className="w-full bg-purple-600 text-white py-3 rounded-xl font-bold text-sm sm:text-base hover:bg-[#4B1979] transition">
           Cari Penerbangan
         </button>
       </div>
@@ -243,6 +264,13 @@ const FlightSearchForm = () => {
             ? "Pilih Tanggal Keberangkatan"
             : "Pilih Tanggal Kepulangan"
         }
+      />
+
+      <SeatClassModal
+        isOpen={seatClassModalOpen}
+        onClose={handleSeatClassModalClose}
+        onSelect={handleSelectSeatClass}
+        selectedClass={selectedSeatClass}
       />
     </div>
   );
