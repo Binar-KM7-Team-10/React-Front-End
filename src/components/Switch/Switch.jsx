@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../assets/css/switch.css"; // Tambahkan file CSS untuk styling
+import "../../assets/css/switch.css";
 
 const Switch = () => {
   const [isOn, setIsOn] = useState(false);
