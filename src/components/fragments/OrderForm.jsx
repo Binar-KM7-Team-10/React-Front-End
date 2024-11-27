@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { CreditCard, ChevronDown, ChevronUp, Plane } from "lucide-react";
+import ButtonPayment from "../Button/ButtonPayment";
 
 const FLIGHT_DATA = {
   bookingCode: "6723y2GHK",
@@ -110,7 +111,7 @@ const PaymentForm = () => {
 
     setIsSubmitting(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 200));
 
       const paymentData = {
         method: selectedPaymentMethod,
@@ -142,25 +143,13 @@ const PaymentForm = () => {
   return (
     <div className="w-full min-h-screen bg-gray-50 p-2 md:p-4 font-sans md:px-40 px-4">
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center gap-2 text-sm md:text-base text-gray-600 mb-4 overflow-x-auto">
-          <span>Isi Data Diri</span>
-          <span>&gt;</span>
-          <span>Bayar</span>
-          <span>&gt;</span>
-          <span className="text-gray-400">Selesai</span>
-        </div>
-
-        <div className="bg-red-500 text-white p-2 md:p-3 rounded-lg text-center mb-4 md:mb-6 text-sm md:text-base">
-          Selesaikan Pembayaran sampai 10 Maret 2023 12:00
-        </div>
-
         <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
           <div className="flex-1">
             <h2 className="font-bold mb-4 text-[20px]">Isi Data Pembayaran</h2>
             <div className="space-y-3">
               <div className="border rounded">
                 <button
-                  className={`w-full ${selectedPaymentMethod === PAYMENT_METHODS.GOPAY ? "bg-purple-600" : "bg-[#3C3C3C]"} 
+                  className={`w-full ${selectedPaymentMethod === PAYMENT_METHODS.GOPAY ? "bg-[#7126B5]" : "bg-[#3C3C3C]"} 
                     text-white p-3 rounded flex justify-between items-center transition-colors`}
                   onClick={() =>
                     handlePaymentMethodClick(PAYMENT_METHODS.GOPAY)
@@ -197,7 +186,7 @@ const PaymentForm = () => {
 
               <div className="border rounded">
                 <button
-                  className={`w-full ${selectedPaymentMethod === PAYMENT_METHODS.VIRTUAL_ACCOUNT ? "bg-purple-600" : "bg-[#3C3C3C]"} 
+                  className={`w-full ${selectedPaymentMethod === PAYMENT_METHODS.VIRTUAL_ACCOUNT ? "bg-[#7126B5]" : "bg-[#3C3C3C]"} 
                     text-white p-3 rounded flex justify-between items-center transition-colors`}
                   onClick={() =>
                     handlePaymentMethodClick(PAYMENT_METHODS.VIRTUAL_ACCOUNT)
@@ -236,7 +225,7 @@ const PaymentForm = () => {
 
               <div className="border rounded">
                 <button
-                  className={`w-full ${selectedPaymentMethod === PAYMENT_METHODS.CREDIT_CARD ? "bg-purple-600" : "bg-[#3C3C3C]"} 
+                  className={`w-full ${selectedPaymentMethod === PAYMENT_METHODS.CREDIT_CARD ? "bg-[#7126B5]" : "bg-[#3C3C3C]"} 
                     text-white p-3 rounded flex justify-between items-center transition-colors`}
                   onClick={() =>
                     handlePaymentMethodClick(PAYMENT_METHODS.CREDIT_CARD)
@@ -330,12 +319,9 @@ const PaymentForm = () => {
                 )}
               </div>
             </div>
-            <button
-              onClick={handleSubmit}
-              className="w-full bg-purple-600 text-white py-3 rounded mt-4 font-medium"
-            >
-              Bayar
-            </button>
+            <div onClick={handleSubmit}>
+                <ButtonPayment/>  
+            </div>
           </div>
           <div className="flex flex-col w-full lg:w-96">
             <div className="bg-white p-4 rounded shadow-sm">

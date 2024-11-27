@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Search, X } from "lucide-react";
+import ButtonIconClose from "../Button/ButtonIconClose";
 
 const CitySelectionModal = ({ isOpen, onClose, onSelect }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -35,14 +36,14 @@ const CitySelectionModal = ({ isOpen, onClose, onSelect }) => {
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            <button onClick={onClose}>
-              <X className="w-6 h-6 text-gray-400" />
-            </button>
+            <div onClick={onClose}>
+            <ButtonIconClose/>
+            </div>
           </div>
 
           <div>
             <div className="flex justify-between items-center mb-4">
-              <h3 className="font-semibold text-lg">Pilih Kota</h3>
+              <h3 className="font-medium text-md px-2">Pencarian Terkini</h3>
               <button
                 className="text-red-500 text-sm"
                 onClick={clearRecentCities}

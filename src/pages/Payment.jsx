@@ -1,11 +1,13 @@
 import React from 'react'
-import Navbar from '../components/fragments/Navbar'
 import OrderForm from '../components/fragments/OrderForm'
+import NavbarAuthentication from '../components/fragments/NavbarAuthentication'
+import OrderHeader from '../components/fragments/OrderHeader'
 
 const Payment = () => {
   return (
     <div>
-        <Navbar/>
+        <NavbarAuthentication/>
+        <OrderHeader/>
         <OrderForm/>
     </div>
 

@@ -1,5 +1,6 @@
 import React from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X  } from 'lucide-react';
+import ButtonIconClose from '../Button/ButtonIconClose';
 
 const DatePickerModal = ({
   isOpen,
@@ -86,14 +87,9 @@ const DatePickerModal = ({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50">
       <div className="bg-white rounded-2xl p-4 max-w-2xl w-full mx-4 mt-32 animate-[slideUp_0.3s_ease-out]">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center mb-4" onClick={onClose}>
           <h3 className="text-lg font-bold">{title}</h3>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
-          >
-            ✕
-          </button>
+         <ButtonIconClose/>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
