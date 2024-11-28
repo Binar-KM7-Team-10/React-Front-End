@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import HomePage from './pages/HomePage'
+import SearchPage from './pages/SearchPage'
 import OrderPage from './pages/OrderPage'
 import Payment from './pages/Payment'
 import NotFoundPage from './pages/NotFoundPage'
@@ -19,6 +20,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/payment" element={<Payment />} />
         <Route path='/checkout' element={<OrderPage />} />
+        <Route path="/search" element={<SearchPage />} />
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
     </Router>
