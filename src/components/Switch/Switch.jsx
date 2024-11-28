@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import "../../assets/css/switch.css";
 
-const Switch = () => {
+const Switch = ({ checked, onChange }) => {
   const [isOn, setIsOn] = useState(false);
 
   const toggleSwitch = () => {
     setIsOn(!isOn);
+    onChange(!checked);
   };
 
   return (
