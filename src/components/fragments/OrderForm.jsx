@@ -115,7 +115,8 @@ const PaymentForm = () => {
       const paymentData = {
         method: selectedPaymentMethod,
         bookingCode: FLIGHT_DATA.bookingCode,
-        amount: calculateTotal(),
+        // amount: calculateTotal(),
+        amount: "",
         ...formData,
       };
 
@@ -142,18 +143,6 @@ const PaymentForm = () => {
   return (
     <div className="w-full min-h-screen bg-gray-50 p-2 md:p-4 font-sans md:px-40 px-4">
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center gap-2 text-sm md:text-base text-gray-600 mb-4 overflow-x-auto">
-          <span>Isi Data Diri</span>
-          <span>&gt;</span>
-          <span>Bayar</span>
-          <span>&gt;</span>
-          <span className="text-gray-400">Selesai</span>
-        </div>
-
-        <div className="bg-red-500 text-white p-2 md:p-3 rounded-lg text-center mb-4 md:mb-6 text-sm md:text-base">
-          Selesaikan Pembayaran sampai 10 Maret 2023 12:00
-        </div>
-
         <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
           <div className="flex-1">
             <h2 className="font-bold mb-4 text-[20px]">Isi Data Pembayaran</h2>
@@ -345,7 +334,7 @@ const PaymentForm = () => {
                   {FLIGHT_DATA.bookingCode}
                 </span>
               </div>
-              <div className="mb-6">
+              <div className="mb-3 pb-2 border-b">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">
                     {FLIGHT_DATA.departure.time}
@@ -357,7 +346,7 @@ const PaymentForm = () => {
                   {FLIGHT_DATA.departure.location}
                 </div>
               </div>
-              <div className="mb-6">
+              <div className="mb-3 pb-2 border-b">
                 <div className="font-medium">
                   {FLIGHT_DATA.flight.airline} - {FLIGHT_DATA.flight.class}
                 </div>
@@ -376,7 +365,7 @@ const PaymentForm = () => {
                   </ul>
                 </div>
               </div>
-              <div className="mb-6">
+              <div className="mb-3">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">
                     {FLIGHT_DATA.arrival.time}
@@ -407,7 +396,8 @@ const PaymentForm = () => {
                   </div>
                   <div className="flex justify-between font-semibold text-purple-600 pt-2 border-t">
                     <span>Total</span>
-                    <span>IDR {calculateTotal().toLocaleString()}</span>
+                    {/* <span>IDR {calculateTotal().toLocaleString()}</span> */}
+                    <span>90</span>
                   </div>
                 </div>
               </div>

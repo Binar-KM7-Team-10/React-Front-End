@@ -1,22 +1,22 @@
 import React from "react";
 import NavbarAuthentication from "../components/fragments/NavbarAuthentication";
 import PaymentHeader from "../components/fragments/PaymentHeader";
-import OrderForm from "../components/fragments/OrderForm";
+import PaymentComplete from "../components/fragments/PaymentComplete";
 
-const Payment = () => {
+const PaymentSuccess = () => {
   const active = {
     text1: true,
     text2: true,
-    text3: false,
+    text3: true,
   };
 
   return (
     <div>
       <NavbarAuthentication />
-      <PaymentHeader inputText="oi" alertType="danger" activeStep={active} />
-      <OrderForm />
+      <PaymentHeader inputText="oi" alertType="success" activeStep={active} />
+      <PaymentComplete />
     </div>
   );
 };
 
-export default Payment;
+export default PaymentSuccess;
