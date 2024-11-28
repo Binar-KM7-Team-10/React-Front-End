@@ -8,6 +8,7 @@ import LoadingSearchFlight from "./LoadingSearchFlight";
 
 import not_found_img from "../../assets/Images/tiket_not_found.png";
 import empty_img from "../../assets/Images/tiket_habis.png";
+import { ArrowUpDown } from 'lucide-react';
 
 const FlightSearch = () => {
     const days = ["Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu", "Senin"];
@@ -33,7 +34,7 @@ const FlightSearch = () => {
     ]);
 
     const [selectedDay, setSelectedDay] = useState("Rabu");
-    const [selectedOption, setSelectedOption] = useState("Harga - Termurah");
+    const [selectedOption, setSelectedOption] = useState("Termurah");
     const [isFilterOpen, setIsFilterOpen] = useState(false);
 
     const options = [
@@ -107,11 +108,13 @@ const FlightSearch = () => {
             </div>
 
             {/* Filter Urutkan */}
-            <div className="max-w-5xl mx-auto flex justify-end items-center mt-6">
+            <div className="mx-auto md:mx-36 flex justify-end items-center mt-6">
                 <button
                     onClick={() => setIsFilterOpen(true)}
-                    className="px-4 py-2 rounded-md bg-purple-500 text-white"
-                >
+                    className="px-4 py-2 rounded-full bg-white border-2 border-[#A06ECE] text-[#A06ECE] flex gap-2"
+                > 
+                <ArrowUpDown />
+                    
                     {selectedOption}
                 </button>
             </div>
@@ -165,7 +168,7 @@ const FlightSearch = () => {
                     <div className="w-1/4">
                         <Filter />
                     </div>
-                    <div className="flex-1 bg-white p-6 rounded-md shadow-md">
+                    <div className="flex-1 bg-white p-6 rounded-md">
                         <ul className="space-y-4">
                             <ListPenerbangan flights={flights} />
                         </ul>

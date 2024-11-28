@@ -5,7 +5,7 @@ import IconBaggage from "../../assets/Images/icon-park-outline_baggage-delay.png
 import FlightDetails from "./FlightDetails";
 
 const FlightItem = ({ flight, isSelected, toggleDetails }) => (
-  <li className="flex flex-col p-4 rounded-md shadow-md border-2 mb-4">
+  <li className="flex flex-col p-4 rounded-md  border-2 mb-4">
     <div className="flex justify-between items-center">
       <div className="flex items-center">
         <img src={ImageFlight} alt="Image Flight" className="w-5 h-5 mr-2" />
@@ -21,14 +21,14 @@ const FlightItem = ({ flight, isSelected, toggleDetails }) => (
           </div>
         </div>
       </div>
-      <div className="text-right clearfix">
+      <div className="text-right clearfix ">
         <button
           onClick={() => toggleDetails(flight.id)}
           className="p-2 rounded-full border border-gray-400 bg-white flex items-center justify-center shadow-sm float-right"
         >
           {isSelected ? <FaChevronUp className="text-gray-600" /> : <FaChevronDown className="text-gray-600" />}
         </button>
-        <div className="font-bold text-purple-800 clear-right">
+        <div className="font-bold text-purple-800 clear-right pt-3">
           IDR {flight.price.toLocaleString("id-ID")}
         </div>
         <div className="flex items-center gap-4 mt-2">
