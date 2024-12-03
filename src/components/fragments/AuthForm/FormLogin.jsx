@@ -4,11 +4,11 @@ import { useForm } from "react-hook-form";
 import InputForm from "../../elements/Input/InputForm";
 import Button from "../../elements/Button/Button";
 import ButtonLogin from "../../elements/Button/ButtonLogin";
-import { FiEye, FiEyeOff } from "react-icons/fi"; // Importing eye icons from react-icons
+import { FiEye, FiEyeOff } from "react-icons/fi"; 
 
 const FormLogin = () => {
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [showPassword, setShowPassword] = useState(false); 
   const { register, handleSubmit, formState: { errors }, setFocus } = useForm();
   const inputRef = useRef(null);
 
@@ -64,7 +64,7 @@ const FormLogin = () => {
             <div className="w-full">
               <InputForm
                 label="Password"
-                type={showPassword ? "text" : "password"} // Toggle password visibility
+                type={showPassword ? "text" : "password"} 
                 id="password"
                 name="password"
                 placeholder="Masukkan Password"
@@ -80,13 +80,12 @@ const FormLogin = () => {
               </Link>
             </div>
 
-            {/* Button to toggle password visibility */}
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xl"
             >
-              {showPassword ? <FiEyeOff /> : <FiEye />} {/* Eye icons */}
+              {showPassword ? <FiEyeOff /> : <FiEye />} 
             </button>
           </div>
 

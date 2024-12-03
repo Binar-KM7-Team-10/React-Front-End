@@ -20,11 +20,9 @@ const FormResetPassword = () => {
     setLoading(true);
 
     try {
-      // Simulasi pengiriman reset link
       await new Promise((resolve) => setTimeout(resolve, 2000));
       console.log("Link reset password telah dikirim ke:", email);
 
-      // Menampilkan pesan sukses
       setSuccess(true);
     } catch (error) {
       console.error("Error mengirim link reset password:", error);
@@ -35,7 +33,6 @@ const FormResetPassword = () => {
 
   return (
     <div className="flex h-screen">
-      {/* Bagian Form */}
       <div className="flex-1 flex justify-center items-center bg-white">
         <div className="w-full max-w-md p-6">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">Masuk</h2>
@@ -88,7 +85,6 @@ const FormResetPassword = () => {
             </button>
           </form>
 
-          {/* Pesan Sukses */}
           {success && (
             <div className="mt-20 flex justify-center">
               <div
