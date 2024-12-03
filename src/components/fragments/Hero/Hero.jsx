@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import image from "../../assets/Images/imgbanner.png";
-import RectangleRight from "../../assets/Images/RectangleRight.png";
-import RectangleLeft from "../../assets/Images/RectangleLeft.png";
-import FlightSearchForm from "./FlightSearchForm";
+import image from "../../../assets/Images/imgbanner.png";
+import RectangleRight from "../../../assets/Images/RectangleRight.png";
+import RectangleLeft from "../../../assets/Images/RectangleLeft.png";
+import FlightSearchForm from "../FlightSearch/FlightSearchForm";
 
 const Hero = () => {
   return (

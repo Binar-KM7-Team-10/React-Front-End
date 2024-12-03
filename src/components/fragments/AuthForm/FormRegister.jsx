@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import InputForm from "../Input/InputForm";
-import ButtonRegister from "../Button/ButtonRegister";
+import InputForm from "../../elements/Input/InputForm";
+import ButtonRegister from "../../elements/Button/ButtonRegister";
 // import Loading from "../Loading/Loading";
 
 const FormRegister = () => {

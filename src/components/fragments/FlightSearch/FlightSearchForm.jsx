@@ -5,12 +5,12 @@ import {
   Calendar1,
   RockingChair,
 } from "lucide-react";
-import logoreturn from "../../assets/Images/return.svg";
-import CitySelectionModal from "../Modals/CitySelectionModal";
-import PassengerSelector from "../Modals/PassengerModal";
-import DatePickModal from "../Modals/DateModal";
-import Switch from "../Switch/Switch";
-import SeatClassModal from "../Modals/SeatModal";
+import logoreturn from "../../../assets/Images/return.svg";
+import CitySelectionModal from "../../elements/Modals/CitySelectionModal";
+import PassengerSelector from "../../elements/Modals/PassengerModal";
+import DatePickModal from "../../elements/Modals/DateModal";
+import Switch from "../../elements/Switch/Switch";
+import SeatClassModal from "../../elements/Modals/SeatModal";
 
 const FlightSearchForm = () => {
   const [isRoundTrip, setIsRoundTrip] = useState(true);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Image from "../../assets/Images/image.png";
 import Skeleton from "react-loading-skeleton";
+import Image from "../../../assets/Images/image.png";
 import "react-loading-skeleton/dist/skeleton.css";
 
 const dummyFlightDeals = [

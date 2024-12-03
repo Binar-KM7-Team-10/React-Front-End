@@ -1,5 +1,5 @@
 import React from "react";
-import ImageFlight from "../../assets/Images/ImageFlight.png";
+import ImageFlight from "../../../assets/Images/ImageFlight.png";
 
 const FlightDetails = () => {
   const flight = {

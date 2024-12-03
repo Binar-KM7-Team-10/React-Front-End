@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import DynamicBanner from "../components/Banner/DynamicBanner";
+import DynamicBanner from "../components/fragments/Banner/DynamicBanner";
+import FormRegister from "../components/fragments/AuthForm/FormRegister";
 import FlightLoginBanner from "../assets/Images/Flight-Banner.png";
-import FormRegister from "../components/fragments/FormRegister";
 
 const LoginPage = () => {
   return (

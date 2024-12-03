@@ -1,5 +1,5 @@
 import React, { useState } from 'react'; 
-import Switch from '../Switch/Switch';
+import Switch from '../../elements/Switch/Switch';
 
 const SubDataPemumpang = ({ title_card }) => {
     const [showNamaKeluarga, setShowNamaKeluarga] = useState(false);
