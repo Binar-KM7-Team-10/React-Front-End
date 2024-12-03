@@ -10,12 +10,14 @@ import Payment from './pages/Payment'
 import NotFoundPage from './pages/NotFoundPage'
 import Login from './pages/LoginPage'
 import Register from './pages/RegisterPage'
+import ResetPassword from './pages/ResetPassword'
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/payment" element={<Payment />} />
