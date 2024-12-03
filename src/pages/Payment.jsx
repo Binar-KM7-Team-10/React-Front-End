@@ -20,8 +20,6 @@ const Payment = () => {
       />
       <OrderForm />
       <NavbarAuthentication />
-      <OrderHeader />
-      <OrderForm />
     </div>
   );
 };
