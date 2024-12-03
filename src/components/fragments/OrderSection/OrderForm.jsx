@@ -1,27 +1,36 @@
-import React, { useState } from "react";
-import { CreditCard, ChevronDown, ChevronUp, Plane } from "lucide-react";
-import ButtonPayment from "../../elements/Button/ButtonPayment";
+import React, { useState } from 'react';
+import { CreditCard, ChevronDown, ChevronUp, Plane } from 'lucide-react';
+import visa from "../../../assets/Images/visaLogo.png";
+import mastercard from "../../../assets/Images/mastercardLogo.png";
+import amex from "../../../assets/Images/amexLogo.png";
+import paypal from "../../../assets/Images/paypalLogo.png";
+
+const PAYMENT_METHODS = {
+  GOPAY: 'gopay',
+  VIRTUAL_ACCOUNT: 'virtual_account',
+  CREDIT_CARD: 'credit_card',
+};
 
 const FLIGHT_DATA = {
-  bookingCode: "6723y2GHK",
+  bookingCode: '6723y2GHK',
   departure: {
-    time: "07:00",
-    date: "3 Maret 2023",
-    location: "Soekarno Hatta - Terminal 1A Domestik",
+    time: '07:00',
+    date: '3 Maret 2023',
+    location: 'Soekarno Hatta - Terminal 1A Domestik',
   },
   arrival: {
-    time: "11:00",
-    date: "3 Maret 2023",
-    location: "Melbourne International Airport",
+    time: '11:00',
+    date: '3 Maret 2023',
+    location: 'Melbourne International Airport',
   },
   flight: {
-    airline: "Jet Air",
-    class: "Economy",
-    code: "JT - 203",
+    airline: 'Jet Air',
+    class: 'Economy',
+    code: 'JT - 203',
     info: {
-      baggage: "20 kg",
-      cabinBaggage: "7 kg",
-      entertainment: "In Flight Entertainment",
+      baggage: '20 kg',
+      cabinBaggage: '7 kg',
+      entertainment: 'In Flight Entertainment',
     },
   },
   price: {
@@ -37,12 +46,6 @@ const FLIGHT_DATA = {
   },
 };
 
-const PAYMENT_METHODS = {
-  GOPAY: "gopay",
-  VIRTUAL_ACCOUNT: "virtual_account",
-  CREDIT_CARD: "credit_card",
-};
-
 const PaymentForm = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const [isMethodExpanded, setIsMethodExpanded] = useState({
@@ -51,15 +54,14 @@ const PaymentForm = () => {
     [PAYMENT_METHODS.CREDIT_CARD]: false,
   });
   const [formData, setFormData] = useState({
-    cardNumber: "",
-    cardHolder: "",
-    cvv: "",
-    expiryDate: "",
-    gopayNumber: "",
-    virtualAccountNumber: "",
+    cardNumber: '',
+    cardHolder: '',
+    cvv: '',
+    expiryDate: '',
+    gopayNumber: '',
+    virtualAccountNumber: '',
   });
   const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handlePaymentMethodClick = (method) => {
     setSelectedPaymentMethod(method);
@@ -78,131 +80,83 @@ const PaymentForm = () => {
     if (errors[name]) {
       setErrors((prev) => ({
         ...prev,
-        [name]: "",
+        [name]: '',
       }));
     }
   };
 
   const validateForm = () => {
     const newErrors = {};
-
     if (selectedPaymentMethod === PAYMENT_METHODS.CREDIT_CARD) {
-      if (!formData.cardNumber)
-        newErrors.cardNumber = "Card number is required";
-      if (!formData.cardHolder)
-        newErrors.cardHolder = "Card holder name is required";
-      if (!formData.cvv) newErrors.cvv = "CVV is required";
-      if (!formData.expiryDate)
-        newErrors.expiryDate = "Expiry date is required";
+      if (!formData.cardNumber) newErrors.cardNumber = 'Card number is required';
+      if (!formData.cardHolder) newErrors.cardHolder = 'Card holder name is required';
+      if (!formData.cvv) newErrors.cvv = 'CVV is required';
+      if (!formData.expiryDate) newErrors.expiryDate = 'Expiry date is required';
     } else if (selectedPaymentMethod === PAYMENT_METHODS.GOPAY) {
-      if (!formData.gopayNumber)
-        newErrors.gopayNumber = "Gopay number is required";
+      if (!formData.gopayNumber) newErrors.gopayNumber = 'Gopay number is required';
     } else if (selectedPaymentMethod === PAYMENT_METHODS.VIRTUAL_ACCOUNT) {
-      if (!formData.virtualAccountNumber)
-        newErrors.virtualAccountNumber = "Virtual account number is required";
+      if (!formData.virtualAccountNumber) newErrors.virtualAccountNumber = 'Virtual account number is required';
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async () => {
     if (!validateForm()) return;
-
-    setIsSubmitting(true);
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 200));
-
-      const paymentData = {
-        method: selectedPaymentMethod,
-        bookingCode: FLIGHT_DATA.bookingCode,
-        amount: "",
-        ...formData,
-      };
-
-      console.log("Payment submitted:", paymentData);
-      setFormData({
-        cardNumber: "",
-        cardHolder: "",
-        cvv: "",
-        expiryDate: "",
-        gopayNumber: "",
-        virtualAccountNumber: "",
-      });
-      setSelectedPaymentMethod(null);
-
-      alert("Payment successful!");
-    } catch (error) {
-      console.error("Payment failed:", error);
-      setErrors({ submit: "Payment failed. Please try again." });
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Payment submission logic here
+    alert('Payment processed successfully!');
   };
 
+  const PaymentMethodButton = ({ method, label }) => (
+    <button
+      className={`w-full ${
+        selectedPaymentMethod === method ? 'bg-purple-600' : 'bg-gray-700'
+      } text-white p-3 rounded-t flex justify-between items-center transition-colors`}
+      onClick={() => handlePaymentMethodClick(method)}
+    >
+      <span className="text-sm md:text-base">{label}</span>
+      {isMethodExpanded[method] ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+    </button>
+  );
+
   return (
-    <div className="w-full min-h-screen bg-gray-50 p-2 md:p-4 font-sans md:px-40 px-4">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
-          <div className="flex-1">
-            <h2 className="font-bold mb-4 text-[20px]">Isi Data Pembayaran</h2>
-            <div className="space-y-3">
-              <div className="border rounded">
-                <button
-                  className={`w-full ${selectedPaymentMethod === PAYMENT_METHODS.GOPAY ? "bg-[#7126B5]" : "bg-[#3C3C3C]"} 
-                    text-white p-3 rounded flex justify-between items-center transition-colors`}
-                  onClick={() =>
-                    handlePaymentMethodClick(PAYMENT_METHODS.GOPAY)
-                  }
-                >
-                  <span className="text-md">Gopay</span>
-                  {isMethodExpanded[PAYMENT_METHODS.GOPAY] ? (
-                    <ChevronUp size={20} />
-                  ) : (
-                    <ChevronDown size={20} />
-                  )}
-                </button>
+    <div className="min-h-screen bg-gray-50 p-4 font-sans">
+      <div className="max-w-4xl mx-auto">
+        <div className="flex gap-6 w-full flex-col md:flex-row">
+          <div className="flex-1 space-y-6 md:w-7/12 w-full">
+            <h2 className="text-xl font-bold text-gray-800">Payment Details</h2>
+            <div className="space-y-4">
+              <div className="bg-white rounded-lg shadow">
+                <PaymentMethodButton method={PAYMENT_METHODS.GOPAY} label="Gopay" />
                 {isMethodExpanded[PAYMENT_METHODS.GOPAY] && (
                   <div className="p-4">
-                    <div>
-                      <label className="block text-sm mb-1">Gopay Number</label>
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-700">Gopay Number</label>
                       <input
                         type="text"
                         name="gopayNumber"
                         value={formData.gopayNumber}
                         onChange={handleInputChange}
-                        className={`w-full p-2 border rounded ${errors.gopayNumber ? "border-red-500" : ""}`}
+                        className="w-full p-2 border rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                         placeholder="0812xxxxxxx"
                       />
                       {errors.gopayNumber && (
-                        <span className="text-red-500 text-sm">
-                          {errors.gopayNumber}
-                        </span>
+                        <p className="text-red-500 text-sm">{errors.gopayNumber}</p>
                       )}
                     </div>
                   </div>
                 )}
               </div>
 
-              <div className="border rounded">
-                <button
-                  className={`w-full ${selectedPaymentMethod === PAYMENT_METHODS.VIRTUAL_ACCOUNT ? "bg-[#7126B5]" : "bg-[#3C3C3C]"} 
-                    text-white p-3 rounded flex justify-between items-center transition-colors`}
-                  onClick={() =>
-                    handlePaymentMethodClick(PAYMENT_METHODS.VIRTUAL_ACCOUNT)
-                  }
-                >
-                  <span className="text-md">Virtual Account</span>
-                  {isMethodExpanded[PAYMENT_METHODS.VIRTUAL_ACCOUNT] ? (
-                    <ChevronUp size={20} />
-                  ) : (
-                    <ChevronDown size={20} />
-                  )}
-                </button>
+              <div className="bg-white rounded-lg shadow">
+                <PaymentMethodButton
+                  method={PAYMENT_METHODS.VIRTUAL_ACCOUNT}
+                  label="Virtual Account"
+                />
                 {isMethodExpanded[PAYMENT_METHODS.VIRTUAL_ACCOUNT] && (
                   <div className="p-4">
-                    <div>
-                      <label className="block text-sm mb-1">
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-gray-700">
                         Virtual Account Number
                       </label>
                       <input
@@ -210,107 +164,107 @@ const PaymentForm = () => {
                         name="virtualAccountNumber"
                         value={formData.virtualAccountNumber}
                         onChange={handleInputChange}
-                        className={`w-full p-2 border rounded ${errors.virtualAccountNumber ? "border-red-500" : ""}`}
+                        className="w-full p-2 border rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                         placeholder="1234567890"
                       />
                       {errors.virtualAccountNumber && (
-                        <span className="text-red-500 text-sm">
-                          {errors.virtualAccountNumber}
-                        </span>
+                        <p className="text-red-500 text-sm">{errors.virtualAccountNumber}</p>
                       )}
                     </div>
                   </div>
                 )}
               </div>
 
-              <div className="border rounded">
-                <button
-                  className={`w-full ${selectedPaymentMethod === PAYMENT_METHODS.CREDIT_CARD ? "bg-[#7126B5]" : "bg-[#3C3C3C]"} 
-                    text-white p-3 rounded flex justify-between items-center transition-colors`}
-                  onClick={() =>
-                    handlePaymentMethodClick(PAYMENT_METHODS.CREDIT_CARD)
-                  }
-                >
-                  <span className="text-md">Credit Card</span>
-                  {isMethodExpanded[PAYMENT_METHODS.CREDIT_CARD] ? (
-                    <ChevronUp size={20} />
-                  ) : (
-                    <ChevronDown size={20} />
-                  )}
-                </button>
+              <div className="bg-white rounded-lg shadow">
+                <PaymentMethodButton
+                  method={PAYMENT_METHODS.CREDIT_CARD}
+                  label="Credit Card"
+                />
                 {isMethodExpanded[PAYMENT_METHODS.CREDIT_CARD] && (
                   <div className="p-4">
                     <div className="space-y-4">
-                      <div>
-                        <label className="block text-sm mb-1">
-                          Card number
-                        </label>
+                      <div className="flex justify-center items-center gap-4 mb-4">
+                        <img 
+                          src={visa}
+                          alt="Visa"
+                          className="h-8 w-auto object-contain"
+                        />
+                        <img 
+                          src={mastercard}
+                          alt="Mastercard"
+                          className="h-8 w-auto object-contain"
+                        />
+                        <img 
+                          src={amex}
+                          alt="American Express"
+                          className="h-8 w-auto object-contain"
+                        />
+                        <img 
+                          src={paypal}
+                          alt="PayPal"
+                          className="h-8 w-auto object-contain"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="block text-sm font-medium text-gray-700">Card Number</label>
                         <input
                           type="text"
                           name="cardNumber"
                           value={formData.cardNumber}
                           onChange={handleInputChange}
-                          className={`w-full p-2 border rounded ${errors.cardNumber ? "border-red-500" : ""}`}
+                          className="w-full p-2 border rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                           placeholder="4480 0000 0000 0000"
                         />
                         {errors.cardNumber && (
-                          <span className="text-red-500 text-sm">
-                            {errors.cardNumber}
-                          </span>
+                          <p className="text-red-500 text-sm">{errors.cardNumber}</p>
                         )}
                       </div>
-                      <div>
-                        <label className="block text-sm mb-1">
-                          Card holder name
+
+                      <div className="space-y-2">
+                        <label className="block text-sm font-medium text-gray-700">
+                          Card Holder Name
                         </label>
                         <input
                           type="text"
                           name="cardHolder"
                           value={formData.cardHolder}
                           onChange={handleInputChange}
-                          className={`w-full p-2 border rounded ${errors.cardHolder ? "border-red-500" : ""}`}
+                          className="w-full p-2 border rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                           placeholder="John Doe"
                         />
                         {errors.cardHolder && (
-                          <span className="text-red-500 text-sm">
-                            {errors.cardHolder}
-                          </span>
+                          <p className="text-red-500 text-sm">{errors.cardHolder}</p>
                         )}
                       </div>
-                      <div className="flex flex-col sm:flex-row gap-4">
-                        <div className="w-full sm:w-1/3">
-                          <label className="block text-sm mb-1">CVV</label>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <label className="block text-sm font-medium text-gray-700">CVV</label>
                           <input
                             type="text"
                             name="cvv"
                             value={formData.cvv}
                             onChange={handleInputChange}
-                            className={`w-full p-2 border rounded ${errors.cvv ? "border-red-500" : ""}`}
+                            className="w-full p-2 border rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                             placeholder="000"
                             maxLength="3"
                           />
-                          {errors.cvv && (
-                            <span className="text-red-500 text-sm">
-                              {errors.cvv}
-                            </span>
-                          )}
+                          {errors.cvv && <p className="text-red-500 text-sm">{errors.cvv}</p>}
                         </div>
-                        <div className="w-full sm:w-1/3">
-                          <label className="block text-sm mb-1">
-                            Expiry date
+                        <div className="space-y-2">
+                          <label className="block text-sm font-medium text-gray-700">
+                            Expiry Date
                           </label>
                           <input
                             type="text"
                             name="expiryDate"
                             value={formData.expiryDate}
                             onChange={handleInputChange}
-                            className={`w-full p-2 border rounded ${errors.expiryDate ? "border-red-500" : ""}`}
-                            placeholder="07/24"
+                            className="w-full p-2 border rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                            placeholder="MM/YY"
                           />
                           {errors.expiryDate && (
-                            <span className="text-red-500 text-sm">
-                              {errors.expiryDate}
-                            </span>
+                            <p className="text-red-500 text-sm">{errors.expiryDate}</p>
                           )}
                         </div>
                       </div>
@@ -319,83 +273,79 @@ const PaymentForm = () => {
                 )}
               </div>
             </div>
-            <div onClick={handleSubmit}>
-                <ButtonPayment/>  
-            </div>
+
+            <button
+              onClick={handleSubmit}
+              className="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition-colors font-medium"
+            >
+              Bayar
+            </button>
           </div>
-          <div className="flex flex-col w-full lg:w-96">
-            <div className="bg-white p-4 rounded shadow-sm">
-              <div className="flex justify-between mb-4">
-                <span className="text-gray-600">Booking Code:</span>
-                <span className="text-purple-600 font-semibold">
-                  {FLIGHT_DATA.bookingCode}
+
+          <div className="md:w-5/12 w-full">
+            <div className="bg-white rounded-lg shadow p-6 space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="font-bold">
+                  Booking Code:{' '}
+                  <span className="text-purple-600">{FLIGHT_DATA.bookingCode}</span>
                 </span>
               </div>
-              <div className="mb-6">
+
+              <div className="border-b pb-4">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">
-                    {FLIGHT_DATA.departure.time}
-                  </span>
-                  <span className="text-purple-600">Keberangkatan</span>
+                  <span className="font-bold">{FLIGHT_DATA.departure.time}</span>
+                  <span className="text-purple-600">Departure</span>
                 </div>
-                <div className="text-sm">{FLIGHT_DATA.departure.date}</div>
-                <div className="font-medium">
-                  {FLIGHT_DATA.departure.location}
-                </div>
+                <div className="text-sm text-gray-600">{FLIGHT_DATA.departure.date}</div>
+                <div className="text-sm">{FLIGHT_DATA.departure.location}</div>
               </div>
-              <div className="mb-6">
-                <div className="font-medium">
+
+              <div className="border-b pb-4">
+                <div className="font-bold">
                   {FLIGHT_DATA.flight.airline} - {FLIGHT_DATA.flight.class}
                 </div>
-                <div className="text-gray-600">{FLIGHT_DATA.flight.code}</div>
-                <div className="mt-2">
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <Plane size={16} className="text-yellow-500" />
-                    <span>Informasi:</span>
+                <div className="text-sm">{FLIGHT_DATA.flight.code}</div>
+                <div className="mt-2 space-y-1">
+                  <div className="flex items-center gap-2">
+                    <Plane className="text-yellow-500" size={16} />
+                    <span className="text-sm font-bold">Flight Info:</span>
                   </div>
-                  <ul className="text-sm text-gray-600 ml-6">
-                    <li>Baggage {FLIGHT_DATA.flight.info.baggage}</li>
-                    <li>
-                      Cabin baggage {FLIGHT_DATA.flight.info.cabinBaggage}
-                    </li>
+                  <ul className="text-sm text-gray-600 ml-6 space-y-1">
+                    <li>Baggage: {FLIGHT_DATA.flight.info.baggage}</li>
+                    <li>Cabin Baggage: {FLIGHT_DATA.flight.info.cabinBaggage}</li>
                     <li>{FLIGHT_DATA.flight.info.entertainment}</li>
                   </ul>
                 </div>
               </div>
-              <div className="mb-6">
+
+              <div className="border-b pb-4">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">
-                    {FLIGHT_DATA.arrival.time}
-                  </span>
-                  <span className="text-purple-600">Kedatangan</span>
+                  <span className="font-bold">{FLIGHT_DATA.arrival.time}</span>
+                  <span className="text-purple-600">Arrival</span>
                 </div>
-                <div className="text-sm">{FLIGHT_DATA.arrival.date}</div>
-                <div className="font-medium">
-                  {FLIGHT_DATA.arrival.location}
-                </div>
+                <div className="text-sm text-gray-600">{FLIGHT_DATA.arrival.date}</div>
+                <div className="text-sm">{FLIGHT_DATA.arrival.location}</div>
               </div>
-              <div className="border-t pt-4">
-                <h3 className="font-medium mb-2">Rincian Harga</h3>
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span>{FLIGHT_DATA.price.adults.count} Adults</span>
-                    <span>
-                      IDR {FLIGHT_DATA.price.adults.price.toLocaleString()}
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span>{FLIGHT_DATA.price.baby.count} Baby</span>
-                    <span>IDR {FLIGHT_DATA.price.baby.price}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span>Tax</span>
-                    <span>IDR {FLIGHT_DATA.price.tax.toLocaleString()}</span>
-                  </div>
-                  <div className="flex justify-between font-semibold text-purple-600 pt-2 border-t">
-                    <span>Total</span>
-                    {/* <span>IDR {calculateTotal().toLocaleString()}</span> */}
-                    <span>IDR 9.850.000</span>
-                  </div>
+
+              <div className="space-y-2">
+                <h3 className="font-bold">Price Details</h3>
+                <div className="flex justify-between text-sm">
+                  <span>{FLIGHT_DATA.price.adults.count} Adults</span>
+                  <span>IDR {FLIGHT_DATA.price.adults.price.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span>{FLIGHT_DATA.price.baby.count} Baby</span>
+                  <span>IDR {FLIGHT_DATA.price.baby.price.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span>Tax</span>
+                  <span>IDR {FLIGHT_DATA.price.tax.toLocaleString()}</span>
+                </div>
+                <div className="flex justify-between font-bold pt-2 border-t">
+                  <span>Total</span>
+                  <span className="text-purple-600">
+                    IDR {(FLIGHT_DATA.price.adults.price + FLIGHT_DATA.price.baby.price + FLIGHT_DATA.price.tax).toLocaleString()}
+                  </span>
                 </div>
               </div>
             </div>
