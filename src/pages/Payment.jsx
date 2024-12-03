@@ -19,7 +19,6 @@ const Payment = () => {
         activeStep={active}
       />
       <OrderForm />
-      <NavbarAuthentication />
     </div>
   );
 };
