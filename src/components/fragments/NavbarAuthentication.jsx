@@ -1,6 +1,6 @@
 import React from "react";
 import Logo from "../../assets/Images/logo.png";
-import Search from "../Search/Search";
+import Search from "../elements/Search/Search";
 import IconGrubNavbar from "../elements/IconGrubNavbar";
 
 const NavbarAuthentication = () => {
