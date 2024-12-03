@@ -3,7 +3,7 @@ import React from "react";
 const PaymentBreadcrumb = ({ text1, text2, text3, active }) => {
   return (
     <>
-      <div className="flex gap-3 mb-5 ms-40">
+      <div className="flex gap-3 mb-5">
         <span className={`text-sm ${active.text1 ? "font-bold " : ""}`}>
           {text1}
         </span>

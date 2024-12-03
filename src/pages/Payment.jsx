@@ -13,7 +13,11 @@ const Payment = () => {
   return (
     <div>
       <NavbarAuthentication />
-      <PaymentHeader inputText="oi" alertType="danger" activeStep={active} />
+      <PaymentHeader
+        inputText="Selesaikan Pembayaran sampai 10 Maret 2023 12:00"
+        alertType="danger"
+        activeStep={active}
+      />
       <OrderForm />
     </div>
   );

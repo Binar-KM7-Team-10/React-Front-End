@@ -13,7 +13,11 @@ const PaymentSuccess = () => {
   return (
     <div>
       <NavbarAuthentication />
-      <PaymentHeader inputText="oi" alertType="success" activeStep={active} />
+      <PaymentHeader
+        inputText="Terimakasih atas pembayaran transaksi"
+        alertType="success"
+        activeStep={active}
+      />
       <PaymentComplete />
     </div>
   );
