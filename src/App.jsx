@@ -18,6 +18,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import Login from "./pages/LoginPage";
 import Register from "./pages/RegisterPage";
+import HistoryOrder from "./pages/HistoryOrder";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/checkout" element={<OrderPage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
+        <Route path="/history-order" element={<HistoryOrder />} />  
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
