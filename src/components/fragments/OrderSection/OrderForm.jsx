@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { CreditCard, ChevronDown, ChevronUp, Plane } from 'lucide-react';
-// Note: In a real app, you would import actual images. Here we use placeholders
-const CARD_IMAGES = {
-  visa: "/api/placeholder/100/40",
-  mastercard: "/api/placeholder/100/40",
-  amex: "/api/placeholder/100/40",
-  paypal: "/api/placeholder/100/40"
-};
+import visa from "../../../assets/Images/visaLogo.png";
+import mastercard from "../../../assets/Images/mastercardLogo.png";
+import amex from "../../../assets/Images/amexLogo.png";
+import paypal from "../../../assets/Images/paypalLogo.png";
 
 const PAYMENT_METHODS = {
   GOPAY: 'gopay',
@@ -126,13 +123,9 @@ const PaymentForm = () => {
     <div className="min-h-screen bg-gray-50 p-4 font-sans">
       <div className="max-w-4xl mx-auto">
         <div className="flex gap-6 w-full flex-col md:flex-row">
-          {/* Payment Form Section */}
           <div className="flex-1 space-y-6 md:w-7/12 w-full">
             <h2 className="text-xl font-bold text-gray-800">Payment Details</h2>
-            
-            {/* Payment Methods */}
             <div className="space-y-4">
-              {/* Gopay */}
               <div className="bg-white rounded-lg shadow">
                 <PaymentMethodButton method={PAYMENT_METHODS.GOPAY} label="Gopay" />
                 {isMethodExpanded[PAYMENT_METHODS.GOPAY] && (
@@ -155,7 +148,6 @@ const PaymentForm = () => {
                 )}
               </div>
 
-              {/* Virtual Account */}
               <div className="bg-white rounded-lg shadow">
                 <PaymentMethodButton
                   method={PAYMENT_METHODS.VIRTUAL_ACCOUNT}
@@ -183,7 +175,6 @@ const PaymentForm = () => {
                 )}
               </div>
 
-              {/* Credit Card */}
               <div className="bg-white rounded-lg shadow">
                 <PaymentMethodButton
                   method={PAYMENT_METHODS.CREDIT_CARD}
@@ -192,25 +183,24 @@ const PaymentForm = () => {
                 {isMethodExpanded[PAYMENT_METHODS.CREDIT_CARD] && (
                   <div className="p-4">
                     <div className="space-y-4">
-                      {/* Credit Card Logos */}
                       <div className="flex justify-center items-center gap-4 mb-4">
                         <img 
-                          src={CARD_IMAGES.visa}
+                          src={visa}
                           alt="Visa"
                           className="h-8 w-auto object-contain"
                         />
                         <img 
-                          src={CARD_IMAGES.mastercard}
+                          src={mastercard}
                           alt="Mastercard"
                           className="h-8 w-auto object-contain"
                         />
                         <img 
-                          src={CARD_IMAGES.amex}
+                          src={amex}
                           alt="American Express"
                           className="h-8 w-auto object-contain"
                         />
                         <img 
-                          src={CARD_IMAGES.paypal}
+                          src={paypal}
                           alt="PayPal"
                           className="h-8 w-auto object-contain"
                         />
@@ -288,11 +278,10 @@ const PaymentForm = () => {
               onClick={handleSubmit}
               className="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition-colors font-medium"
             >
-              Pay Now
+              Bayar
             </button>
           </div>
 
-          {/* Flight Details Section */}
           <div className="md:w-5/12 w-full">
             <div className="bg-white rounded-lg shadow p-6 space-y-4">
               <div className="flex justify-between items-center">
@@ -302,7 +291,6 @@ const PaymentForm = () => {
                 </span>
               </div>
 
-              {/* Departure Details */}
               <div className="border-b pb-4">
                 <div className="flex justify-between text-sm">
                   <span className="font-bold">{FLIGHT_DATA.departure.time}</span>
@@ -312,7 +300,6 @@ const PaymentForm = () => {
                 <div className="text-sm">{FLIGHT_DATA.departure.location}</div>
               </div>
 
-              {/* Flight Info */}
               <div className="border-b pb-4">
                 <div className="font-bold">
                   {FLIGHT_DATA.flight.airline} - {FLIGHT_DATA.flight.class}
@@ -331,7 +318,6 @@ const PaymentForm = () => {
                 </div>
               </div>
 
-              {/* Arrival Details */}
               <div className="border-b pb-4">
                 <div className="flex justify-between text-sm">
                   <span className="font-bold">{FLIGHT_DATA.arrival.time}</span>
@@ -341,7 +327,6 @@ const PaymentForm = () => {
                 <div className="text-sm">{FLIGHT_DATA.arrival.location}</div>
               </div>
 
-              {/* Price Details */}
               <div className="space-y-2">
                 <h3 className="font-bold">Price Details</h3>
                 <div className="flex justify-between text-sm">
