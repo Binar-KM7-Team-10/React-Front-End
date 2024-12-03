@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { CreditCard, ChevronDown, ChevronUp, Plane } from "lucide-react";
+import ButtonPayment from "../../elements/Button/ButtonPayment";
 
 const FLIGHT_DATA = {
   bookingCode: "6723y2GHK",
@@ -110,7 +111,7 @@ const PaymentForm = () => {
 
     setIsSubmitting(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 200));
 
       const paymentData = {
         method: selectedPaymentMethod,
@@ -149,7 +150,7 @@ const PaymentForm = () => {
             <div className="space-y-3">
               <div className="border rounded">
                 <button
-                  className={`w-full ${selectedPaymentMethod === PAYMENT_METHODS.GOPAY ? "bg-purple-600" : "bg-[#3C3C3C]"} 
+                  className={`w-full ${selectedPaymentMethod === PAYMENT_METHODS.GOPAY ? "bg-[#7126B5]" : "bg-[#3C3C3C]"} 
                     text-white p-3 rounded flex justify-between items-center transition-colors`}
                   onClick={() =>
                     handlePaymentMethodClick(PAYMENT_METHODS.GOPAY)
@@ -186,7 +187,7 @@ const PaymentForm = () => {
 
               <div className="border rounded">
                 <button
-                  className={`w-full ${selectedPaymentMethod === PAYMENT_METHODS.VIRTUAL_ACCOUNT ? "bg-purple-600" : "bg-[#3C3C3C]"} 
+                  className={`w-full ${selectedPaymentMethod === PAYMENT_METHODS.VIRTUAL_ACCOUNT ? "bg-[#7126B5]" : "bg-[#3C3C3C]"} 
                     text-white p-3 rounded flex justify-between items-center transition-colors`}
                   onClick={() =>
                     handlePaymentMethodClick(PAYMENT_METHODS.VIRTUAL_ACCOUNT)
@@ -225,7 +226,7 @@ const PaymentForm = () => {
 
               <div className="border rounded">
                 <button
-                  className={`w-full ${selectedPaymentMethod === PAYMENT_METHODS.CREDIT_CARD ? "bg-purple-600" : "bg-[#3C3C3C]"} 
+                  className={`w-full ${selectedPaymentMethod === PAYMENT_METHODS.CREDIT_CARD ? "bg-[#7126B5]" : "bg-[#3C3C3C]"} 
                     text-white p-3 rounded flex justify-between items-center transition-colors`}
                   onClick={() =>
                     handlePaymentMethodClick(PAYMENT_METHODS.CREDIT_CARD)
@@ -319,12 +320,9 @@ const PaymentForm = () => {
                 )}
               </div>
             </div>
-            <button
-              onClick={handleSubmit}
-              className="w-full bg-purple-600 text-white py-3 rounded mt-4 font-medium"
-            >
-              Bayar
-            </button>
+            <div onClick={handleSubmit}>
+                <ButtonPayment/>  
+            </div>
           </div>
           <div className="flex flex-col w-full lg:w-96">
             <div className="bg-white p-4 rounded shadow-sm">
@@ -398,6 +396,7 @@ const PaymentForm = () => {
                     <span>Total</span>
                     {/* <span>IDR {calculateTotal().toLocaleString()}</span> */}
                     <span>90</span>
+                    <span>IDR 9.850.000</span>
                   </div>
                 </div>
               </div>
