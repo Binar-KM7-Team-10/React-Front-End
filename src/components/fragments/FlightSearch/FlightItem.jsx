@@ -1,7 +1,7 @@
 import React from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
-import ImageFlight from "../../assets/Images/ImageFlight.png";
-import IconBaggage from "../../assets/Images/icon-park-outline_baggage-delay.png";
+import ImageFlight from "../../../assets/Images/ImageFlight.png";
+import IconBaggage from "../../../assets/Images/icon-park-outline_baggage-delay.png";
 import FlightDetails from "./FlightDetails";
 
 const FlightItem = ({ flight, isSelected, toggleDetails }) => (

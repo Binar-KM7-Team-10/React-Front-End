@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { CreditCard, ChevronDown, ChevronUp, Plane } from "lucide-react";
-import ButtonPayment from "../Button/ButtonPayment";
+import ButtonPayment from "../../elements/Button/ButtonPayment";
 
 const FLIGHT_DATA = {
   bookingCode: "6723y2GHK",

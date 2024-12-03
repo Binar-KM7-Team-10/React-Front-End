@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
-import InputForm from "../Input/InputForm";
-import Button from "../Button/Button";
-import ButtonLogin from "../Button/ButtonLogin";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import InputForm from "../../elements/Input/InputForm";
+import Button from "../../elements/Button/Button";
+import ButtonLogin from "../../elements/Button/ButtonLogin";
 
 const FormLogin = () => {
   const [loading, setLoading] = useState(false);

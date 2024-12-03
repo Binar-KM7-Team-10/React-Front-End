@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import { FiArrowLeft } from "react-icons/fi";
+import { ArrowUpDown } from 'lucide-react';
 
 import Filter from "../Filter/Filter";
 import ListPenerbangan from "./ListPenerbangan";
 import LoadingSearchFlight from "./LoadingSearchFlight";
 
-import not_found_img from "../../assets/Images/tiket_not_found.png";
-import empty_img from "../../assets/Images/tiket_habis.png";
-import { ArrowUpDown } from 'lucide-react';
+import not_found_img from "../../../assets/Images/tiket_not_found.png";
+import empty_img from "../../../assets/Images/tiket_habis.png";
 
 const FlightSearch = () => {
     const days = ["Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu", "Senin"];

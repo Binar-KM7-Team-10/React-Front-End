@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "../components/fragments/Navbar";
-import FlightSearch from "../components/FlightSearch/FlightSearch";
+import Navbar from "../components/fragments/Navbar/Navbar";
+import FlightSearch from "../components/fragments/FlightSearch/FlightSearch";
 
 const SearchPage = () => {
   return (

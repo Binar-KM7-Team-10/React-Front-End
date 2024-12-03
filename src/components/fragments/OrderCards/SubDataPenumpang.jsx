@@ -1,6 +1,6 @@
-import Switch from "../Switch/Switch";
 import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import Switch from "../../elements/Switch/Switch";
 
 const SubDataPemumpang = ({ title_card }) => {
   const [showNamaKeluarga, setShowNamaKeluarga] = useState(false);
