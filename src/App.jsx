@@ -12,7 +12,8 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import Login from "./pages/LoginPage";
 import Register from "./pages/RegisterPage";
 import HistoryOrder from "./pages/HistoryOrder";
-import Notification from "./pages/NotificationPage"
+import NotificationPage from "./pages/NotificationPage";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   return (
@@ -26,7 +27,8 @@ function App() {
         <Route path="/search" element={<SearchPage />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
         <Route path="/history-order" element={<HistoryOrder />} />  
-        <Route path="/notifikasi" element={<Notification />} />
+        <Route path="/notifikasi" element={<NotificationPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
