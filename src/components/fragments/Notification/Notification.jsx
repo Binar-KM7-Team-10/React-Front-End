@@ -1,5 +1,7 @@
+// NotificationList.js
 import React, { useState } from 'react';
 import { Bell } from 'lucide-react';
+import NotificationModals from '../../elements/Modals/NotificationModal';
 
 const NotificationList = () => {
   const notifications = [
@@ -33,30 +35,37 @@ const NotificationList = () => {
   ];
 
   const [selectedNotification, setSelectedNotification] = useState(null);
-
   const handleClick = (notification) => {
-    setSelectedNotification(notification.id === selectedNotification ? null : notification.id);
+    setSelectedNotification(notification); 
+  };
+  const closeModal = () => {
+    setSelectedNotification(null);
   };
 
   return (
     <div className="mx-auto p-4 max-w-screen-lg md:px-20 px-4">
       <div className="space-y-4">
         {notifications.map((notification) => (
-          <div 
-            key={notification.id} 
+          <div
+            key={notification.id}
             className="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-4 p-4 bg-white rounded-lg shadow-sm cursor-pointer"
             onClick={() => handleClick(notification)}
           >
             <div className="flex-shrink-0">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                notification.type === 'Promosi' ? 'bg-purple-100' : 'bg-blue-100'
-              }`}>
-                <Bell size={16} className={`${
-                  notification.type === 'Promosi' ? 'text-purple-500' : 'text-blue-500'
-                }`} />
+              <div
+                className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                  notification.type === 'Promosi' ? 'bg-purple-100' : 'bg-blue-100'
+                }`}
+              >
+                <Bell
+                  size={16}
+                  className={`${
+                    notification.type === 'Promosi' ? 'text-purple-500' : 'text-blue-500'
+                  }`}
+                />
               </div>
             </div>
-            
+
             <div className="flex-grow">
               <div className="flex justify-between items-start flex-col sm:flex-row">
                 <div className="mb-2 sm:mb-0">
@@ -66,7 +75,7 @@ const NotificationList = () => {
                 </div>
                 <div className="flex items-center mt-2 sm:mt-0">
                   <span className="text-gray-400 text-sm">{notification.date}</span>
-                  {notification.isRead && ( 
+                  {notification.isRead && (
                     <div className="w-2 h-2 rounded-full bg-[#73CA5C] ml-2"></div>
                   )}
                   {!notification.isRead && (
@@ -74,16 +83,16 @@ const NotificationList = () => {
                   )}
                 </div>
               </div>
-              {/* Show content when clicked */}
-              {selectedNotification === notification.id && (
-                <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-                  <p>{notification.content}</p>
-                </div>
-              )}
             </div>
           </div>
         ))}
       </div>
+      {selectedNotification && (
+        <NotificationModals
+          notification={selectedNotification}
+          onClose={closeModal}
+        />
+      )}
     </div>
   );
 };
