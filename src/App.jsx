@@ -1,13 +1,6 @@
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
-// import "./App.css";
-// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import HomePage from "./pages/HomePage";
-// import Payment from "./pages/Payment";
-// import PaymentSuccess from "./pages/PaymentSuccess";
-// import reactLogo from "./assets/react.svg";
-// import viteLogo from "/vite.svg";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
@@ -19,6 +12,7 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import Login from "./pages/LoginPage";
 import Register from "./pages/RegisterPage";
 import HistoryOrder from "./pages/HistoryOrder";
+import Notification from "./pages/NotificationPage"
 
 function App() {
   return (
@@ -32,6 +26,7 @@ function App() {
         <Route path="/search" element={<SearchPage />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
         <Route path="/history-order" element={<HistoryOrder />} />  
+        <Route path="/notifikasi" element={<Notification />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>

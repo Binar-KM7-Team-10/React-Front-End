@@ -34,7 +34,7 @@ const ButtonHeader = () => {
 
   return (
     <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-lg flex items-center space-x-3">
-      <button onClick={handleDateModal} className="flex gap-8 bg-[#A06ECE] text-white rounded-[12px] p-5 w-full">
+      <button className="flex gap-8 bg-[#A06ECE] text-white rounded-[12px] p-5 w-full">
         <ArrowLeft />
         Beranda
       </button>
