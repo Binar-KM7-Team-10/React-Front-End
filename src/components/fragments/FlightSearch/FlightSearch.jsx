@@ -5,9 +5,6 @@ import { ArrowUpDown } from "lucide-react";
 
 import Filter from "../Filter/Filter";
 import ListPenerbangan from "./ListPenerbangan";
-import LoadingSearchFlight from "./LoadingSearchFlight";
-
-import not_found_img from "../../../assets/Images/tiket_not_found.png";
 import empty_img from "../../../assets/Images/tiket_habis.png";
 
 const FlightSearch = () => {
@@ -36,6 +33,8 @@ const FlightSearch = () => {
       status: "Direct",
       arrivaltime: "11:00",
       cityarrival: "MLB",
+      time: "07:00",
+      duration: "4h 0m",
       price: 4950000,
     },
     {
@@ -47,6 +46,8 @@ const FlightSearch = () => {
       status: "Direct",
       arrivaltime: "12:00",
       cityarrival: "MLB",
+      time: "08:00",
+      duration: "4h 0m",
       price: 5950000,
     },
     {
@@ -58,6 +59,8 @@ const FlightSearch = () => {
       status: "Direct",
       arrivaltime: "17:15",
       cityarrival: "MLB",
+      time: "13:15",
+      duration: "4h 0m",
       price: 7225000,
     },
     {
@@ -69,6 +72,8 @@ const FlightSearch = () => {
       status: "Direct",
       arrivaltime: "23:30",
       cityarrival: "MLB",
+      time: "20:15",
+      duration: "3h 15m",
       price: 8010000,
     },
   ]);
@@ -89,7 +94,6 @@ const FlightSearch = () => {
   const handleSort = (option) => {
     setSelectedOption(option);
 
-    // Implement sorting logic
     let sortedFlights = [...flights];
     if (option === "Harga - Termurah") {
       sortedFlights.sort((a, b) => a.price - b.price);
@@ -97,14 +101,12 @@ const FlightSearch = () => {
       sortedFlights.sort((a, b) => b.price - a.price);
     }
 
-    // Update flights
     setFlights(sortedFlights);
-    setIsFilterOpen(false); // Close the popup
+    setIsFilterOpen(false);
   };
 
   return (
     <div className="min-h-screen p-6">
-      {/* Header */}
       <div className="max-w-5xl mx-auto p-4 rounded-md">
         <h2 className="text-xl font-semibold text-gray-800">
           Pilih Penerbangan
@@ -152,7 +154,6 @@ const FlightSearch = () => {
         </div>
       </div>
 
-      {/* Filter Urutkan */}
       <div className="mx-auto md:mx-36 flex justify-end items-center mt-6">
         <button
           onClick={() => setIsFilterOpen(true)}
@@ -164,7 +165,6 @@ const FlightSearch = () => {
         </button>
       </div>
 
-      {/* Filter Urutkan Popup */}
       {isFilterOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white rounded-lg shadow-lg p-6 w-96">
