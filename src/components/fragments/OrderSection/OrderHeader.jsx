@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import AlertCheckout from "../../alert/AlertCheckout.jsx";
-import OrderBreadcrumb from "../../Breadcrumbs/OrderBreadcrumb";
+import AlertCheckout from "../../elements/alert/AlertCheckout.jsx";
+import OrderBreadcrumb from "../../elements/Breadcrumbs/OrderBreadcrumb";
 
 const OrderHeader = () => {
   const [timeLeft, setTimeLeft] = useState(900);

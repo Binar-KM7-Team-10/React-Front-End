@@ -1,5 +1,5 @@
 import React from 'react';
-import NavbarAuthentication from '../components/fragments/NavbarAuthentication';
+import Navbar from '../components/fragments/Navbar/Navbar';
 import OrderHeaderHistory from '../components/fragments/OrderSection/OrderHeaderHistory';
 import DetailCardTicket from '../components/fragments/FlightCards/DetailCardTicket';
 import DetailPenerbangan from '../components/fragments/OrderCards/DetailPenerbangan';
@@ -11,7 +11,7 @@ const HistoryOrder = () => {
 
     return (
         <div>
-            <NavbarAuthentication search={false} />
+            <Navbar search={false} type={"auth"} />
             <OrderHeaderHistory />
             <div className='mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-lg md:flex py-8'>
                 <div className='left-section w-full md:w-7/12 flex-col space-y-2'>

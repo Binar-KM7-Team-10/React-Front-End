@@ -1,7 +1,7 @@
 import React from "react";
-import NavbarAuthentication from "../components/fragments/NavbarAuthentication";
-import PaymentHeader from "../components/fragments/PaymentHeader";
-import PaymentComplete from "../components/fragments/PaymentComplete";
+import Navbar from "../components/fragments/Navbar/Navbar";
+import PaymentHeader from "../components/fragments/PaymentSection/PaymentHeader";
+import PaymentComplete from "../components/fragments/PaymentSection/PaymentComplete";
 
 const PaymentSuccess = () => {
   const active = {
@@ -12,7 +12,7 @@ const PaymentSuccess = () => {
 
   return (
     <div>
-      <NavbarAuthentication />
+      <Navbar search={true} type={"auth"} />
       <PaymentHeader
         inputText="Terimakasih atas pembayaran transaksi"
         alertType="success"

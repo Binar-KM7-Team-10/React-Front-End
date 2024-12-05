@@ -95,7 +95,7 @@ const FlightSearchForm = () => {
 
   return (
     <div className="flex justify-center items-center px-4 sm:px-6 lg:px-8">
-      <div className="bg-white rounded-lg shadow-xl p-6 mx-4 -mt-20 relative z-10 w-full max-w-[968px] space-y-6">
+      <div className="bg-white rounded-[12px] shadow-xl p-6 mx-4 -mt-14 relative z-10 w-full max-w-[968px] max-H-[232px] space-y-6">
         <h1 className="text-center sm:text-left text-xl sm:text-xl lg:text-xl font-bold">
           Pilih Jadwal Penerbangan spesial di{" "}
           <span className="text-purple-600">Tiketku!</span>

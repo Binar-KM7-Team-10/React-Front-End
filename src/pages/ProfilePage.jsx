@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import NavbarAuthentication from '../components/fragments/NavbarAuthentication';
+import Navbar from '../components/fragments/Navbar/Navbar';
 import OrderHeaderHistory from '../components/fragments/OrderSection/OrderHeaderHistory';
 import { PencilLine, Settings, LogOut } from 'lucide-react';
 
@@ -69,7 +69,7 @@ const ProfilePage = () => {
 
     return (
         <div>
-            <NavbarAuthentication search={false} />
+            <Navbar search={false} type={"auth"} />
             <OrderHeaderHistory />
             <div className="mx-auto px-4 sm:px-6 lg:px-16 max-w-screen-lg py-8 flex flex-col md:flex-row gap-8">
                 <div className="left-section w-full md:w-[370px] h-[189px] flex-col space-y-2">

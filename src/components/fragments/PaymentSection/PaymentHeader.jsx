@@ -1,6 +1,6 @@
 import React from "react";
-import PaymentBreadcrumb from "../elements/Breadcrumbs/PaymentBreadCrumbs.jsx";
-import AlertCheckout from "../alert/AlertCheckout.jsx";
+import PaymentBreadcrumb from "../../elements/Breadcrumbs/PaymentBreadCrumbs.jsx";
+import AlertCheckout from "../../elements/alert/AlertCheckout.jsx";
 
 const PaymentHeader = ({ inputText, alertType, activeStep }) => {
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import image from "../../assets/Images/PaymentSuccess.png";
+import image from "../../../assets/Images/PaymentSuccess.png";
 
 const PaymentComplete = () => {
   return (

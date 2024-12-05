@@ -7,7 +7,7 @@ import FlightCards from "../components/fragments/FlightCards/FlightCard";
 const HomePage = () => {
   return (
     <div>
-      <Navbar />
+      <Navbar search={true} type={"nonAuth"}/>
       <Hero />
       <Categori />
       <FlightCards />
