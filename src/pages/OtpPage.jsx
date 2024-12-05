@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Navbar from '../components/fragments/Navbar/Navbar';
 import { FiArrowLeft } from "react-icons/fi";
 import ButtonOtp from '../components/elements/Button/ButtonOtp';
-import AlertSuccess from '../components/elements/Alert/AlertSuccess';
+import AlertAuth from '../components/elements/Alert/AlertAuth';
 
 const OtpPage = () => {
 
@@ -61,7 +61,7 @@ const OtpPage = () => {
                 </div>
             </div>
             <div className="flex w-full justify-center mt-24">
-                <AlertSuccess msg={"Registrasi berhasil"} />
+                <AlertAuth msg={"Registrasi berhasil"} type={"success"}/>
             </div>
         </div>
     )
