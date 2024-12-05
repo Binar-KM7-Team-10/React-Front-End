@@ -5,7 +5,7 @@ import FlightSearch from "../components/fragments/FlightSearch/FlightSearch";
 const SearchPage = () => {
   return (
     <div>
-      <Navbar />
+      <Navbar search={true} type={"auth"} />
       <FlightSearch />
     </div>
   );

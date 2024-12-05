@@ -13,7 +13,6 @@ const NavbarAuthentication = () => {
         <Search />
         <div className="flex flex-1 items-center justify-end md:justify-between">
           <nav aria-label="Global" className="hidden md:block">
-            {/* Add navigation items here if necessary */}
           </nav>
           <div className="flex items-center gap-4">
             <IconGrubNavbar />
