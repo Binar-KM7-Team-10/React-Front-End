@@ -3,10 +3,7 @@ import NavbarAuthentication from '../components/fragments/NavbarAuthentication';
 import OrderHeaderHistory from '../components/fragments/OrderSection/OrderHeaderHistory';
 import Notification from '../components/fragments/Notification/Notification';
 
-const HistoryOrder = () => {
-    const flightData = {
-        date: "Maret 2025",
-    };
+const NotificationPage = () => {
 
     return (
         <div>
@@ -17,4 +14,4 @@ const HistoryOrder = () => {
     );
 };
 
-export default HistoryOrder;
+export default NotificationPage;
