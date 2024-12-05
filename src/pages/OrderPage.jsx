@@ -1,7 +1,7 @@
 import React from "react";
-import NavbarAuthentication from "../components/fragments/NavbarAuthentication";
-import OrderHeader from "../components/fragments/OrderHeader";
-import OrderBody from "../components/fragments/OrderBody";
+import NavbarAuthentication from "../components/fragments/Navbar/Navbar";
+import OrderHeader from "../components/fragments/OrderSection/OrderHeader";
+import OrderBody from "../components/fragments/OrderSection/OrderBody";
 
 const OrderPage = () => {
     return (
