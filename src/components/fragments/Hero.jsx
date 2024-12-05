@@ -11,18 +11,18 @@ const Hero = () => {
         <img
           src={RectangleLeft}
           alt="Rectangle Left"
-          className="absolute left-[-50px] top-1/2 -translate-y-1/2 w-[236px] h-[150px] hidden lg:block"
+          className="absolute left-[-30%] top-1/2 -translate-y-1/2 w-[400px] h-[150px] hidden lg:block"
           style={{ zIndex: 1 }}
         />
 
         <img
           src={RectangleRight}
           alt="Rectangle Right"
-          className="absolute right-[-50px] top-1/2 -translate-y-1/2 w-[236px] h-[150px] hidden lg:block"
+          className="absolute right-[-15%] top-1/2 -translate-y-1/2 w-[400px] h-[150px] hidden lg:block"
           style={{ zIndex: 1 }}
         />
 
-        <div className="relative h-[300px] z-10 pt-4">
+        <div className="relative h-[232px] z-10 pt-4">
           <img
             src={image}
             alt="Banner"
@@ -31,7 +31,7 @@ const Hero = () => {
           />
         </div>
       </div>
-      <FlightSearchForm/>
+      <FlightSearchForm />
     </div>
   );
 };
