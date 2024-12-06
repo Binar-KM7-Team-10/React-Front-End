@@ -13,16 +13,12 @@ const LoginPage = () => {
 
       <div className="flex w-full lg:w-1/2 flex-col justify-center p-4 lg:p-8">
         <div className="mx-auto w-full max-w-md">
-          <h1 className="text-center text-3xl font-bold text-black sm:text-4xl">
+          <h1 className="text-start px-4 text-3xl font-bold text-black sm:text-4xl">
             Masuk
           </h1>
-          <p className="mx-auto mt-4 text-center text-black">
-            Hello, welcome back. Please enter your details.
-          </p>
-
           <FormLogin />
 
-          <p className="mt-6 text-center text-slate-600">
+          <p className="mt-6 text-center text-sm text-slate-600">
             Belum Punya Akun?{" "}
             <Link
               to="/register"
