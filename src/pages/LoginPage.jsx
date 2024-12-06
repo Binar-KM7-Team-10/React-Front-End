@@ -16,7 +16,7 @@ const LoginPage = () => {
           <h1 className="text-center text-3xl font-bold text-black sm:text-4xl">
             Masuk
           </h1>
-          <p className="mx-auto mt-4 text-center text-black">
+          <p className="mx-auto mt-4 text-center w-3/4 lg:w-full text-black">
             Hello, welcome back. Please enter your details.
           </p>
 
