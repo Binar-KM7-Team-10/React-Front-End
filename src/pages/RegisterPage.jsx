@@ -20,7 +20,7 @@ const LoginPage = () => {
           </h1>
           <FormRegister />
 
-          <p className="mt-6 text-center text-slate-600">
+          <p className="mt-6 text-center text-sm text-slate-600">
             Sudah punya akun?{" "}
             <Link
               to="/register"
