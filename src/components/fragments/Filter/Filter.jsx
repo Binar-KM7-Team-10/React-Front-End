@@ -5,7 +5,7 @@ import { FiDollarSign } from "react-icons/fi";
 
 const Filter = () => {
   return (
-    <div className="bg-white p-4 rounded-md shadow-md w-1/">
+    <div className="bg-white p-9 rounded-md shadow-md w-1/">
       <h3 className="font-medium text-gray-700 pb-3">Filter</h3>
       <ul className="mt-2 space-y-3">
         <li className="flex justify-between items-center border-b border-gray-600 pb-3">
