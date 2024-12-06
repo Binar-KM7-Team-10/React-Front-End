@@ -3,10 +3,19 @@ import { ArrowUpDown } from "lucide-react";
 import Filter from "../Filter/Filter";
 import ListPenerbangan from "./ListPenerbangan";
 import empty_img from "../../../assets/Images/tiket_habis.png";
-import FlightSearchHeader from "./FlightSearchHeader"; // Import the header component
+import FlightSearchHeader from "./FlightSearchHeader";
 
 const FlightSearch = () => {
-  const days = ["Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu", "Senin", "Selasa"];
+  const days = [
+    "Selasa",
+    "Rabu",
+    "Kamis",
+    "Jumat",
+    "Sabtu",
+    "Minggu",
+    "Senin",
+    "Selasa",
+  ];
   const initialDate = new Date("2023-03-01");
 
   const generateDates = (startDate, numDays) => {
@@ -105,7 +114,6 @@ const FlightSearch = () => {
 
   return (
     <div className="min-h-screen p-4 md:p-6">
-      {/* Use the new header component here */}
       <FlightSearchHeader
         days={days}
         selectedDay={selectedDay}
