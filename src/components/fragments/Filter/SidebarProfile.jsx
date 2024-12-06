@@ -1,7 +1,7 @@
 import React from 'react';
 import { PencilLine, Settings, LogOut } from 'lucide-react';
 
-const Sidebar = ({ activeComponent, setActiveComponent }) => (
+const SidebarProfile = ({ activeComponent, setActiveComponent }) => (
     <div className="left-section w-full md:w-[370px] h-[189px] flex-col space-y-2">
         <div className="space-y-5">
             <div 
@@ -27,4 +27,4 @@ const Sidebar = ({ activeComponent, setActiveComponent }) => (
     </div>
 );
 
-export default Sidebar;
+export default SidebarProfile;

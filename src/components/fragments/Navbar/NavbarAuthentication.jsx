@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../../assets/Images/logo.png";
+import Logo from "../../../assets/Images/logo.png";
 import Search from "../../elements/Search/Search";
 import IconGrubNavbar from "../../elements/IconGrub/IconGrubNavbar";
 
@@ -13,7 +13,6 @@ const NavbarAuthentication = () => {
         <Search />
         <div className="flex flex-1 items-center justify-end md:justify-between">
           <nav aria-label="Global" className="hidden md:block">
-            {/* Add navigation items here if necessary */}
           </nav>
           <div className="flex items-center gap-4">
             <IconGrubNavbar />

@@ -1,5 +1,5 @@
 import React from 'react';
-import NavbarAuthentication from '../components/fragments/NavbarAuthentication';
+import Navbar from '../components/fragments/Navbar/Navbar';
 import OrderHeaderHistory from '../components/fragments/OrderSection/OrderHeaderHistory';
 import DetailCardTicket from '../components/fragments/FlightCards/DetailCardTicket';
 import DetailPenerbangan from '../components/fragments/OrderCards/DetailPenerbangan';
@@ -11,7 +11,8 @@ const HistoryOrder = () => {
 
     return (
         <div className="min-h-screen flex flex-col">
-            <NavbarAuthentication search={false} />
+        <div>
+            <Navbar search={false} type={"auth"} />
             <OrderHeaderHistory />
             <div className='mx-auto w-full px-4 sm:px-6 lg:px-8 max-w-screen-lg md:flex py-4 md:py-8 gap-6'>
                 {/* Left Section */}
@@ -34,7 +35,8 @@ const HistoryOrder = () => {
                 </div>
             </div>
         </div>
+    </div>
     );
-};
+}
 
 export default HistoryOrder;

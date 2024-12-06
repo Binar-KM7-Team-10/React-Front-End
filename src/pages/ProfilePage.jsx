@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import NavbarAuthentication from '../components/fragments/NavbarAuthentication';
+import React, { useState, useEffect  } from 'react';
+import Navbar from '../components/fragments/Navbar/Navbar';
 import OrderHeaderHistory from '../components/fragments/OrderSection/OrderHeaderHistory';
-import Sidebar from '../components/fragments/Filter/SidebarProfile';
+import SidebarProfile from '../components/fragments/Filter/SidebarProfile';
 import EditProfile from '../components/elements/Input/EditProfile';
 import AccountSettings from '../components/elements/Input/AccountSetting';
 
@@ -10,10 +10,10 @@ const ProfilePage = () => {
 
     return (
         <div>
-            <NavbarAuthentication search={false} />
+            <Navbar search={false} type={"auth"} />
             <OrderHeaderHistory />
             <div className="mx-auto px-4 sm:px-6 lg:px-16 max-w-screen-lg py-8 flex flex-col md:flex-row gap-8">
-                <Sidebar 
+                <SidebarProfile 
                     activeComponent={activeComponent} 
                     setActiveComponent={setActiveComponent} 
                 />

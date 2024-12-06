@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import AlertCheckout from "../../elements/alert/AlertCheckout";
+import AlertCheckout from "../../elements/alert/AlertCheckout.jsx";
 import OrderBreadcrumb from "../../elements/Breadcrumbs/OrderBreadcrumb";
 
 const OrderHeader = () => {
@@ -24,7 +24,7 @@ const OrderHeader = () => {
 
   return (
     <div className="shadow-md py-10">
-      <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-lg">
+      <div className="mx-60 px-60">
         <OrderBreadcrumb
           text1={"Isi Data Diri"}
           text2={"Bayar"}

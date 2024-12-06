@@ -1,6 +1,6 @@
 import React from "react";
-import NavbarAuthentication from "../components/fragments/NavbarAuthentication";
-import PaymentHeader from "../components/fragments/PaymentHeader";
+import Navbar from "../components/fragments/Navbar/Navbar";
+import PaymentHeader from "../components/fragments/PaymentSection/PaymentHeader";
 import OrderForm from "../components/fragments/OrderSection/OrderForm";
 
 const Payment = () => {
@@ -12,7 +12,7 @@ const Payment = () => {
 
   return (
     <div>
-      <NavbarAuthentication />
+      <Navbar search={true} type={"auth"} />
       <PaymentHeader
         inputText="Selesaikan Pembayaran sampai 10 Maret 2023 12:00"
         alertType="danger"
