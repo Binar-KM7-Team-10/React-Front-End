@@ -17,7 +17,7 @@ const Navbar = ({search, type}) => {
           </nav>
           <div className="flex items-center gap-4">
             {type == "auth" ? <IconGrubNavbar />:""}
-            {type == "nonAuth" ? <IconGrubNavbar />:""}
+            {type == "nonAuth" ? <Button />:""}
           </div>
         </div>
       </div>

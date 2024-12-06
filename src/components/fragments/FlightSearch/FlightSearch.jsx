@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import { FiArrowLeft } from "react-icons/fi";
-import { ArrowUpDown } from 'lucide-react';
+import { ArrowUpDown } from "lucide-react";
+
 import Filter from "../Filter/Filter";
 import ListPenerbangan from "./ListPenerbangan";
 import empty_img from "../../../assets/Images/tiket_habis.png";
@@ -26,6 +27,12 @@ const FlightSearch = () => {
     {
       id: 1,
       airline: "Jet Air",
+      departuretime: "07:00",
+      citydeparture: "JKT",
+      duration: "4h 0m",
+      status: "Direct",
+      arrivaltime: "11:00",
+      cityarrival: "MLB",
       time: "07:00",
       duration: "4h 0m",
       price: 4950000,
@@ -33,6 +40,12 @@ const FlightSearch = () => {
     {
       id: 2,
       airline: "Jet Air",
+      departuretime: "08:00",
+      citydeparture: "JKT",
+      duration: "4h 0m",
+      status: "Direct",
+      arrivaltime: "12:00",
+      cityarrival: "MLB",
       time: "08:00",
       duration: "4h 0m",
       price: 5950000,
@@ -40,6 +53,12 @@ const FlightSearch = () => {
     {
       id: 3,
       airline: "Jet Air",
+      departuretime: "13:15",
+      citydeparture: "JKT",
+      duration: "4h 0m",
+      status: "Direct",
+      arrivaltime: "17:15",
+      cityarrival: "MLB",
       time: "13:15",
       duration: "4h 0m",
       price: 7225000,
@@ -47,6 +66,12 @@ const FlightSearch = () => {
     {
       id: 4,
       airline: "Jet Air",
+      departuretime: "20:15",
+      citydeparture: "JKT",
+      duration: "3h 15m",
+      status: "Direct",
+      arrivaltime: "23:30",
+      cityarrival: "MLB",
       time: "20:15",
       duration: "3h 15m",
       price: 8010000,
