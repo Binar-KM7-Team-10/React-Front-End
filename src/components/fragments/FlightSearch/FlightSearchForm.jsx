@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   PlaneTakeoff,
   PlaneLanding,
@@ -11,9 +12,13 @@ import PassengerSelector from "../../elements/Modals/PassengerModal";
 import DatePickModal from "../../elements/Modals/DateModal";
 import Switch from "../../elements/Switch/Switch";
 import SeatClassModal from "../../elements/Modals/SeatModal";
+import { SearchContext } from "../../../contexts/searchFlightContext";
 
 const FlightSearchForm = () => {
-  const [isRoundTrip, setIsRoundTrip] = useState(true);
+
+  const { setSearchParams } = useContext(SearchContext)
+
+  const [isRoundTrip, setIsRoundTrip] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFromCity, setSelectedFromCity] = useState("Jakarta (JKTA)");
   const [selectedToCity, setSelectedToCity] = useState("Melbourne (MLB)");
@@ -32,6 +37,10 @@ const FlightSearchForm = () => {
 
   const [seatClassModalOpen, setSeatClassModalOpen] = useState(false);
   const [selectedSeatClass, setSelectedSeatClass] = useState("Business");
+
+  const handleSwitchChange = (value) => {
+    setIsRoundTrip(value);
+  };
 
   const handleModalOpen = (isFrom) => {
     setIsSelectingFrom(isFrom);
@@ -93,9 +102,24 @@ const FlightSearchForm = () => {
     setSelectedSeatClass(seatClass);
   };
 
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setSearchParams({
+      dpCity: selectedFromCity,
+      arCity: selectedToCity,
+      dpDate: departureDate,
+      retDate: returnDate,
+      psg: `${passengerCounts.adult},${passengerCounts.child},${passengerCounts.infant}`,
+      seatClass: selectedSeatClass,
+    });
+    navigate("/search");
+  };
+
   return (
     <div className="flex justify-center items-center px-4 sm:px-6 lg:px-8">
-      <div className="bg-white rounded-[12px] shadow-xl p-6 mx-4 -mt-14 relative z-10 w-full max-w-[968px] max-H-[232px] space-y-6">
+      <form className="bg-white rounded-[12px] shadow-xl p-6 mx-4 -mt-14 relative z-10 w-full max-w-[968px] max-H-[232px] space-y-6" onSubmit={handleSearch}>
         <h1 className="text-center sm:text-left text-xl sm:text-xl lg:text-xl font-bold">
           Pilih Jadwal Penerbangan spesial di{" "}
           <span className="text-purple-600">Tiketku!</span>
@@ -153,22 +177,21 @@ const FlightSearchForm = () => {
                 </span>
                 <p className="border-b-[1.5px] w-auto max-w-[140px] border-gray-300 pb-2 font-medium text-base">
                   {departureDate
-                    ? `${departureDate.getDate()} ${
-                        [
-                          "Januari",
-                          "Februari",
-                          "Maret",
-                          "April",
-                          "Mei",
-                          "Juni",
-                          "Juli",
-                          "Agustus",
-                          "September",
-                          "Oktober",
-                          "November",
-                          "Desember",
-                        ][departureDate.getMonth()]
-                      } ${departureDate.getFullYear()}`
+                    ? `${departureDate.getDate()} ${[
+                      "Januari",
+                      "Februari",
+                      "Maret",
+                      "April",
+                      "Mei",
+                      "Juni",
+                      "Juli",
+                      "Agustus",
+                      "September",
+                      "Oktober",
+                      "November",
+                      "Desember",
+                    ][departureDate.getMonth()]
+                    } ${departureDate.getFullYear()}`
                     : "Pilih Tanggal"}
                 </p>
               </div>
@@ -178,29 +201,28 @@ const FlightSearchForm = () => {
                   onClick={() => handleDateModalOpen(false)}
                 >
                   <span className="text-[#8A8A8A] text-md">Return</span>
-                  <p className="border-b-[1.5px] w-[140px] border-[#D0D0D0] pb-3 font-medium text-sm text-[#7126B5]">
+                  <p className="border-b-[1.5px] w-[140px] border-[#D0D0D0] pb-3 font-medium text-base text-[#7126B5]">
                     {returnDate
-                      ? `${returnDate.getDate()} ${
-                          [
-                            "Januari",
-                            "Februari",
-                            "Maret",
-                            "April",
-                            "Mei",
-                            "Juni",
-                            "Juli",
-                            "Agustus",
-                            "September",
-                            "Oktober",
-                            "November",
-                            "Desember",
-                          ][returnDate.getMonth()]
-                        } ${returnDate.getFullYear()}`
+                      ? `${returnDate.getDate()} ${[
+                        "Januari",
+                        "Februari",
+                        "Maret",
+                        "April",
+                        "Mei",
+                        "Juni",
+                        "Juli",
+                        "Agustus",
+                        "September",
+                        "Oktober",
+                        "November",
+                        "Desember",
+                      ][returnDate.getMonth()]
+                      } ${returnDate.getFullYear()}`
                       : "Pilih Tanggal"}
                   </p>
                 </div>
               )}
-              <Switch />
+              <Switch checked={isRoundTrip} onChange={handleSwitchChange} />
             </div>
           </div>
 
@@ -239,7 +261,7 @@ const FlightSearchForm = () => {
         <button className="w-full bg-purple-600 text-white py-3 rounded-xl font-bold text-sm sm:text-base hover:bg-[#4B1979] transition">
           Cari Penerbangan
         </button>
-      </div>
+      </form>
 
       <CitySelectionModal
         isOpen={isModalOpen}
