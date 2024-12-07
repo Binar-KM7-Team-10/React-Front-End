@@ -1,7 +1,31 @@
-import axiosInstance from "../api/axiosInstance";
+import { axiosInstance } from "../api/axiosInstance";
 
-const Login = async () => {
-
+const Login = async (body) => {
+    try {
+        const response = await axiosInstance.post("/login", {
+            "email": body.email,
+            "password": body.password
+        })
+        if (response.status == "success") {
+            return {
+                success: true,
+                data: response.data.data,
+                message: response.data.message
+            }
+        }
+        return {
+            success: false,
+            data: response.data,
+            message: response.message || "Failed to login",
+        };
+    }
+    catch (err) {
+        return {
+            success: false,
+            data: err.response.data,
+            message: err.response.data.message || "An error occurred",
+        };
+    }
 }
 
 const Register = async () => {

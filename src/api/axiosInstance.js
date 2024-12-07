@@ -9,17 +9,25 @@ const axiosInstance = axios.create({
   timeout: 10000,
 });
 
-// axiosInstance.interceptors.request.use(
-//   (config) => {
-//     const token = Cookies.get("token");
-//     if (token) {
-//       config.headers.Authorization = `Bearer ${token}`;
-//     }
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
+const axiosInstanceAuth = axios.create({
+  baseURL: import.meta.env.VITE_BACKEND_URI,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  timeout: 10000,
+});
 
-export default axiosInstance;
+axiosInstanceAuth.interceptors.request.use(
+  (config) => {
+    const token = Cookies.get("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+export {axiosInstance, axiosInstanceAuth};
