@@ -10,27 +10,33 @@ const HistoryOrder = () => {
     };
 
     return (
+        <div className="min-h-screen flex flex-col">
         <div>
             <Navbar search={false} type={"auth"} />
             <OrderHeaderHistory />
-            <div className='mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-lg md:flex py-8'>
-                <div className='left-section w-full md:w-7/12 flex-col space-y-2'>
-                    <p className="text-black text-[16px] font-bold md:px-12 px-2 lg:8">{flightData.date}</p>
-                    <DetailCardTicket />
-                    <DetailCardTicket />
+            <div className='mx-auto w-full px-4 sm:px-6 lg:px-8 max-w-screen-lg md:flex py-4 md:py-8 gap-6'>
+                {/* Left Section */}
+                <div className='flex-1 md:w-7/12 space-y-4'>
+                    <p className="text-black text-base font-bold px-2 md:px-12">{flightData.date}</p>
+                    <div className="space-y-4">
+                        <DetailCardTicket />
+                        <DetailCardTicket />
+                    </div>
                 </div>
                 
-                <div className='w-full md:w-5/12 mt-8 md:mt-0'>
+                {/* Right Section */}
+                <div className='md:w-5/12 mt-6 md:mt-0'>
                     <DetailPenerbangan />
-                    <div className="mt-6 flex justify-center">
-                        <button className="w-full sm:w-[350px] bg-[#FF0000] text-white py-4 rounded-[12px] text-xl hover:opacity-90 transition-opacity shadow-md">
+                    <div className="mt-6 px-4 md:px-0">
+                        <button className="w-full bg-[#FF0000] text-white py-3 md:py-4 rounded-xl text-lg md:text-xl hover:opacity-90 transition-opacity shadow-md">
                             Lanjut Bayar
                         </button>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     );
-};
+}
 
 export default HistoryOrder;
