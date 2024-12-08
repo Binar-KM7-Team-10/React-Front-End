@@ -32,8 +32,6 @@ const FlightSearchForm = () => {
 
   const [seatClassModalOpen, setSeatClassModalOpen] = useState(false);
   const [selectedSeatClass, setSelectedSeatClass] = useState("Business");
-
-  // State to manage the switch status
   const [isSwitchOn, setIsSwitchOn] = useState(false);
 
   const handleModalOpen = (isFrom) => {
@@ -98,10 +96,9 @@ const FlightSearchForm = () => {
 
   const handleSwitchChange = (checked) => {
     setIsSwitchOn(checked);
-    setIsRoundTrip(checked); 
+    setIsRoundTrip(checked);
   };
 
-  // New function to handle city swap
   const handleCitySwap = () => {
     setSelectedFromCity(selectedToCity);
     setSelectedToCity(selectedFromCity);
@@ -134,7 +131,7 @@ const FlightSearchForm = () => {
 
             <div
               className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
-              onClick={handleCitySwap} // Call swap function on click
+              onClick={handleCitySwap}
             >
               <img src={logoreturn} alt="Return Icon" />
             </div>
@@ -287,7 +284,7 @@ const FlightSearchForm = () => {
         title={
           isSelectingDeparture
             ? "Pilih Tanggal Keberangkatan"
-            : "Pilih Tanggal Kepulangan"
+            : "Pilih Tanggal Pulang"
         }
       />
 
@@ -295,7 +292,6 @@ const FlightSearchForm = () => {
         isOpen={seatClassModalOpen}
         onClose={handleSeatClassModalClose}
         onSelect={handleSelectSeatClass}
-        selectedClass={selectedSeatClass}
       />
     </div>
   );
