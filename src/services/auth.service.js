@@ -6,18 +6,21 @@ const Login = async (body) => {
             "email": body.email,
             "password": body.password
         })
-        if (response.status == "success") {
+        console.log(response)
+        if (response.data.status == "Success") {
             return {
                 success: true,
                 data: response.data.data,
                 message: response.data.message
             }
         }
-        return {
-            success: false,
-            data: response.data,
-            message: response.message || "Failed to login",
-        };
+        else {
+            return {
+                success: false,
+                data: response.data,
+                message: response.message || "Failed to login",
+            };
+        }
     }
     catch (err) {
         return {

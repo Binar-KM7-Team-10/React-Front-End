@@ -2,16 +2,26 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 import InputForm from "../../elements/Input/InputForm";
 import ButtonLogin from "../../elements/Button/ButtonLogin";
 import useLogin from "../../../hooks/useLogin";
 import AlertAuth from "../../elements/Alert/AlertAuth";
 
 const FormLogin = () => {
-  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
-  const { login, success, error } = useLogin();
-  console.log(success, error)
+
+  const [feedback, setFeedback] = useState({
+    status: false,
+    type: "",
+    message: "",
+  });
+
+  const { login, loading } = useLogin();
+
   const {
     register,
     handleSubmit,
@@ -25,15 +35,21 @@ const FormLogin = () => {
 
   const handleLogin = async (data) => {
     const { email, password } = data;
-    const result = await login(email, password)
-    setLoading(true);
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log("Login berhasil:", email);
-    } catch (error) {
-      console.error("Login error:", error);
-    } finally {
-      setLoading(false);
+    const result = await login(email, password);
+
+    if (result.status === "success") {
+      setFeedback({
+        status: true,
+        type: "success",
+        message: result.message,
+      });
+      navigate('/');
+    } else {
+      setFeedback({
+        status: true,
+        type: "danger",
+        message: result.message,
+      });
     }
   };
 
@@ -103,8 +119,7 @@ const FormLogin = () => {
               Lupa Kata Sandi?
             </a>
           </div>
-          {loading && <ButtonLogin msg={"Loading"} />}
-          {!loading && <ButtonLogin msg={"Masuk"} />}
+          <ButtonLogin msg={loading ? "Loading" : "Masuk"} disabled={loading} />
         </form>
         <p className="mt-6 text-center text-sm text-slate-600">
           Belum Punya Akun?{" "}
@@ -117,8 +132,9 @@ const FormLogin = () => {
         </p>
       </div>
       <div className="flex w-full justify-center mt-24">
-        {success.status && <AlertAuth msg={success.message} type={"success"} />}
-        {error.status && <AlertAuth msg={error.message} type={"danger"} />}
+        {feedback.status && (
+          <AlertAuth msg={feedback.message} type={feedback.type} />
+        )}
       </div>
     </div>
   );

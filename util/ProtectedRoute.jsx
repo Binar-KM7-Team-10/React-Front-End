@@ -1,12 +1,57 @@
-import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import React, { useEffect, useState, cloneElement } from 'react';
+import { Navigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import Cookies from 'js-cookie';
 
-const ProtectedRoute = ({children}) => {
-    const token = Cookies.get("token");
+const ProtectedRoute = ({ type, children }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAuth, setIsAuth] = useState(false);
 
-    
-}
+  useEffect(() => {
+    const token = Cookies.get('token');
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        if (decodedToken.exp * 1000 > Date.now()) {
+          setIsAuth(true);
+        } else {
+          Cookies.remove('token');
+          setIsAuth(false);
+        }
+      } catch (error) {
+        Cookies.remove('token');
+        setIsAuth(false);
+      }
+    } else {
+      setIsAuth(false);
+    }
+    setIsLoading(false);
+  }, []);
 
-export default ProtectedRoute
+  if (isLoading) {
+    // Tampilkan spinner/loading sementara
+    return <div>Loading...</div>;
+  }
+
+  if (type === 'auth' && !isAuth) {
+    // Redirect ke halaman login jika tidak autentikasi
+    return <Navigate to="/login" replace />;
+  }
+
+  if (type === 'public' && isAuth) {
+    // Redirect ke halaman utama jika sudah autentikasi
+    return <Navigate to="/" replace />;
+  }
+
+  // Kirimkan isAuth ke children
+  const childrenWithProps = React.Children.map(children, (child) => {
+    if (React.isValidElement(child)) {
+      return cloneElement(child, { isAuth });
+    }
+    return child;
+  });
+
+  return <>{childrenWithProps}</>;
+};
+
+export default ProtectedRoute;
