@@ -96,10 +96,15 @@ const FlightSearchForm = () => {
     setSelectedSeatClass(seatClass);
   };
 
-  // Handle Switch toggle
   const handleSwitchChange = (checked) => {
     setIsSwitchOn(checked);
-    setIsRoundTrip(checked); // Only enable return trip if switch is on
+    setIsRoundTrip(checked); 
+  };
+
+  // New function to handle city swap
+  const handleCitySwap = () => {
+    setSelectedFromCity(selectedToCity);
+    setSelectedToCity(selectedFromCity);
   };
 
   return (
@@ -127,7 +132,10 @@ const FlightSearchForm = () => {
               </div>
             </div>
 
-            <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div
+              className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
+              onClick={handleCitySwap} // Call swap function on click
+            >
               <img src={logoreturn} alt="Return Icon" />
             </div>
 
@@ -211,7 +219,6 @@ const FlightSearchForm = () => {
               </div>
 
               <div className="flex items-center gap-4">
-
                 <Switch
                   checked={isSwitchOn}
                   onChange={handleSwitchChange}
@@ -219,7 +226,6 @@ const FlightSearchForm = () => {
                 />
               </div>
             </div>
-
 
             <div className="flex flex-wrap items-center gap-2 md:gap-4">
               <div className="flex items-center gap-2">
