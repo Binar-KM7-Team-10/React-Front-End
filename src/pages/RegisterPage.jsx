@@ -4,7 +4,7 @@ import DynamicBanner from "../components/fragments/Banner/DynamicBanner";
 import FormRegister from "../components/fragments/AuthForm/FormRegister";
 import FlightLoginBanner from "../assets/Images/Flight-Banner.png";
 
-const LoginPage = () => {
+const RegisterPage = () => {
   return (
     <div className="flex min-h-screen flex-row lg:flex-row">
       <DynamicBanner
@@ -23,7 +23,7 @@ const LoginPage = () => {
           <p className="mt-6 text-center text-sm text-slate-600">
             Sudah punya akun?{" "}
             <Link
-              to="/register"
+              to="/login"
               className="font-semibold text-[#7126B5]"
             >
               Masuk di sini
@@ -35,4 +35,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

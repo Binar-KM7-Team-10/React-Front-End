@@ -31,9 +31,37 @@ const Login = async (body) => {
     }
 }
 
-const Register = async () => {
-
-}
+const Register = async (body) => {
+    try {
+      const response = await axiosInstance.post("/register", {
+       "email" : body.email,
+        "password" : body.password,
+        "name": body.name,
+        "phone": body.phone,
+      });
+  
+      if (response.status == "success") {
+        return {
+          success: true,
+          data: response.data?.data || null,
+          message: response.data?.message || "Registration successful",
+        };
+      }
+  
+      return {
+        success: false,
+        data: response.data || null,
+        message: response.data?.message || "Failed to register",
+      };
+    } catch (err) {
+      return {
+        success: false,
+        data: err.response.data || null,
+        message: err.response.data.message || err.message || "An error occurred",
+      };
+    }
+  };
+  
 
 const RegisterOtp = async () => {
 
