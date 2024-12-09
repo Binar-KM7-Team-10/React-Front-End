@@ -1,7 +1,6 @@
 import React from "react";
 import Navbar from "../components/fragments/Navbar/Navbar";
 import PaymentHeader from "../components/fragments/PaymentSection/PaymentHeader";
-import PaymentComplete from "../components/fragments/PaymentSection/PaymentComplete";
 
 const PaymentSuccess = () => {
   const active = {
