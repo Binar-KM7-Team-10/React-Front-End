@@ -68,7 +68,7 @@ const EditProfile = () => {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="mt-8 md:mt-0 w-full md:w-[518px] h-[462px] border-2 p-4 rounded-[4px]">
+    <div className="mt-8 md:mt-0 w-full md:w-[518px] h-auto border-2 p-4 rounded-[4px]">
       <h1 className="text-xl font-semibold py-4">Ubah Data Profil</h1>
       <div className="mb-6">
         <div className="bg-purple-400 text-white p-3 rounded-t-lg flex items-center gap-2">
@@ -77,9 +77,7 @@ const EditProfile = () => {
         </div>
         <div className="space-y-4 p-4 border-gray-200 rounded-b-lg">
           <div>
-            <label className="block text-sm font-medium mb-1">
-              Nama Lengkap
-            </label>
+            <label className="block text-sm font-medium mb-1">Nama Lengkap</label>
             <input
               type="text"
               name="name"
@@ -87,13 +85,11 @@ const EditProfile = () => {
               onChange={(e) =>
                 setProfileData({ ...profileData, name: e.target.value })
               }
-              className="w-full p-2 border border-gray-300 rounded-lg"
+              className="w-full p-3 border border-gray-300 rounded-lg" // Menambahkan padding untuk memperbesar tinggi input
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">
-              Nomor Telepon
-            </label>
+            <label className="block text-sm font-medium mb-1">Nomor Telepon</label>
             <input
               type="tel"
               name="phone"
@@ -101,7 +97,7 @@ const EditProfile = () => {
               onChange={(e) =>
                 setProfileData({ ...profileData, phone: e.target.value })
               }
-              className="w-full p-2 border border-gray-300 rounded-lg"
+              className="w-full p-3 border border-gray-300 rounded-lg" // Menambahkan padding untuk memperbesar tinggi input
             />
           </div>
           <div>
@@ -111,29 +107,29 @@ const EditProfile = () => {
               name="email"
               value={profileData.email}
               disabled
-              className="w-full p-2 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
+              className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 cursor-not-allowed"
             />
           </div>
         </div>
-        <div className="flex gap-3 justify-end">
-          <div className="flex justify-end mt-4">
-            <button
-              onClick={handleDelete}
-              className={`bg-red-700 text-white px-6 py-2 rounded-lg hover:bg-red-800 transition-colors w-full sm:w-auto ${deleting ? "opacity-50 cursor-not-allowed" : ""}`}
-              disabled={deleting}
-            >
-              {deleting ? "Deleting..." : "Hapus Akun"}
-            </button>
-          </div>
-          <div className="flex justify-end mt-4">
-            <button
-              onClick={handleSubmit}
-              className={`bg-purple-700 text-white px-6 py-2 rounded-lg hover:bg-purple-800 transition-colors w-full sm:w-auto ${updating ? "opacity-50 cursor-not-allowed" : ""}`}
-              disabled={updating}
-            >
-              {updating ? "Updating..." : "Simpan"}
-            </button>
-          </div>
+        <div className="flex flex-col sm:flex-row gap-3 justify-between mx-4">
+          <button
+            onClick={handleDelete}
+            className={`bg-red-700 text-white px-6 py-3 rounded-lg hover:bg-red-800 transition-colors w-full sm:w-[48%] ${
+              deleting ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={deleting}
+          >
+            {deleting ? "Deleting..." : "Hapus Akun"}
+          </button>
+          <button
+            onClick={handleSubmit}
+            className={`bg-purple-700 text-white px-6 py-3 rounded-lg hover:bg-purple-800 transition-colors w-full sm:w-[48%] ${
+              updating ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={updating}
+          >
+            {updating ? "Updating..." : "Simpan"}
+          </button>
         </div>
       </div>
 
