@@ -22,14 +22,14 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={
-          <ProtectedRoute type="">
+          <ProtectedRoute type="public">
             <HomePage />
           </ProtectedRoute>
         } />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/otp-confirm" element={<OtpPage />} />
         <Route path="/login" element={
-          <ProtectedRoute type="public">
+          <ProtectedRoute type="guest">
             <Login />
           </ProtectedRoute>
         } />
