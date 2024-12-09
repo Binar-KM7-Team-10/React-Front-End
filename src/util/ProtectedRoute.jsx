@@ -12,7 +12,9 @@ const ProtectedRoute = ({ type, children }) => {
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
+        console.log(decodedToken)
         if (decodedToken.exp * 1000 > Date.now()) {
+          console.log("ok")
           setIsAuth(true);
         } else {
           Cookies.remove('token');

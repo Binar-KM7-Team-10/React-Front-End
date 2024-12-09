@@ -4,7 +4,6 @@ import { Login } from "../services/auth.service"
 
 const useLogin = () => {
     const [loading, setLoading] = useState(false);
-
     const login = async (email, password) => {
         setLoading(true);
         try {

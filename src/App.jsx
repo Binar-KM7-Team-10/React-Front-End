@@ -13,9 +13,9 @@ import HistoryOrder from "./pages/HistoryOrder";
 import NotificationPage from "./pages/NotificationPage";
 import ProfilePage from "./pages/ProfilePage";
 import ResetPassword from './pages/ResetPassword'
-import "./App.css";
 import OtpPage from "./pages/OtpPage";
-import ProtectedRoute from "../util/ProtectedRoute";
+import ProtectedRoute from "./util/ProtectedRoute";
+import "./App.css";
 
 function App() {
   return (
@@ -44,7 +44,11 @@ function App() {
         <Route path="/payment-success" element={<PaymentSuccess />} />
         <Route path="/history-order" element={<HistoryOrder />} />
         <Route path="/notifikasi" element={<NotificationPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile" element={
+          <ProtectedRoute type="auth">
+            <ProfilePage />
+          </ProtectedRoute>
+        } />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
