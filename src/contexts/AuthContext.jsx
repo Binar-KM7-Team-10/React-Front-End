@@ -5,40 +5,49 @@ import Cookies from "js-cookie";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [isAuth, setIsAuth] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
+  const [isAuth, setIsAuth] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(null);
 
-    useEffect(() => {
-        const checkAuth = () => {
-            const token = Cookies.get("token");
-            if (token) {
-                try {
-                    const decodedToken = jwtDecode(token);
-                    if (decodedToken.exp * 1000 > Date.now()) {
-                        setIsAuth(true);
-                    } else {
-                        Cookies.remove("token");
-                        setIsAuth(false);
-                    }
-                } catch (error) {
-                    console.error("Invalid token:", error);
-                    Cookies.remove("token");
-                    setIsAuth(false);
-                }
-            } else {
-                setIsAuth(false);
-            }
-            setIsLoading(false);
-        };
+  useEffect(() => {
+    const checkAuth = () => {
+      const token = Cookies.get("token");
+      const userCookie = Cookies.get("user");
 
-        checkAuth();
-    }, []);
+      if (token && userCookie) {
+        try {
+          const decodedToken = jwtDecode(token);
+          if (decodedToken.exp * 1000 > Date.now()) {
+            setIsAuth(true);
+            setUser(JSON.parse(userCookie));
+          } else {
+            Cookies.remove("token");
+            Cookies.remove("user");
+            setIsAuth(false);
+            setUser(null);
+          }
+        } catch (error) {
+          console.error("Invalid token:", error);
+          Cookies.remove("token");
+          Cookies.remove("user");
+          setIsAuth(false);
+          setUser(null);
+        }
+      } else {
+        setIsAuth(false);
+        setUser(null);
+      }
+      setIsLoading(false);
+    };
 
-    return (
-        <AuthContext.Provider value={{ isAuth, isLoading, setIsAuth }}>
-            {children}
-        </AuthContext.Provider>
-    );
+    checkAuth();
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ isAuth, isLoading, user, setIsAuth, setUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => useContext(AuthContext);
