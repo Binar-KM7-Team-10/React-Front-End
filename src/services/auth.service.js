@@ -36,8 +36,8 @@ const Register = async (body) => {
     const response = await axiosInstance.post("/register", {
       "email": body.email,
       "password": body.password,
-      "name": body.name,
-      "phone": body.phone,
+      "fullname": body.name,
+      "phoneNumber": body.phone,
     });
 
     if (response.status == "success") {
@@ -53,11 +53,12 @@ const Register = async (body) => {
       data: response.data || null,
       message: response.data?.message || "Failed to register",
     };
-  } catch (err) {
+  }
+  catch (err) {
     return {
       success: false,
       data: err.response.data || null,
-      message: err.response.data.message || err.message || "An error occurred",
+      message: err.response?.data?.message || err.message || "An error occurred",
     };
   }
 };
