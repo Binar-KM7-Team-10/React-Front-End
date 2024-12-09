@@ -11,7 +11,7 @@ const Switch = ({ checked, onChange }) => {
   };
 
   return (
-    <div className={`switch ${isOn ? "on" : "off"}`} onClick={toggleSwitch}>
+    <div className={`switch ${checked ? "on" : "off"}`} onClick={toggleSwitch}>
       <div className="toggle"></div>
     </div>
   );

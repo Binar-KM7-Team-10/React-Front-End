@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   PlaneTakeoff,
   PlaneLanding,
@@ -11,9 +12,13 @@ import PassengerSelector from "../../elements/Modals/PassengerModal";
 import DatePickModal from "../../elements/Modals/DateModal";
 import Switch from "../../elements/Switch/Switch";
 import SeatClassModal from "../../elements/Modals/SeatModal";
+import { SearchContext } from "../../../contexts/searchFlightContext";
 
 const FlightSearchForm = () => {
-  const [isRoundTrip, setIsRoundTrip] = useState(true);
+
+  const { setSearchParams } = useContext(SearchContext)
+
+  const [isRoundTrip, setIsRoundTrip] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFromCity, setSelectedFromCity] = useState("Jakarta (JKTA)");
   const [selectedToCity, setSelectedToCity] = useState("Melbourne (MLB)");
@@ -33,6 +38,10 @@ const FlightSearchForm = () => {
   const [seatClassModalOpen, setSeatClassModalOpen] = useState(false);
   const [selectedSeatClass, setSelectedSeatClass] = useState("Business");
   const [isSwitchOn, setIsSwitchOn] = useState(false);
+
+  // const handleSwitchChange = (value) => {
+  //   setIsRoundTrip(value);
+  // };
 
   const handleModalOpen = (isFrom) => {
     setIsSelectingFrom(isFrom);
@@ -103,55 +112,66 @@ const FlightSearchForm = () => {
     setSelectedFromCity(selectedToCity);
     setSelectedToCity(selectedFromCity);
   };
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setSearchParams({
+      dpCity: selectedFromCity,
+      arCity: selectedToCity,
+      dpDate: departureDate,
+      retDate: returnDate,
+      psg: `${passengerCounts.adult},${passengerCounts.child},${passengerCounts.infant}`,
+      seatClass: selectedSeatClass,
+    });
+    navigate("/search");
+  };
+  
 
   return (
     <div className="flex justify-center items-center px-4 sm:px-6 lg:px-8">
-      <div className="bg-white rounded-[12px] shadow-xl mx-4 -mt-14 relative z-10 w-full max-w-[980px] max-H-[232px] space-y-6">
-        <div className="p-8 space-y-4">
-          <h1 className="text-center sm:text-left text-xl sm:text-xl lg:text-xl font-bold">
-            Pilih Jadwal Penerbangan spesial di{" "}
-            <span className="text-purple-600">Tiketku!</span>
-          </h1>
+      <form className="bg-white rounded-[12px] shadow-xl  mx-4 -mt-14 relative z-10 w-full max-w-[968px] max-H-[232px] space-y-6" onSubmit={handleSearch}>
+        <div className="p-6 space-y-8">
+        <h1 className="text-center sm:text-left text-xl sm:text-xl lg:text-xl font-bold">
+          Pilih Jadwal Penerbangan spesial di{" "}
+          <span className="text-purple-600">Tiketku!</span>
+        </h1>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-24 relative">
-            <div
-              className="flex flex-wrap items-center md:items-start gap-2 md:gap-4 cursor-pointer"
-              onClick={() => handleModalOpen(true)}
-            >
-              <div className="flex items-center gap-2">
-                <PlaneTakeoff className="text-gray-400" size={20} />
-                <span className="text-sm text-gray-500">From</span>
-              </div>
-              <div className="border-b-[1.5px] border-gray-300 pb-2 w-full md:max-w-[300px]">
-                <p className="font-medium text-base sm:text-lg">
-                  {selectedFromCity}
-                </p>
-              </div>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-24 relative">
+          <div
+            className="flex flex-wrap items-center md:items-start gap-2 md:gap-4 cursor-pointer"
+            onClick={() => handleModalOpen(true)}
+          >
+            <div className="flex items-center gap-2">
+              <PlaneTakeoff className="text-gray-400" size={20} />
+              <span className="text-sm text-gray-500">From</span>
             </div>
-
-            <div
-              className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
-              onClick={handleCitySwap}
-            >
-              <img src={logoreturn} alt="Return Icon" />
-            </div>
-
-            <div
-              className="flex flex-wrap items-center md:items-start gap-2 md:gap-4 cursor-pointer"
-              onClick={() => handleModalOpen(false)}
-            >
-              <div className="flex items-center gap-2">
-                <PlaneLanding className="text-gray-400" size={20} />
-                <span className="text-sm text-gray-500">To</span>
-              </div>
-              <div className="border-b-[1.5px] border-gray-300 pb-2 w-full md:max-w-[300px]">
-                <p className="font-medium text-base sm:text-lg">
-                  {selectedToCity}
-                </p>
-              </div>
+            <div className="border-b-[1.5px] border-gray-300 pb-2 w-full md:max-w-[300px]">
+              <p className="font-medium text-base sm:text-lg">
+                {selectedFromCity}
+              </p>
             </div>
           </div>
 
+          <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+            <img src={logoreturn} alt="Return Icon" />
+          </div>
+
+          <div
+            className="flex flex-wrap items-center md:items-start gap-2 md:gap-4 cursor-pointer"
+            onClick={() => handleModalOpen(false)}
+          >
+            <div className="flex items-center gap-2">
+              <PlaneLanding className="text-gray-400" size={20} />
+              <span className="text-sm text-gray-500">To</span>
+            </div>
+            <div className="border-b-[1.5px] border-gray-300 pb-2 w-full md:max-w-[300px]">
+              <p className="font-medium text-base sm:text-lg">
+                {selectedToCity}
+              </p>
+            </div>
+          </div>
+        </div>
           <div className="grid grid-cols-1 gap-1 md:grid-cols-2 md:gap-24">
             <div className="flex items-center gap-6 ">
               <div className="flex items-center gap-2">
@@ -192,24 +212,23 @@ const FlightSearchForm = () => {
                   onClick={isSwitchOn ? () => handleDateModalOpen(false) : null}
                 >
                   <span className="text-[#8A8A8A] text-md">Return</span>
-                  <p className="border-b-[1.5px] w-[140px] border-gray-300 pb-2 font-medium text-sm">
+                  <p className="border-b-[1.5px] w-[140px] border-[#D0D0D0] pb-3 font-medium text-sm text-[#7126B5]">
                     {returnDate
-                      ? `${returnDate.getDate()} ${
-                          [
-                            "Januari",
-                            "Februari",
-                            "Maret",
-                            "April",
-                            "Mei",
-                            "Juni",
-                            "Juli",
-                            "Agustus",
-                            "September",
-                            "Oktober",
-                            "November",
-                            "Desember",
-                          ][returnDate.getMonth()]
-                        } ${returnDate.getFullYear()}`
+                      ? `${returnDate.getDate()} ${[
+                        "Januari",
+                        "Februari",
+                        "Maret",
+                        "April",
+                        "Mei",
+                        "Juni",
+                        "Juli",
+                        "Agustus",
+                        "September",
+                        "Oktober",
+                        "November",
+                        "Desember",
+                      ][returnDate.getMonth()]
+                      } ${returnDate.getFullYear()}`
                       : "Pilih Tanggal"}
                   </p>
                 </div>
@@ -256,12 +275,11 @@ const FlightSearchForm = () => {
             </div>
           </div>
         </div>
-        <div>
-          <button className="w-full bg-purple-600 text-white py-3 rounded-b-xl font-bold text-sm sm:text-base hover:bg-[#4B1979] transition">
-            Cari Penerbangan
-          </button>
-        </div>
-      </div>
+
+        <button className="w-full bg-purple-600 text-white py-3 rounded-b-xl font-bold text-sm sm:text-base hover:bg-[#4B1979] transition">
+          Cari Penerbangan
+        </button>
+      </form>
 
       <CitySelectionModal
         isOpen={isModalOpen}
