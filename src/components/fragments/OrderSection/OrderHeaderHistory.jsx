@@ -1,5 +1,5 @@
 import React from "react";
-import Breadcrumbs from "../../elements/Breadcrumbs/Breadcrumbs";
+import Breadcrumbs from "../../elements/Breadcrumbs/BreadCrumbs";
 import ButtonHeader from "../../elements/Button/ButtonHeader";
 
 const OrderHeaderHistory = () => {

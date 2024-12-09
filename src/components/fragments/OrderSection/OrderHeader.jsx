@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import AlertCheckout from "../../elements/alert/AlertCheckout.jsx";
+import AlertCheckout from "../../elements/Alert/AlertCheckout.jsx";
 import OrderBreadcrumb from "../../elements/Breadcrumbs/OrderBreadcrumb";
 
 const OrderHeader = () => {
