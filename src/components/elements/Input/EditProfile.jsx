@@ -2,11 +2,23 @@ import React, { useState, useEffect } from "react";
 import { User } from "lucide-react";
 import { toast } from "react-hot-toast";
 import useUser from "../../../hooks/useUser";
-import useUpdateUser from "../../../hooks/useUpdateUser"; 
+import useUpdateUser from "../../../hooks/useUpdateUser";
+import useDeleteUser from "../../../hooks/useDeleteUser";
 
 const EditProfile = () => {
-  const { userData, loading, error, refreshUser } = useUser();  
-  const { updateUser, loading: updating, error: updateError, success } = useUpdateUser(); 
+  const { userData, loading, error, refreshUser } = useUser();
+  const {
+    updateUser,
+    loading: updating,
+    error: updateError,
+    success,
+  } = useUpdateUser();
+  const {
+    deleteUser,
+    loading: deleting,
+    error: deleteError,
+    success: deleteSuccess,
+  } = useDeleteUser();
 
   const [profileData, setProfileData] = useState({
     name: "",
@@ -17,9 +29,9 @@ const EditProfile = () => {
   useEffect(() => {
     if (userData) {
       setProfileData({
-        name: userData.fullName, 
-        phone: userData.phoneNumber, 
-        email: userData.email, 
+        name: userData.fullName,
+        phone: userData.phoneNumber,
+        email: userData.email,
       });
     }
   }, [userData]);
@@ -28,16 +40,27 @@ const EditProfile = () => {
     e.preventDefault();
 
     const updatedData = {
-      fullName: profileData.name,  
-      phoneNumber: profileData.phone, 
+      fullName: profileData.name,
+      phoneNumber: profileData.phone,
     };
 
-    const success = await updateUser(updatedData); 
+    const success = await updateUser(updatedData);
     if (success) {
-      refreshUser(); 
+      refreshUser();
       toast.success("Profile updated successfully!");
     } else {
       toast.error(updateError || "Failed to update profile");
+    }
+  };
+
+  const handleDelete = async () => {
+    if (userData && userData.id) {
+      const success = await deleteUser(userData.id);
+      if (success) {
+        toast.success("User deleted successfully!");
+      } else {
+        toast.error(deleteError || "Failed to delete user");
+      }
     }
   };
 
@@ -54,22 +77,30 @@ const EditProfile = () => {
         </div>
         <div className="space-y-4 p-4 border-gray-200 rounded-b-lg">
           <div>
-            <label className="block text-sm font-medium mb-1">Nama Lengkap</label>
+            <label className="block text-sm font-medium mb-1">
+              Nama Lengkap
+            </label>
             <input
               type="text"
               name="name"
               value={profileData.name}
-              onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
+              onChange={(e) =>
+                setProfileData({ ...profileData, name: e.target.value })
+              }
               className="w-full p-2 border border-gray-300 rounded-lg"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Nomor Telepon</label>
+            <label className="block text-sm font-medium mb-1">
+              Nomor Telepon
+            </label>
             <input
               type="tel"
               name="phone"
               value={profileData.phone}
-              onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
+              onChange={(e) =>
+                setProfileData({ ...profileData, phone: e.target.value })
+              }
               className="w-full p-2 border border-gray-300 rounded-lg"
             />
           </div>
@@ -84,24 +115,38 @@ const EditProfile = () => {
             />
           </div>
         </div>
-      </div>
-
-      <div className="flex justify-end mt-4">
-        <button
-          onClick={handleSubmit}
-          className={`bg-purple-700 text-white px-6 py-2 rounded-lg hover:bg-purple-800 transition-colors w-full sm:w-auto ${updating ? "opacity-50 cursor-not-allowed" : ""}`}
-          disabled={updating}
-        >
-          {updating ? "Updating..." : "Simpan"}
-        </button>
+        <div className="flex gap-3 justify-end">
+          <div className="flex justify-end mt-4">
+            <button
+              onClick={handleDelete}
+              className={`bg-red-700 text-white px-6 py-2 rounded-lg hover:bg-red-800 transition-colors w-full sm:w-auto ${deleting ? "opacity-50 cursor-not-allowed" : ""}`}
+              disabled={deleting}
+            >
+              {deleting ? "Deleting..." : "Hapus Akun"}
+            </button>
+          </div>
+          <div className="flex justify-end mt-4">
+            <button
+              onClick={handleSubmit}
+              className={`bg-purple-700 text-white px-6 py-2 rounded-lg hover:bg-purple-800 transition-colors w-full sm:w-auto ${updating ? "opacity-50 cursor-not-allowed" : ""}`}
+              disabled={updating}
+            >
+              {updating ? "Updating..." : "Simpan"}
+            </button>
+          </div>
+        </div>
       </div>
 
       {updateError && <div className="text-red-500 mt-4">{updateError}</div>}
-      {success && <div className="text-green-500 mt-4">Profile successfully updated!</div>}
+      {success && (
+        <div className="text-green-500 mt-4">Profile successfully updated!</div>
+      )}
+      {deleteError && <div className="text-red-500 mt-4">{deleteError}</div>}
+      {deleteSuccess && (
+        <div className="text-green-500 mt-4">User successfully deleted!</div>
+      )}
     </div>
   );
 };
 
 export default EditProfile;
-
-

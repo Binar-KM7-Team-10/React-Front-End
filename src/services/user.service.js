@@ -64,9 +64,24 @@ const UpdateUser = async (id, userData) => {
     }
   };
 
-const DeleteUser = async () => {
-
-}
+  const DeleteUser = async (id) => {
+    if (!id) {
+      throw new Error("User ID is required");
+    }
+  
+    try {
+      const response = await axiosInstance.delete(`/users/${id}`);
+      return {
+        success: true,
+        message: response.data.message || "User successfully deleted",
+      };
+    } catch (err) {
+      return {
+        success: false,
+        message: err.response?.data?.message || "Failed to delete user",
+      };
+    }
+  };
 
 export {
     GetUsers,
