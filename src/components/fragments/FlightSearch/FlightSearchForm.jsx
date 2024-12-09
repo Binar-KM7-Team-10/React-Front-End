@@ -153,7 +153,7 @@ const FlightSearchForm = () => {
             </div>
           </div>
 
-          <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2  cursor-pointer"  onClick={handleCitySwap}>
             <img src={logoreturn} alt="Return Icon" />
           </div>
 
