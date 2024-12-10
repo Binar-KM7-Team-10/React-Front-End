@@ -4,6 +4,7 @@ import ImageFlight from "../../../assets/Images/ImageFlight.png";
 import IconBaggage from "../../../assets/Images/icon-park-outline_baggage-delay.png";
 import IconArrow from "../../../assets/Images/Arrow.png";
 import FlightDetails from "./FlightDetails";
+import { Link } from "react-router-dom";
 
 const FlightItem = ({ flight, isSelected, toggleDetails }) => (
   <li className="flex flex-col p-4 rounded-lg border mb-4 bg-white shadow-md">
@@ -68,9 +69,11 @@ const FlightItem = ({ flight, isSelected, toggleDetails }) => (
         <div className="font-bold text-purple-800 text-lg">
           IDR {flight.price.toLocaleString("id-ID")}
         </div>
+        <Link to={"/checkout"}>
         <button className="mt-3 bg-purple-800 text-white px-4 py-2 rounded-2xl w-[100px]">
           Pilih
         </button>
+        </Link>
       </div>
     </div>
 

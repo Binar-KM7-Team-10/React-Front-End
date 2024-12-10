@@ -27,14 +27,14 @@ const IconGrubNavbar = () => {
 
   return (
     <div className="flex gap-5">
-      <Link to="/">
+      <Link to="/history-order">
         <FiList
           size={20}
           color={isListActive ? "#A06ECE" : "inherit"}
         />
       </Link>
       
-      <Link to="/notifications"> 
+      <Link to="/notifikasi"> 
         <FiBell
           size={20}
           color={isBellActive ? "#A06ECE" : "inherit"} 

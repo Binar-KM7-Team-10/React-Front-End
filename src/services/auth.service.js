@@ -1,4 +1,4 @@
-import { axiosInstance, axiosInstanceAuth } from "../api/axiosInstance";
+import { axiosInstance } from "../api/axiosInstance";
 
 const Login = async (body) => {
   try {
@@ -70,7 +70,7 @@ const RegisterOtp = async () => {
 
 const Logout = async () => {
   try {
-    const response = await axiosInstanceAuth.get("/logout")
+    const response = await axiosInstance.get("/logout")
     if (response.data.status == "Success") {
       return {
         success: true,
