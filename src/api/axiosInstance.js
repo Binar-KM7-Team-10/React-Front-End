@@ -9,15 +9,15 @@ const axiosInstance = axios.create({
   timeout: 10000,
 });
 
-const axiosInstanceAuth = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_URI,
-  headers: {
-    "Content-Type": "application/json",
-  },
-  timeout: 10000,
-});
+// const axiosInstanceAuth = axios.create({
+//   baseURL: import.meta.env.VITE_BACKEND_URI,
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+//   timeout: 10000,
+// });
 
-axiosInstanceAuth.interceptors.request.use(
+axiosInstance.interceptors.request.use(
   (config) => {
     const token = Cookies.get("token");
     if (token) {
@@ -30,4 +30,4 @@ axiosInstanceAuth.interceptors.request.use(
   }
 );
 
-export {axiosInstance, axiosInstanceAuth};
+export {axiosInstance};

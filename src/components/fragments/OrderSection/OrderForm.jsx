@@ -4,6 +4,7 @@ import visa from "../../../assets/Images/visaLogo.png";
 import mastercard from "../../../assets/Images/mastercardLogo.png";
 import amex from "../../../assets/Images/amexLogo.png";
 import paypal from "../../../assets/Images/paypalLogo.png";
+import { Link } from 'react-router-dom';
 
 const PAYMENT_METHODS = {
   GOPAY: 'gopay',
@@ -109,9 +110,8 @@ const PaymentForm = () => {
 
   const PaymentMethodButton = ({ method, label }) => (
     <button
-      className={`w-full ${
-        selectedPaymentMethod === method ? 'bg-purple-600' : 'bg-gray-700'
-      } text-white p-3 rounded-t flex justify-between items-center transition-colors`}
+      className={`w-full ${selectedPaymentMethod === method ? 'bg-purple-600' : 'bg-gray-700'
+        } text-white p-3 rounded-t flex justify-between items-center transition-colors`}
       onClick={() => handlePaymentMethodClick(method)}
     >
       <span className="text-sm md:text-base">{label}</span>
@@ -184,22 +184,22 @@ const PaymentForm = () => {
                   <div className="p-4">
                     <div className="space-y-4">
                       <div className="flex justify-center items-center gap-4 mb-4">
-                        <img 
+                        <img
                           src={visa}
                           alt="Visa"
                           className="h-8 w-auto object-contain"
                         />
-                        <img 
+                        <img
                           src={mastercard}
                           alt="Mastercard"
                           className="h-8 w-auto object-contain"
                         />
-                        <img 
+                        <img
                           src={amex}
                           alt="American Express"
                           className="h-8 w-auto object-contain"
                         />
-                        <img 
+                        <img
                           src={paypal}
                           alt="PayPal"
                           className="h-8 w-auto object-contain"
@@ -273,13 +273,14 @@ const PaymentForm = () => {
                 )}
               </div>
             </div>
-
-            <button
-              onClick={handleSubmit}
-              className="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition-colors font-medium"
-            >
-              Bayar
-            </button>
+            <Link to={"/payment-success"}>
+              <button
+                // onClick={handleSubmit}
+                className="w-full bg-purple-600 text-white mt-3 py-3 rounded-lg hover:bg-purple-700 transition-colors font-medium"
+              >
+                Bayar
+              </button>
+            </Link>
           </div>
 
           <div className="md:w-5/12 w-full">
