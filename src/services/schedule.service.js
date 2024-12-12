@@ -17,8 +17,10 @@ const GetSchedules = async (params) => {
                 facility: params.facility,
             }
         })
-        if (response.data.status == "OK") {
+        if (response.data.status == "Success") {
+            console.log(response)
             return {
+                
                 success: true,
                 data: response.data.data,
             };

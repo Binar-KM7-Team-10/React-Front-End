@@ -5,9 +5,12 @@ import ButtonIconClose from "../Button/ButtonIconClose";
 const CitySelectionModal = ({ isOpen, onClose, onSelect }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [recentCities, setRecentCities] = useState([
-    "Jakarta (JKTA)",
-    "Bandung (BDO)",
-    "Surabaya (SUB)",
+    "Jakarta",
+    "Bandung",
+    "Surabaya",
+    "Bali",
+    "Delhi",
+    "Sydney"
   ]);
 
   if (!isOpen) return null;
