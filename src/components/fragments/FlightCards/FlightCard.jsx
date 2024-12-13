@@ -3,6 +3,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import useFlightDeals from "../../../hooks/useDestination";
 import ContinentFilter from "../../elements/Categories/Categori";
+import cardImg from "../../../assets/Images/image.png"
 
 const FlightDeals = () => {
   const [page, setPage] = useState(1);
@@ -55,14 +56,15 @@ const FlightDeals = () => {
             </div>
           ))
         ) : deals.length > 0 ? (
-          deals.map((deal) => (
+          deals.map((deal, index) => (
             <div
-              key={deal.id}
+              key={index}
               className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out"
             >
               <div className="relative p-4">
                 <img
-                  src={deal.arrivalCityImageUrl || "default-image-url.jpg"}
+                  // src={deal.arrivalCityImageUrl || cardImg}
+                  src={cardImg}
                   alt={`${deal.arrivalCity} view`}
                   className="w-full h-[100px] object-cover rounded-lg"
                 />
