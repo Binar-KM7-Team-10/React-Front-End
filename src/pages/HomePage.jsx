@@ -11,7 +11,6 @@ const HomePage = () => {
     <div>
       <Navbar search={true} type={isAuth ? "auth" : "nonAuth"} />
       <Hero />
-      <Categori />
       <FlightCards />
     </div>
   );
