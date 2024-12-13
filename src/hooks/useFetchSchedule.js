@@ -43,12 +43,12 @@ const useFetchSchedule = () => {
                 })
             }
         }
-        catch (error) {
+        catch (err) {
             setLoading(false)
             setSchedule({})
             setError({
                 error: true,
-                message: "An error occured"
+                message: err || "An error occured"
             })
         }
     }

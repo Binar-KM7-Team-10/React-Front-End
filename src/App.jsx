@@ -12,27 +12,78 @@ import Register from "./pages/RegisterPage";
 import HistoryOrder from "./pages/HistoryOrder";
 import NotificationPage from "./pages/NotificationPage";
 import ProfilePage from "./pages/ProfilePage";
-import ResetPassword from './pages/ResetPassword'
-import "./App.css";
+import ResetPassword from "./pages/ResetPassword";
 import OtpPage from "./pages/OtpPage";
+import ProtectedRoute from "./util/ProtectedRoute";
+import "./App.css";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/otp-confirm" element={<OtpPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/payment" element={<Payment />} />
-        <Route path="/checkout" element={<OrderPage />} />
-        <Route path="/search" element={<SearchPage />} />
-        <Route path="/payment-success" element={<PaymentSuccess />} />
-        <Route path="/history-order" element={<HistoryOrder />} />  
-        <Route path="/notifikasi" element={<NotificationPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="*" element={<NotFoundPage />} />
+        <Route path="/" element={
+          <ProtectedRoute type="public">
+            <HomePage />
+          </ProtectedRoute>
+        } />
+        <Route path="/reset-password" element={
+          <ProtectedRoute type="guest">
+            <ResetPassword />
+          </ProtectedRoute>
+        } />
+        <Route path="/otp-confirm" element={
+          <ProtectedRoute type="guest">
+            <OtpPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/login" element={
+          <ProtectedRoute type="guest">
+            <Login />
+          </ProtectedRoute>
+        } />
+        <Route path="/register" element={
+          <ProtectedRoute type="guest">
+            <Register />
+          </ProtectedRoute>
+        } />
+        <Route path="/payment" element={
+          <ProtectedRoute type="auth">
+            <Payment />
+          </ProtectedRoute>
+        } />
+        <Route path="/checkout" element={
+          <ProtectedRoute type="auth">
+            <OrderPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/search" element={
+          <ProtectedRoute type="auth">
+            <SearchPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/payment-success" element={
+          <ProtectedRoute type="auth">
+            <PaymentSuccess />
+          </ProtectedRoute>
+        } />
+        <Route path="/history-order" element={
+          <ProtectedRoute type="auth">
+            <HistoryOrder />
+          </ProtectedRoute>
+        } />
+        <Route path="/notifikasi" element={
+          <ProtectedRoute type="auth">
+            <NotificationPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/profile/:id" element={
+          <ProtectedRoute type="auth">
+            <ProfilePage />
+          </ProtectedRoute>
+        } />
+        <Route path="*" element={<
+          NotFoundPage />
+        } />
       </Routes>
     </Router>
   );

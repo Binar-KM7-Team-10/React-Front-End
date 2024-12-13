@@ -3,6 +3,7 @@ import DataPemesan from '../OrderCards/DataPemesan';
 import DataPenumpang from '../OrderCards/DataPenumpang';
 import PesananKursi from '../OrderCards/PesananKursi';
 import DetailPenerbangan from '../OrderCards/DetailPenerbangan';
+import { Link } from 'react-router-dom';
 
 const OrderBody = () => {
   const [isSaved, setIsSaved] = useState(false);
@@ -33,9 +34,11 @@ const OrderBody = () => {
           <DetailPenerbangan />
           {isSaved && (
             <div className="mt-6 flex justify-center">
+              <Link to={"/payment"}>
               <button className="w-[350px] bg-[#FF0000] text-white py-4 rounded-[12px] text-xl hover:opacity-90 transition-opacity shadow-md">
                 Lanjut Bayar
               </button>
+              </Link>
             </div>
           )}
         </div>
