@@ -9,7 +9,6 @@ const HomePage = () => {
     <div>
       <Navbar search={true} type={"nonAuth"}/>
       <Hero />
-      <Categori />
       <FlightCards />
     </div>
   );
