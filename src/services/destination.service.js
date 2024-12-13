@@ -1,4 +1,4 @@
-import axiosInstance from "../api/axiosInstance"; 
+import { axiosInstance } from "../api/axiosInstance";
 
 const GetDestination = async (page = 1, continent = "All") => {
   try {
@@ -8,7 +8,7 @@ const GetDestination = async (page = 1, continent = "All") => {
         continent,
       },
     });
-    return response.data; 
+    return response.data;
   } catch (error) {
     throw new Error("Failed to fetch destination data");
   }
