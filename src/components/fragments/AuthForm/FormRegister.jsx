@@ -4,13 +4,15 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import InputForm from "../../elements/Input/InputForm";
 import ButtonRegister from "../../elements/Button/ButtonRegister";
 import useRegister from "../../../hooks/useRegister";
-import AlertAuth from "../../elements/Alert/AlertAuth"; // untuk menampilkan notifikasi
+import AlertAuth from "../../elements/Alert/AlertAuth";
+import { useNavigate } from "react-router-dom";
 
 const FormRegister = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const { register, success, error, loading } = useRegister();
-  console.log(success, error);
-  
+  const { register, loading, setOtp } = useRegister();
+  const [result, setResult] = useState({})
+  const navigate = useNavigate();
+
   const {
     register: registerForm,
     handleSubmit,
@@ -23,13 +25,25 @@ const FormRegister = () => {
     setFocus("firstName");
   }, [setFocus]);
 
+  const maskEmail = (email) => {
+    const [username, domain] = email.split("@");
+    const maskedUsername = username[0] + "*".repeat(username.length - 1);
+    return maskedUsername + "@" + domain;
+  };
+
   const handleRegister = async (data) => {
-    // Ambil data dari form
-    const { firstName, email, phone, password } = data;
-    
-    // Panggil hook register untuk mengirim data ke backend
-    await register({ firstName, email, phone, password });
+    const { fullName, email, phone, password } = data;
+    const resultRegister = await register( email, password, fullName, phone );
+    if (resultRegister.length != 0) {
+      setResult(resultRegister)
+    }
     reset();
+    setOtp(email, maskEmail(email))
+    if (resultRegister.status == "success") {
+      setTimeout(() => {
+        navigate("/otp-confirm")
+      }, 3000);
+    }
   };
 
   const togglePasswordVisibility = () => {
@@ -52,15 +66,15 @@ const FormRegister = () => {
           <InputForm
             label="Nama"
             type="text"
-            id="firstName"
-            name="firstName"
+            id="fullName"
+            name="fullName"
             placeholder="Nama Lengkap"
-            {...registerForm("firstName", {
+            {...registerForm("fullName", {
               required: "First name is required",
             })}
           />
-          {errors.firstName && (
-            <p className="text-red-500 text-sm mb-4">{errors.firstName.message}</p>
+          {errors.fullName && (
+            <p className="text-red-500 text-sm mb-4">{errors.fullName.message}</p>
           )}
 
           <InputForm
@@ -126,12 +140,9 @@ const FormRegister = () => {
               )}
             </button>
           </div>
-
-          {/* Feedback Alert */}
-          {success.status && <AlertAuth msg={success.message} type={"success"} />}
-          {error.status && <AlertAuth msg={error.message} type={"danger"} />}
-
           <ButtonRegister msg="Daftar" />
+          { result.status == "success" && <AlertAuth msg={result.message} type={"success"} /> }
+          { result.status == "error" && <AlertAuth msg={result.message} type={"danger"} /> }
         </form>
       </div>
     </div>

@@ -6,7 +6,6 @@ const Login = async (body) => {
       email: body.email,
       password: body.password,
     });
-    console.log(response);
     if (response.data.status == "Success") {
       return {
         success: true,
@@ -30,28 +29,29 @@ const Login = async (body) => {
 };
 
 const Register = async (body) => {
+
   try {
     const response = await axiosInstance.post("/register", {
       email: body.email,
       password: body.password,
-      fullname: body.name,
+      fullName: body.fullName,
       phoneNumber: body.phone,
     });
-
-    if (response.status == "success") {
+    if (response.data.status == "Success") {
+      console.log("ok")
       return {
         success: true,
         data: response.data?.data || null,
         message: response.data?.message || "Registration successful",
       };
     }
-
     return {
       success: false,
       data: response.data || null,
       message: response.data?.message || "Failed to register",
     };
-  } catch (err) {
+  }
+  catch (err) {
     return {
       success: false,
       data: err.response.data || null,
@@ -61,7 +61,36 @@ const Register = async (body) => {
   }
 };
 
-const RegisterOtp = async () => {};
+const RegisterOtp = async (body) => {
+  try {
+    console.log(body)
+    const response = await axiosInstance.post("/register/otp",  {
+      "email": body.email,
+      "otp": body.otp
+    });
+    if (response.data.status == "Success") {
+      console.log("ok")
+      return {
+        success: true,
+        data: response.data?.data || null,
+        message: response.data?.message || "Registration successful",
+      };
+    }
+    return {
+      success: false,
+      data: response.data || null,
+      message: response.data?.message || "Failed to register",
+    };
+  }
+  catch (err) {
+    return {
+      success: false,
+      data: err.response.data || null,
+      message:
+        err.response?.data?.message || err.message || "An error occurred",
+    };
+  }
+};
 
 const Logout = async () => {
   try {
@@ -79,13 +108,13 @@ const Logout = async () => {
         message: response.message || "Failed to logout",
       };
     }
-  } catch (err) {}
+  } catch (err) { }
 };
 
 const ForgotPass = async (email) => {
   try {
     const response = await axiosInstance.post('/forgot-password', { email });
-    
+
     if (response.data.status === 'Success') {
       return {
         success: true,
@@ -132,7 +161,7 @@ const ResetPass = async (token, newPassword) => {
 };
 
 
-const CheckAuth = async () => {};
+const CheckAuth = async () => { };
 
 export {
   Login,
