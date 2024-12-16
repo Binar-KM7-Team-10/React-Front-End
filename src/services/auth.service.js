@@ -134,11 +134,12 @@ const ForgotPass = async (email) => {
   }
 };
 
-const ResetPass = async (token, newPassword) => {
+const ResetPass = async (token, newPassword, confirmNewPassword) => {
   try {
     const response = await axiosInstance.post('/reset-password', {
       passwordResetToken: token,
       newPassword: newPassword,
+      confirmNewPassword: confirmNewPassword,
     });
 
     if (response.data.status === 'Success') {
@@ -153,6 +154,7 @@ const ResetPass = async (token, newPassword) => {
       };
     }
   } catch (err) {
+    console.error("Error during password reset:", err); 
     return {
       success: false,
       message: err.response?.data?.message || 'An error occurred',

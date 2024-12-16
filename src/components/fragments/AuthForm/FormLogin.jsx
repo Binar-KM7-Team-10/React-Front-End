@@ -115,7 +115,7 @@ const FormLogin = () => {
               )}
             </button>
 
-            <Link to="/reset-password" className="text-[12px] text-[#7126B5] font-medium">
+            <Link to="/forgot-password" className="text-[12px] text-[#7126B5] font-medium">
               Lupa Kata Sandi?
             </Link>
           </div>
