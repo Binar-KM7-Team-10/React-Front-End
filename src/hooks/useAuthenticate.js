@@ -17,15 +17,21 @@ const useAuthenticate = () => {
     setLoading(false);
   };
 
-  const handleResetPassword = async (token, newPassword) => {
+  const handleResetPassword = async (token, newPassword, confirmNewPassword) => {
     setLoading(true);
     setSuccess(false);
-    setMessage('');
-
-    const response = await ResetPass(token, newPassword);
-    setMessage(response.message);
-    setSuccess(response.success);
-    setLoading(false);
+    setMessage(''); 
+    try {
+      const response = await ResetPass(token, newPassword, confirmNewPassword);
+      setMessage(response.message); 
+      setSuccess(response.success); 
+    } catch (error) {
+      setMessage(error.message || 'An unexpected error occurred');
+      setSuccess(false);
+    } finally {
+      setLoading(false); 
+      return true;
+    }
   };
 
   return {
