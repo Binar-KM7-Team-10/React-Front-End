@@ -15,7 +15,7 @@ const useLogin = () => {
         // Simpan token dan user di Cookies
         Cookies.set("token", response.data.accessToken);
         Cookies.set("user", JSON.stringify(response.data.user));
-
+        console.log(JSON.stringify(response.data.user));
         // Update isAuth di AuthContext
         setIsAuth(true);
 

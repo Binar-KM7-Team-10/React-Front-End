@@ -4,12 +4,15 @@ import './index.css'
 import App from './App.jsx'
 import { SearchProvider } from './contexts/searchFlightContext';
 import { AuthProvider } from "./contexts/AuthContext";
+import { RegisterProvider } from './contexts/RegisterContext';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
       <SearchProvider>
-        <App />
+        <RegisterProvider>
+          <App />
+        </RegisterProvider>
       </SearchProvider>
     </AuthProvider>
   </StrictMode>,
