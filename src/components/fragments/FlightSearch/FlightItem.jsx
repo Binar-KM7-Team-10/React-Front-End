@@ -83,7 +83,7 @@ const FlightItem = ({ flight, isSelected, toggleDetails }) => {
         </div>
       </div>
 
-      {isSelected && <FlightDetails />}
+      {isSelected && <FlightDetails flightDetail={flight} dpTime={formattedTimeDp} arTime={formattedTimeAr} />}
     </li>
   )
 };

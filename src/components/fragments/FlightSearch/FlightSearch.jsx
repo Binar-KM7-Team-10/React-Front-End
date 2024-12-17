@@ -13,9 +13,8 @@ const FlightSearch = () => {
   const { searchParams } = useSearchContext();
   const { schedule, error, loading, onSubmitSchedule } = useFetchSchedule();
   const [flights, setFlights] = useState([]);
-  
 
-  const [selectedDay, setSelectedDay] = useState("Rabu");
+  const [selectedDay, setSelectedDay] = useState();
   const days = [
     "Selasa",
     "Rabu",
@@ -150,16 +149,23 @@ const FlightSearch = () => {
         <div className="flex justify-center w-full my-10 md:my-20">
           <p className="text-red-500">{error.message}</p>
         </div>
-      ) : flights.length === 0 ? (
-        <div className="flex justify-center w-full my-10 md:my-20">
-          <div>
-            <img src={emptyImg} className="w-32 md:w-48" alt="Tiket habis" />
-            <p className="text-xs md:text-sm text-center mt-4 md:mt-10">
-              Maaf, Tiket terjual habis!
-            </p>
-            <p className="text-xs md:text-sm text-center text-purple-800">
-              Coba cari perjalanan lainnya!
-            </p>
+      ) : !flights || Object.keys(flights).length === 0 ? (
+        <div className="flex flex-col md:flex-row mt-6 max-w-5xl mx-auto gap-4">
+          <div className="w-full md:w-1/4">
+            <Filter />
+          </div>
+          <div className="flex-1 bg-white p-4 md:p-6 rounded-md">
+            <div className="flex justify-center w-full my-10 md:my-20">
+              <div>
+                <img src={emptyImg} className="w-32 md:w-48" alt="Tiket habis" />
+                <p className="text-xs md:text-sm text-center mt-4 md:mt-10">
+                  Maaf, pencarian Anda tidak ditemukan
+                </p>
+                <p className="text-xs md:text-sm text-center text-purple-800">
+                  Coba cari perjalanan lainnya!
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       ) : (

@@ -18,7 +18,6 @@ const GetSchedules = async (params) => {
             }
         })
         if (response.data.status == "Success") {
-            console.log(response)
             return {
                 
                 success: true,

@@ -26,7 +26,7 @@ const OtpPage = () => {
         if (e.key === "Backspace" && !otp[index] && index > 0) {
             document.getElementById(`otp-${index - 1}`).focus();
         }
-    };
+    };  
 
     return (
         <div className="min-h-screen">

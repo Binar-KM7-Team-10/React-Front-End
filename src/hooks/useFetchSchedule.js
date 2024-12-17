@@ -32,7 +32,6 @@ const useFetchSchedule = () => {
 
             const response = await GetSchedules(queryParam);
             if (response.success && response.data) {
-                console.log(response.data.schedule.outbound)
                 if (response.data.length != 0) {                  
                     setSchedule(response.data.schedule.outbound);
                 }

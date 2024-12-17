@@ -4,7 +4,6 @@ import emptyImg from "../../../assets/Images/tiket_habis.png";
 import notFoundImg from "../../../assets/Images/tiket_not_found.png";
 
 const ListPenerbangan = ({ flights = [] }) => {
-  console.log(flights);
   const [selectedFlight, setSelectedFlight] = useState(null);
 
   const handleToggleDetails = (flightId) => {
