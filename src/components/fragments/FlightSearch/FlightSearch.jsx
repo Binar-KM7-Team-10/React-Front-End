@@ -65,7 +65,7 @@ const FlightSearch = () => {
     switch (option) {
       case "Harga - Termurah":
         sortedFlights.sort((a, b) => a.price - b.price);
-        break;
+        break; 
       case "Durasi - Terpendek":
         sortedFlights.sort((a, b) => a.duration.localeCompare(b.duration));
         break;

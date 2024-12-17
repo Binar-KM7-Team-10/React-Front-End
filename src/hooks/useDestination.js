@@ -12,7 +12,6 @@ const useFlightDeals = (page, continent) => {
       try {
         setLoading(true);
         const response = await GetDestination(page, continent);
-        console.log(response);
         setDeals(response.data.cards); 
         setPagination(response.pagination);
         setLoading(false);

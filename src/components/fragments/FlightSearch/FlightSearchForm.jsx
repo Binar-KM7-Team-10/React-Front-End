@@ -30,9 +30,10 @@ const FlightSearchForm = () => {
     infant: 0,
   });
 
+  const today = new Date();
   const [dateModalOpen, setDateModalOpen] = useState(false);
   const [isSelectingDeparture, setIsSelectingDeparture] = useState(true);
-  const [departureDate, setDepartureDate] = useState(null);
+  const [departureDate, setDepartureDate] = useState(today);
   const [returnDate, setReturnDate] = useState(null);
 
   const [seatClassModalOpen, setSeatClassModalOpen] = useState(false);
@@ -116,11 +117,13 @@ const FlightSearchForm = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
+    const formatDpDate = new Date(departureDate)
+    const formatRetDate = new Date(returnDate)
     setSearchParams({
       dpCity: selectedFromCity,
       arCity: selectedToCity,
-      dpDate: departureDate,
-      retDate: returnDate,
+      dpDate: `${formatDpDate.getFullYear()}-${(formatDpDate.getMonth()+1).toString().padStart(2, "0")}-${formatDpDate.getDate().toString().padStart(2, "0")}`,
+      retDate: `${formatRetDate.getFullYear()}-${(formatRetDate.getMonth()+1).toString().padStart(2, "0")}-${formatRetDate.getDate().toString().padStart(2, "0")}`,
       psg: `${passengerCounts.adult}.${passengerCounts.child}.${passengerCounts.infant}`,
       seatClass: selectedSeatClass,
     });
