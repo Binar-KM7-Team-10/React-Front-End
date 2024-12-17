@@ -1,13 +1,12 @@
+
 import { axiosInstance } from "../api/axiosInstance";
 
 const GetBooking = async (params = {}) => {
   try {
-    const queryParams = new URLSearchParams(params).toString();
-    const response = await axiosInstance.get(`/bookings?${queryParams}`);
+    const response = await axiosInstance.get("/bookings", {params} );
     console.log('Bookings fetched successfully:', response.data);
     return response.data;
   } catch (error) {
-    console.error("Error fetching bookings:", error.response ? error.response.data : error.message);
     throw error;
   }
 };
@@ -18,7 +17,6 @@ const GetBookingById = async (id) => {
     console.log('Booking fetched by ID:', response.data);
     return response.data;
   } catch (error) {
-    console.error("Error fetching booking by ID:", error.response ? error.response.data : error.message);
     throw error;
   }
 };
@@ -29,7 +27,6 @@ const CreateBooking = async (bookingData) => {
     console.log('Booking created:', response.data);
     return response.data;
   } catch (error) {
-    console.error("Error creating booking:", error.response ? error.response.data : error.message);
     throw error;
   }
 };
@@ -40,9 +37,9 @@ const CreatePaymentBooking = async (id, paymentData) => {
     console.log('Payment created:', response.data);
     return response.data;
   } catch (error) {
-    console.error("Error creating payment:", error.response ? error.response.data : error.message);
     throw error;
   }
 };
 
 export { GetBooking, GetBookingById, CreateBooking, CreatePaymentBooking };
+

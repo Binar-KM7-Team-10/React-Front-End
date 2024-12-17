@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { GetBooking, GetBookingById, CreateBooking, CreatePaymentBooking } from "../services/booking.service";
 
-// Hook untuk mengambil daftar booking
 const useGetBookings = (params = {}) => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);

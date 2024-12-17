@@ -88,7 +88,6 @@ const DataPemesan = ({ title_card, onValidate }) => {
           <h1 className="text-base">Data Diri Pemesan</h1>
         </div>
         <div className="body-card px-5">
-          {/* Full Name */}
           <div className="flex flex-col my-4">
             <label className="font-semibold text-purple-800 mb-2 text-sm">Nama Lengkap</label>
             <input
