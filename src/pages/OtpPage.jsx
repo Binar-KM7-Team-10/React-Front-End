@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../components/fragments/Navbar/Navbar';
 import { FiArrowLeft } from "react-icons/fi";
-import ButtonOtp from '../components/elements/Button/ButtonOtp';
 import AlertAuth from '../components/elements/Alert/AlertAuth';
 import useRegisterOtp from '../hooks/useRegisterOtp';
-import { use } from 'react';
+import { RegisterOtpResend } from '../services/auth.service';
 
 const OtpPage = () => {
     const [otp, setOtp] = useState(Array(6).fill("")); // Array untuk tiap karakter OTP
     const [otpString, setOtpString] = useState(""); // String gabungan OTP
-    const {registerOtp, emailInput, loading} = useRegisterOtp();
+    const { registerOtp, emailInput, loading, } = useRegisterOtp();
     const [result, setResult] = useState({})
 
     const handleChange = (value, index) => {
@@ -44,6 +43,30 @@ const OtpPage = () => {
         setResult(resultRegisterotp);
     }
 
+    const handleOtpResend = async () => {
+        setTimeLeft(60)
+        const resultOtpResend = await RegisterOtpResend(emailInput[0]);
+        setResult(resultOtpResend);
+    }
+
+    const [timeLeft, setTimeLeft] = useState(60);
+
+    useEffect(() => {
+        if (timeLeft <= 0) return;
+
+        const timer = setInterval(() => {
+            setTimeLeft((prevTime) => prevTime - 1);
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [timeLeft]);
+
+    const formatTime = (time) => {
+        const minutes = Math.floor(time / 60);
+        const seconds = time % 60;
+        return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    };
+
     return (
         <div className="min-h-screen">
             <Navbar search={false} />
@@ -71,20 +94,29 @@ const OtpPage = () => {
                                 />
                             ))}
                         </div>
-                        <p className='text-sm text-center mt-5 mb-32'>Kirim Ulang OTP dalam 60 detik</p>
+                        <p className='text-sm text-center mt-5 mb-32'>Kirim Ulang OTP dalam {formatTime(timeLeft)} detik</p>
                         <div className='mt-2'>
-                            <button className="bg-purple-700 w-full text-white py-5 rounded-[16px] font-semibold hover:bg-[#4B1979] transition" onClick={handleOtp}>
-                                Simpan
-                            </button>
+                            {
+                                timeLeft == 0 ? (
+                                    <button className="bg-purple-700 w-full text-white py-5 rounded-[16px] font-semibold hover:bg-[#4B1979] transition" onClick={handleOtpResend}>
+                                        Kirim Ulang Otp
+                                    </button>
+                                ) : (
+                                    <button className="bg-purple-700 w-full text-white py-5 rounded-[16px] font-semibold hover:bg-[#4B1979] transition" onClick={handleOtp}>
+                                        Simpan
+                                    </button>
+                                )
+                            }
+                            
                         </div>
                     </div>
                 </div>
             </div>
             <div className="flex w-full justify-center mt-24">
-            { result.status == "success" && <AlertAuth msg={result.message} type={"success"} /> }
-            { result.status == "error" && <AlertAuth msg={result.message} type={"danger"} /> }
+                {result.status == "success" && <AlertAuth msg={result.message} type={"success"} />}
+                {result.status == "error" && <AlertAuth msg={result.message} type={"danger"} />}
             </div>
-        </div>
+        </div >
     );
 };
 

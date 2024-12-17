@@ -4,7 +4,6 @@ import { useRegisterEmail } from "../contexts/RegisterContext";
 
 const useRegister = () => {
 
-  // const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { setEmailInput } = useRegisterEmail()
 
