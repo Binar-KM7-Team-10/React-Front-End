@@ -12,9 +12,10 @@ import Register from "./pages/RegisterPage";
 import HistoryOrder from "./pages/HistoryOrder";
 import NotificationPage from "./pages/NotificationPage";
 import ProfilePage from "./pages/ProfilePage";
-import ResetPassword from "./pages/ResetPassword";
+import ForgotPassword from "./pages/ForgotPassword";
 import OtpPage from "./pages/OtpPage";
 import ProtectedRoute from "./util/ProtectedRoute";
+import ResetPassword from "./pages/ResetPassword";  
 import "./App.css";
 
 function App() {
@@ -26,9 +27,9 @@ function App() {
             <HomePage />
           </ProtectedRoute>
         } />
-        <Route path="/reset-password" element={
+        <Route path="/forgot-password" element={
           <ProtectedRoute type="guest">
-            <ResetPassword />
+            <ForgotPassword />
           </ProtectedRoute>
         } />
         <Route path="/otp-confirm" element={
@@ -79,6 +80,11 @@ function App() {
         <Route path="/profile/:id" element={
           <ProtectedRoute type="auth">
             <ProfilePage />
+          </ProtectedRoute>
+        } />
+        <Route path="/reset-password" element={
+          <ProtectedRoute type="guest">
+            <ResetPassword />
           </ProtectedRoute>
         } />
         <Route path="*" element={<
