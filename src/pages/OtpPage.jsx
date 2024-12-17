@@ -36,7 +36,7 @@ const OtpPage = () => {
         if (e.key === "Backspace" && !otp[index] && index > 0) {
             document.getElementById(`otp-${index - 1}`).focus();
         }
-    };
+    };  
 
     const handleOtp = async () => {
         const resultRegisterotp = await registerOtp(emailInput[0], otpString);
