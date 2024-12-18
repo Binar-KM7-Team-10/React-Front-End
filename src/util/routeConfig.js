@@ -21,7 +21,7 @@ const routesConfig = [
   { path: "/register", element: Register, type: "guest" },
   { path: "/payment", element: Payment, type: "auth" },
   { path: "/checkout", element: OrderPage, type: "auth" },
-  { path: "/search", element: SearchPage, type: "guest" },
+  { path: "/search", element: SearchPage, type: "public" },
   { path: "/payment-success", element: PaymentSuccess, type: "auth" },
   { path: "/history-order", element: HistoryOrder, type: "auth" },
   { path: "/notifikasi", element: NotificationPage, type: "auth" },
