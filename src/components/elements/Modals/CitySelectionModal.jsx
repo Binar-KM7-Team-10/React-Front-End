@@ -10,12 +10,12 @@ const CitySelectionModal = ({ isOpen, onClose, onSelect }) => {
     "Surabaya",
     "Bali",
     "Delhi",
-    "Sydney"
+    "Sydney",
+    "Cape Town"
   ]);
 
   if (!isOpen) return null;
 
-  // Fungsi untuk menghapus semua kota terkini
   const clearRecentCities = () => {
     setRecentCities([]);
   };
