@@ -5,8 +5,15 @@ const FlightSearchHeader = ({
   days,
   selectedDay,
   setSelectedDay,
+  setSelectedDate,
   dates,
 }) => {
+
+  const handleClickDay = (day, date) => {
+    setSelectedDay(day);
+    setSelectedDate(date);
+  }
+
   return (
     <div className="max-w-5xl mx-auto p-4 bg-white border-b-2 pb-8">
       <h2 className="text-lg md:text-xl font-semibold text-gray-800">
@@ -30,12 +37,11 @@ const FlightSearchHeader = ({
         {days.map((day, index) => (
           <button
             key={index}
-            className={`flex flex-col items-center justify-center py-2 px-2 md:px-5 rounded-md text-xs md:text-sm hover:bg-purple-700 hover:text-white ${
-              day === selectedDay
+            className={`flex flex-col items-center justify-center py-2 px-2 md:px-5 rounded-md text-xs md:text-sm hover:bg-purple-700 hover:text-white ${day === selectedDay
                 ? "bg-purple-500 text-white"
                 : "bg-white text-gray-800"
-            }`}
-            onClick={() => setSelectedDay(day)}
+              }`}
+              onClick={() => handleClickDay(day, dates[index])}
           >
             <span className="font-semibold">{day}</span>
             <span className="text-[12px] md:text-xs mt-1 hover:text-white">
