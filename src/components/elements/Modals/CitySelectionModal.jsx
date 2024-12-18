@@ -9,7 +9,7 @@ const CitySelectionModal = ({ isOpen, onClose, onSelect }) => {
     "Jakarta",
     "Bandung",
     "Surabaya",
-    "Bali",
+    "Chicago",
     "Delhi",
     "Sydney",
     "Cape Town",

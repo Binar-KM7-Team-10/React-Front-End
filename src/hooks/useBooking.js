@@ -1,38 +1,40 @@
 import { useState, useEffect, useCallback } from "react";
-import {
-  GetBookingById,
-  CreateBooking,
-  CreatePaymentBooking,
-} from "../services/booking.service";
+import { CreateBooking, CreatePaymentBooking } from "../services/booking.service";
+import { GetScheduleById } from "../services/schedule.service";
 import { useBookingContext } from "../contexts/BookingContext";
 
-export const useGetBookingById = () => {
-  const { bookingId, setBookingDetails } = useBookingContext();
+export const useGetBookingById = (id) => {
+  // const { bookingDetails, setBookingDetails } = useBookingContext();
+  const [dataBooking, setDataBooking] = useState({})
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchBooking = async () => {
-      if (!bookingId) return;
+      if (!id) return;
       setLoading(true);
       try {
-        const response = await GetBookingById(bookingId);
+        const response = await GetScheduleById(id);
         if (response.success) {
-          setBookingDetails(response.data);
+          // console.log(response.data)
+          // setBookingDetails(response.data);
+          setDataBooking(response.data);
         } else {
           setError(response.message || "Failed to fetch booking details.");
         }
-      } catch (err) {
+      } 
+      catch (err) {
         setError(err.message || "An error occurred while fetching booking details.");
-      } finally {
+      } 
+      finally {
         setLoading(false);
       }
     };
 
     fetchBooking();
-  }, [bookingId, setBookingDetails]);
+  }, []);
 
-  return { loading, error };
+  return {dataBooking, loading, error };
 };
 
 export const useCreateBooking = () => {
