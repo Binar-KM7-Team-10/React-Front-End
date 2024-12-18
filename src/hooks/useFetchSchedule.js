@@ -7,12 +7,18 @@ const useFetchSchedule = () => {
     const [error, setError] = useState({ error: false, message: "" });
 
     const onSubmitSchedule = useCallback(async (data) => {
+        // console.log(data)
         setLoading(true);
 
         if (!data || typeof data !== "object") {
             setLoading(false);
             setError({ error: true, message: "Invalid data for schedule query" });
             return;
+        }
+
+        if(Object.keys(data).length === 0){
+            setLoading(false);
+            return
         }
 
         try {
@@ -32,11 +38,15 @@ const useFetchSchedule = () => {
 
             const response = await GetSchedules(queryParam);
             if (response.success && response.data) {
-                if (response.data.length != 0) {                  
+                if (response.data.length != 0) {                 
                     setSchedule(response.data.schedule.outbound);
                 }
+                else{
+                    setSchedule([])
+                }
                 setError({ error: false, message: "" });
-            } else {
+            } 
+            else {
                 setError({ error: true, message: response.message || "An error occurred" });
             }
         } catch (err) {

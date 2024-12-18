@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Search, X } from "lucide-react";
 import ButtonIconClose from "../Button/ButtonIconClose";
+import useFetchCities from "../../../hooks/useFetchCities";
 
 const CitySelectionModal = ({ isOpen, onClose, onSelect }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -11,8 +12,16 @@ const CitySelectionModal = ({ isOpen, onClose, onSelect }) => {
     "Bali",
     "Delhi",
     "Sydney",
-    "Cape Town"
+    "Cape Town",
+    "Hanoi",
+    "Manila"
   ]);
+
+  // const { cities, loading } = useFetchCities();
+
+  // useEffect(() => {
+  //   setRecentCities(cities)
+  // }, [])
 
   if (!isOpen) return null;
 

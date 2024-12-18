@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { ArrowUpDown } from "lucide-react";
 
 import Filter from "../Filter/Filter";
@@ -10,12 +10,13 @@ import useFetchSchedule from "../../../hooks/useFetchSchedule.js";
 import { useSearchContext } from "../../../contexts/searchFlightContext";
 
 const FlightSearch = () => {
-  const { searchParams } = useSearchContext();
+  const { searchParams, setSearchParams, getSearchParamsFromCookies } = useSearchContext();
   const { schedule, error, loading, onSubmitSchedule } = useFetchSchedule();
   const [flights, setFlights] = useState([]);
-
+  const [selectedDate, setSelectedDate] = useState(null);
   const [selectedDay, setSelectedDay] = useState();
-  const days = [
+
+  const [days, setDays] = useState([
     "Selasa",
     "Rabu",
     "Kamis",
@@ -23,17 +24,24 @@ const FlightSearch = () => {
     "Sabtu",
     "Minggu",
     "Senin",
-  ];
-  const initialDate = new Date("2023-03-01");
+  ]);
+  const initialDate = new Date();
+  const dayList = [];
+
   const generateDates = (startDate, numDays) => {
     const dates = [];
+    const dayNames = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+
     for (let i = 0; i < numDays; i++) {
       const date = new Date(startDate);
       date.setDate(startDate.getDate() + i);
+      const dayName = dayNames[date.getDay()];
+      dayList.push(dayName);
       dates.push(date);
     }
     return dates;
   };
+
   const dates = generateDates(initialDate, days.length);
 
   const [selectedOption, setSelectedOption] = useState("Harga - Termurah");
@@ -48,11 +56,15 @@ const FlightSearch = () => {
     "Kedatangan - Paling Akhir",
   ];
 
-  useEffect(() => {
+  const handleSubmitSchedule = useCallback(() => {
     if (searchParams) {
       onSubmitSchedule(searchParams);
     }
-  }, [searchParams, onSubmitSchedule]);
+  }, [searchParams]);
+
+  useEffect(() => {
+    handleSubmitSchedule();
+  }, [searchParams]);
 
   useEffect(() => {
     setFlights(schedule);
@@ -65,7 +77,7 @@ const FlightSearch = () => {
     switch (option) {
       case "Harga - Termurah":
         sortedFlights.sort((a, b) => a.price - b.price);
-        break; 
+        break;
       case "Durasi - Terpendek":
         sortedFlights.sort((a, b) => a.duration.localeCompare(b.duration));
         break;
@@ -88,12 +100,28 @@ const FlightSearch = () => {
     setIsFilterOpen(false);
   };
 
+  useEffect(() => {
+    if (selectedDate) {
+      const resultSearchCookie = getSearchParamsFromCookies()
+      setSearchParams({
+        dpCity: resultSearchCookie.dpCity,
+        arCity: resultSearchCookie.arCity,
+        dpDate: `${selectedDate.getFullYear()}-${(selectedDate.getMonth()+1).toString().padStart(2, "0")}-${selectedDate.getDate().toString().padStart(2, "0")}`,
+        retDate: resultSearchCookie.retDate,
+        psg: resultSearchCookie.psg,
+        seatClass: resultSearchCookie.seatClass,
+      });
+      onSubmitSchedule(searchParams)
+    }
+  }, [selectedDate, setSearchParams]);
+
   return (
     <div className="min-h-screen p-4 md:p-6">
       <FlightSearchHeader
-        days={days}
-        selectedDay={selectedDay}
+        days={dayList}
+        selectedDay={dayList[0]}
         setSelectedDay={setSelectedDay}
+        setSelectedDate={setSelectedDate}
         dates={dates}
       />
       <div className="mx-auto md:mx-36 flex justify-end items-center mt-6">
@@ -125,8 +153,9 @@ const FlightSearch = () => {
                 <li
                   key={index}
                   onClick={() => handleSort(option)}
-                  className={`flex justify-between items-center py-2 px-4 cursor-pointer hover:bg-gray-100 text-xs md:text-sm ${selectedOption === option ? "font-bold text-purple-800" : ""
-                    }`}
+                  className={`flex justify-between items-center py-2 px-4 cursor-pointer hover:bg-gray-100 text-xs md:text-sm ${
+                    selectedOption === option ? "font-bold text-purple-800" : ""
+                  }`}
                 >
                   <span>{option}</span>
                   {selectedOption === option && <span>✔</span>}
