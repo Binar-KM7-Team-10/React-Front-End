@@ -13,10 +13,13 @@ import DatePickModal from "../../elements/Modals/DateModal";
 import Switch from "../../elements/Switch/Switch";
 import SeatClassModal from "../../elements/Modals/SeatModal";
 import { useSearchContext } from "../../../contexts/searchFlightContext";
+import useFetchCities from "../../../hooks/useFetchCities";
 
 const FlightSearchForm = () => {
 
   const { setSearchParams } = useSearchContext()
+
+  const { cities, loading } = useFetchCities();
 
   const [isRoundTrip, setIsRoundTrip] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -122,59 +125,59 @@ const FlightSearchForm = () => {
     setSearchParams({
       dpCity: selectedFromCity,
       arCity: selectedToCity,
-      dpDate: `${formatDpDate.getFullYear()}-${(formatDpDate.getMonth()+1).toString().padStart(2, "0")}-${formatDpDate.getDate().toString().padStart(2, "0")}`,
-      retDate: `${formatRetDate.getFullYear()}-${(formatRetDate.getMonth()+1).toString().padStart(2, "0")}-${formatRetDate.getDate().toString().padStart(2, "0")}`,
+      dpDate: `${formatDpDate.getFullYear()}-${(formatDpDate.getMonth() + 1).toString().padStart(2, "0")}-${formatDpDate.getDate().toString().padStart(2, "0")}`,
+      retDate: `${formatRetDate.getFullYear()}-${(formatRetDate.getMonth() + 1).toString().padStart(2, "0")}-${formatRetDate.getDate().toString().padStart(2, "0")}`,
       psg: `${passengerCounts.adult}.${passengerCounts.child}.${passengerCounts.infant}`,
       seatClass: selectedSeatClass,
     });
     navigate("/search");
   };
-  
+
 
   return (
     <div className="flex justify-center items-center px-4 sm:px-6 lg:px-8">
       <form className="bg-white rounded-[12px] shadow-xl  mx-4 -mt-14 relative z-10 w-full max-w-[968px] max-H-[232px] space-y-6" onSubmit={handleSearch}>
         <div className="p-6 space-y-8">
-        <h1 className="text-center sm:text-left text-xl sm:text-xl lg:text-xl font-bold">
-          Pilih Jadwal Penerbangan spesial di{" "}
-          <span className="text-purple-600">TiketGo!</span>
-        </h1>
+          <h1 className="text-center sm:text-left text-xl sm:text-xl lg:text-xl font-bold">
+            Pilih Jadwal Penerbangan spesial di{" "}
+            <span className="text-purple-600">TiketGo!</span>
+          </h1>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-24 relative">
-          <div
-            className="flex flex-wrap items-center md:items-start gap-2 md:gap-4 cursor-pointer"
-            onClick={() => handleModalOpen(true)}
-          >
-            <div className="flex items-center gap-2">
-              <PlaneTakeoff className="text-gray-400" size={20} />
-              <span className="text-sm text-gray-500">From</span>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-24 relative">
+            <div
+              className="flex flex-wrap items-center md:items-start gap-2 md:gap-4 cursor-pointer"
+              onClick={() => handleModalOpen(true)}
+            >
+              <div className="flex items-center gap-2">
+                <PlaneTakeoff className="text-gray-400" size={20} />
+                <span className="text-sm text-gray-500">From</span>
+              </div>
+              <div className="border-b-[1.5px] border-gray-300 pb-2 w-full md:max-w-[300px]">
+                <p className="font-medium text-base sm:text-lg">
+                  {selectedFromCity}
+                </p>
+              </div>
             </div>
-            <div className="border-b-[1.5px] border-gray-300 pb-2 w-full md:max-w-[300px]">
-              <p className="font-medium text-base sm:text-lg">
-                {selectedFromCity}
-              </p>
+
+            <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2  cursor-pointer" onClick={handleCitySwap}>
+              <img src={logoreturn} alt="Return Icon" />
+            </div>
+
+            <div
+              className="flex flex-wrap items-center md:items-start gap-2 md:gap-4 cursor-pointer"
+              onClick={() => handleModalOpen(false)}
+            >
+              <div className="flex items-center gap-2">
+                <PlaneLanding className="text-gray-400" size={20} />
+                <span className="text-sm text-gray-500">To</span>
+              </div>
+              <div className="border-b-[1.5px] border-gray-300 pb-2 w-full md:max-w-[300px]">
+                <p className="font-medium text-base sm:text-lg">
+                  {selectedToCity}
+                </p>
+              </div>
             </div>
           </div>
-
-          <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2  cursor-pointer"  onClick={handleCitySwap}>
-            <img src={logoreturn} alt="Return Icon" />
-          </div>
-
-          <div
-            className="flex flex-wrap items-center md:items-start gap-2 md:gap-4 cursor-pointer"
-            onClick={() => handleModalOpen(false)}
-          >
-            <div className="flex items-center gap-2">
-              <PlaneLanding className="text-gray-400" size={20} />
-              <span className="text-sm text-gray-500">To</span>
-            </div>
-            <div className="border-b-[1.5px] border-gray-300 pb-2 w-full md:max-w-[300px]">
-              <p className="font-medium text-base sm:text-lg">
-                {selectedToCity}
-              </p>
-            </div>
-          </div>
-        </div>
           <div className="grid grid-cols-1 gap-1 md:grid-cols-2 md:gap-24">
             <div className="flex items-center gap-6 ">
               <div className="flex items-center gap-2">
@@ -190,22 +193,21 @@ const FlightSearchForm = () => {
                   <span className="text-sm sm:text-base text-[#8A8A8A]">Departure</span>
                   <p className="border-b-[1.5px] w-[140px] border-gray-300 pb-2 font-medium text-sm">
                     {departureDate
-                      ? `${departureDate.getDate()} ${
-                          [
-                            "Januari",
-                            "Februari",
-                            "Maret",
-                            "April",
-                            "Mei",
-                            "Juni",
-                            "Juli",
-                            "Agustus",
-                            "September",
-                            "Oktober",
-                            "November",
-                            "Desember",
-                          ][departureDate.getMonth()]
-                        } ${departureDate.getFullYear()}`
+                      ? `${departureDate.getDate()} ${[
+                        "Januari",
+                        "Februari",
+                        "Maret",
+                        "April",
+                        "Mei",
+                        "Juni",
+                        "Juli",
+                        "Agustus",
+                        "September",
+                        "Oktober",
+                        "November",
+                        "Desember",
+                      ][departureDate.getMonth()]
+                      } ${departureDate.getFullYear()}`
                       : "Pilih Tanggal"}
                   </p>
                 </div>
@@ -283,12 +285,14 @@ const FlightSearchForm = () => {
           Cari Penerbangan
         </button>
       </form>
-
-      <CitySelectionModal
-        isOpen={isModalOpen}
-        onClose={handleModalClose}
-        onSelect={handleCitySelect}
-      />
+      {!loading &&
+        <CitySelectionModal
+          city={cities}
+          isOpen={isModalOpen}
+          onClose={handleModalClose}
+          onSelect={handleCitySelect}
+        />
+      }
 
       <PassengerSelector
         isOpen={passengerModalOpen}
