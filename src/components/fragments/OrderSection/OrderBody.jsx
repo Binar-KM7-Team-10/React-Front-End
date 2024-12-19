@@ -10,85 +10,12 @@ import { useSearchContext } from "../../../contexts/searchFlightContext";
 const OrderBody = () => {
   const { id } = useParams();
   const { dataBooking, loading, error } = useGetBookingById(id);
-  // console.log(dataBooking)
   const { getSearchParamsFromCookies } = useSearchContext();
 
   const passangers = getSearchParamsFromCookies().psg;
   const arryPsg = passangers ? passangers.split(".") : [];
   const intArryPsg = arryPsg.map((str) => parseInt(str));
   const totalSeatsRequired = intArryPsg.reduce((a, b) => a + b, 0);
-
-  const [submitData, setSubmitData] = useState({
-    "itinerary": {
-      "journeyType": "One-way",
-      "outbound": 21,
-      "inbound": null
-    },
-    "passenger": {
-      "total": 3,
-      "adult": 2,
-      "child": 1,
-      "baby": 1,
-      "data": [
-        {
-          "label": "P1",
-          "title": "Mr.",
-                 "ageGroup": "Adult",
-          "fullName": "Tony Stark",
-          "familyName": "Downey Jr",
-          "birthDate": "1960-12-01",
-          "nationality": "United States of America",
-          "identityNumber": "61719321830219",
-          "issuingCountry": "United States of America",
-          "expiryDate": "2027-01-01"
-        },
-        {
-          "label": "P2",
-          "title": "Mrs.",
-                 "ageGroup": "Adult",
-          "fullName": "Nastasha",
-          "familyName": "Romanoff",
-          "birthDate": "1980-11-21",
-          "nationality": "United States of America",
-          "identityNumber": "617191111830219",
-          "issuingCountry": "United States of America",
-          "expiryDate": "2027-05-01"
-        },
-             {
-          "label": "P3",
-          "title": "Master",
-                 "ageGroup": "Child",
-          "fullName": "Jasper",
-          "familyName": "Javier",
-          "birthDate": "2019-01-01",
-          "nationality": "United States of America",
-          "identityNumber": "61213321830219",
-          "issuingCountry": "United States of America",
-          "expiryDate": "2029-01-01"
-        },
-             {
-                 "ageGroup": "Baby"
-             }
-      ]
-    },
-    "seat": {
-      "outbound": [
-        {
-          "label": "P1",
-          "seatNumber": "A9"
-        },
-        {
-          "label": "P2",
-          "seatNumber": "B9"
-        },
-             {
-          "label": "P3",
-          "seatNumber": "C9"
-        }
-      ],
-      "inbound": null
-    }
-  });
 
   const [isSaved, setIsSaved] = useState(false);
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -124,7 +51,7 @@ const OrderBody = () => {
       ...prevState,
       pemesan: !!data,
     }));
-    // console.log("Data Pemesan:", dataPemesan);
+    console.log("Data Pemesan:", data);
   };
 
   const [dataPenumpang, setDataPenumpang] = useState([]);
@@ -147,13 +74,12 @@ const OrderBody = () => {
         penumpang: isAllDataValid,
       }));
 
-      // console.log("Data Penumpang:", dataPenumpang);
+      console.log("Data Penumpang:", dataPenumpang);
     },
     [dataPenumpang]
   );
 
   const handleSave = () => {
-    console.log("ok")
     if (Object.values(isValid).every((status) => status)) {
       setIsSaved(true);
       console.log("Data Pemesan:", dataPemesan);
@@ -188,7 +114,7 @@ const OrderBody = () => {
             <button
               onClick={handleSave}
               className={`w-11/12 max-w-2xl py-4 rounded-lg text-xl transition-opacity shadow-md ${
-                isSaved || Object.values(isValid).includes(false)
+                isSaved
                   ? "bg-gray-400 text-gray-700 cursor-not-allowed"
                   : "bg-[#7126B5] text-white hover:opacity-90"
               }`}

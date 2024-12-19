@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import Switch from "../../elements/Switch/Switch";
 
 const SubDataPenumpang = ({ title_card, index, onPenumpangChange }) => {
   const [showNamaKeluarga, setShowNamaKeluarga] = useState(false);
   const [formData, setFormData] = useState({
-    tittle: "",
+    title: "",
     fullName: "",
     familyName: "",
     dateOfBirth: "",
@@ -14,41 +14,34 @@ const SubDataPenumpang = ({ title_card, index, onPenumpangChange }) => {
     expiryDate: "",
   });
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    if (!name) return;
+  const handleInputChange = useCallback(
+    (e) => {
+      const { name, value } = e.target;
+      if (!name) return;
 
-    const updatedData = {
-      ...formData,
-      [name]: value,
-    };
+      const updatedData = { ...formData, [name]: value };
+      setFormData(updatedData);
 
-    setFormData(updatedData);
+      // Kirim data ke parent
+      if (typeof onPenumpangChange === "function") {
+        onPenumpangChange(index, updatedData);
+      }
+    },
+    [formData, index, onPenumpangChange]
+  );
 
-    // Kirim data ke parent
-    if (typeof onPenumpangChange === "function") {
-      onPenumpangChange(index, updatedData);
-    }
-  };
-
-  const handleSwitchChange = () => {
+  const handleSwitchChange = useCallback(() => {
     setShowNamaKeluarga((prev) => !prev);
-  };
-
-  useEffect(() => {
-    if (!showNamaKeluarga) {
+    if (showNamaKeluarga) {
       setFormData((prevData) => {
         const updatedData = { ...prevData, familyName: "" };
-        
-        // Kirim data ke parent hanya sekali saat nama keluarga dihapus
         if (typeof onPenumpangChange === "function") {
           onPenumpangChange(index, updatedData);
         }
-
         return updatedData;
       });
     }
-  }, [showNamaKeluarga, onPenumpangChange, index]);
+  }, [showNamaKeluarga, index, onPenumpangChange]);
 
   return (
     <div className="rounded-lg mb-10">
@@ -63,7 +56,7 @@ const SubDataPenumpang = ({ title_card, index, onPenumpangChange }) => {
           </label>
           <select
             name="tittle"
-            value={formData.tittle}
+            value={formData.title}
             onChange={handleInputChange}
             className="border-2 py-3 px-4 text-base rounded-[8px] w-full focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all ease-in-out"
           >
