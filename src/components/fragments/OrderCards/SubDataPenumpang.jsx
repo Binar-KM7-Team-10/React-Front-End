@@ -64,8 +64,11 @@ const SubDataPenumpang = ({ title_card, index, onPenumpangChange }) => {
             <option value="" disabled>
               Pilih Title
             </option>
-            <option value="mr">Mr</option>
-            <option value="mrs">Mrs</option>
+            <option value="Mr">Mr</option>
+            <option value="Mrs">Mrs</option>
+            <option value="Miss">Miss</option>
+            <option value="Ms">Ms</option>
+            <option value="Master">Master</option>
           </select>
         </div>
 

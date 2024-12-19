@@ -25,7 +25,7 @@ const DataPemesan = ({ title_card, onValidate, onSubmit }) => {
     const { name, value } = e.target;
     const updatedFormData = { ...formData, [name]: value };
     setFormData(updatedFormData);
-    onSubmit(updatedFormData); // Kirim data ke parent setiap kali ada perubahan
+    onSubmit(updatedFormData);
   };
 
   const validateForm = () => {
@@ -35,7 +35,7 @@ const DataPemesan = ({ title_card, onValidate, onSubmit }) => {
 
   useEffect(() => {
     const isValid = validateForm();
-    onValidate(isValid); // Validasi data
+    onValidate(isValid); 
   }, [formData]);
 
   return (
@@ -59,7 +59,7 @@ const DataPemesan = ({ title_card, onValidate, onSubmit }) => {
 
           <div className="flex justify-between">
             <p>Punya Nama Keluarga?</p>
-            <Switch onChange={handleSwitchChange} />
+            <Switch onChange={handleSwitchChange} checked={showNamaKeluarga} />
           </div>
 
           {showNamaKeluarga && (

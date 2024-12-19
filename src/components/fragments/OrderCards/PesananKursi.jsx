@@ -23,10 +23,9 @@ const PesananKursi = ({ seatList, totalSeatsRequired, onSeatSelect }) => {
     return "bg-green-500 hover:bg-green-600";
   };
 
-  // Kirim data kursi yang dipilih ke OrderBody
   useEffect(() => {
     if (selectedSeats.length <= totalSeatsRequired) {
-      onSeatSelect(selectedSeats); // Hanya panggil jika jumlah valid
+      onSeatSelect(selectedSeats);
     }
   }, [selectedSeats, onSeatSelect, totalSeatsRequired]);
 
@@ -41,17 +40,11 @@ const PesananKursi = ({ seatList, totalSeatsRequired, onSeatSelect }) => {
           Jumlah kursi yang harus dipilih: {totalSeatsRequired}
         </p>
         <p
-          className={`text-sm mb-5 ${
-            selectedSeats.length === totalSeatsRequired
-              ? "text-green-500"
-              : "text-red-500"
-          }`}
+          className={`text-sm mb-5 ${selectedSeats.length === totalSeatsRequired ? "text-green-500" : "text-red-500"}`}
         >
           {selectedSeats.length === totalSeatsRequired
             ? "Jumlah kursi yang dipilih sudah sesuai."
-            : `Anda telah memilih ${selectedSeats.length} kursi. Silakan pilih ${
-                totalSeatsRequired - selectedSeats.length
-              } kursi lagi.`}
+            : `Anda telah memilih ${selectedSeats.length} kursi. Silakan pilih ${totalSeatsRequired - selectedSeats.length} kursi lagi.`}
         </p>
         <div className="grid gap-2">
           {rows.map((row) => (
@@ -62,14 +55,11 @@ const PesananKursi = ({ seatList, totalSeatsRequired, onSeatSelect }) => {
                   return (
                     <button
                       key={seatId}
-                      className={`w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold transition-colors ${getSeatColor(
-                        seatId
-                      )}`}
+                      className={`w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold transition-colors ${getSeatColor(seatId)}`}
                       onClick={() => handleSeatSelect(seatId)}
                       disabled={
-                        !availableSeats.has(seatId) || // Kursi tidak tersedia
-                        (selectedSeats.length >= totalSeatsRequired &&
-                          !selectedSeats.includes(seatId)) // Sudah mencapai maksimal
+                        !availableSeats.has(seatId) ||
+                        (selectedSeats.length >= totalSeatsRequired && !selectedSeats.includes(seatId))
                       }
                     >
                       {availableSeats.has(seatId) ? seatId : "X"}
@@ -77,23 +67,18 @@ const PesananKursi = ({ seatList, totalSeatsRequired, onSeatSelect }) => {
                   );
                 })}
               </div>
-              <div className="flex items-center justify-center font-semibold">
-                {row}
-              </div>
+              <div className="flex items-center justify-center font-semibold">{row}</div>
               <div className="col-span-3 grid grid-cols-3 gap-2">
                 {rightColumns.map((col) => {
                   const seatId = `${col}${row}`;
                   return (
                     <button
                       key={seatId}
-                      className={`w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold transition-colors ${getSeatColor(
-                        seatId
-                      )}`}
+                      className={`w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold transition-colors ${getSeatColor(seatId)}`}
                       onClick={() => handleSeatSelect(seatId)}
                       disabled={
-                        !availableSeats.has(seatId) || // Kursi tidak tersedia
-                        (selectedSeats.length >= totalSeatsRequired &&
-                          !selectedSeats.includes(seatId)) // Sudah mencapai maksimal
+                        !availableSeats.has(seatId) ||
+                        (selectedSeats.length >= totalSeatsRequired && !selectedSeats.includes(seatId))
                       }
                     >
                       {availableSeats.has(seatId) ? seatId : "X"}
