@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Switch from "../../elements/Switch/Switch";
 
 const SubDataPenumpang = ({ title_card, index, onPenumpangChange }) => {
@@ -32,17 +32,23 @@ const SubDataPenumpang = ({ title_card, index, onPenumpangChange }) => {
   };
 
   const handleSwitchChange = () => {
-    setShowNamaKeluarga(!showNamaKeluarga);
+    setShowNamaKeluarga((prev) => !prev);
+  };
+
+  useEffect(() => {
     if (!showNamaKeluarga) {
       setFormData((prevData) => {
         const updatedData = { ...prevData, familyName: "" };
+        
+        // Kirim data ke parent hanya sekali saat nama keluarga dihapus
         if (typeof onPenumpangChange === "function") {
           onPenumpangChange(index, updatedData);
         }
+
         return updatedData;
       });
     }
-  };
+  }, [showNamaKeluarga, onPenumpangChange, index]);
 
   return (
     <div className="rounded-lg mb-10">

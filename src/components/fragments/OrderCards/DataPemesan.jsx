@@ -3,25 +3,21 @@ import Switch from '../../elements/Switch/Switch';
 import Cookies from "js-cookie";
 
 const DataPemesan = ({ title_card, onValidate, onSubmit }) => {
-
-  console.log()
-
   const userCookie = Cookies.get("user");
   const userData = userCookie ? JSON.parse(userCookie) : {};
 
   const [showNamaKeluarga, setShowNamaKeluarga] = useState(false);
   const [formData, setFormData] = useState({
-    fullName: userData.fullName,
-    familyName: '',
-    phoneNumber: userData.phoneNumber,
-    email: userData.email,
+    fullName: userData.fullName || "",
+    familyName: "",
+    phoneNumber: userData.phoneNumber || "",
+    email: userData.email || "",
   });
 
   const handleSwitchChange = () => {
     setShowNamaKeluarga(!showNamaKeluarga);
   };
 
-  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     const updatedFormData = { ...formData, [name]: value };
@@ -29,18 +25,19 @@ const DataPemesan = ({ title_card, onValidate, onSubmit }) => {
     onSubmit(updatedFormData);
   };
 
-  useEffect(() => {
-    onSubmit(formData);
-  }, [formData, setFormData])
-  
   const validateForm = () => {
     const { fullName, phoneNumber, email } = formData;
+    // Hanya validasi field yang wajib
     return fullName && phoneNumber && email;
   };
 
   useEffect(() => {
     const isValid = validateForm();
-    onValidate(isValid); 
+    onValidate(isValid);
+  }, [formData]);
+
+  useEffect(() => {
+    onSubmit(formData);
   }, [formData]);
 
   return (
