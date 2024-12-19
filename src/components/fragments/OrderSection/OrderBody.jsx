@@ -12,7 +12,7 @@ const OrderBody = () => {
   const { id } = useParams();
   const { dataBooking, loading, error } = useGetBookingById(id);
   const { getSearchParamsFromCookies } = useSearchContext();
-
+  // console.log(dataBooking.seat)
   const passangers = getSearchParamsFromCookies().psg;
   const arryPsg = passangers ? passangers.split(".") : [];
   const intArryPsg = arryPsg.map((str) => parseInt(str));
@@ -49,7 +49,9 @@ const OrderBody = () => {
         <div className="left-section w-full space-y-6 md:w-7/12 flex-col">
           <DataPemesan onValidate={(status) => handleValidation("pemesan", status)} />
           <DataPenumpang dataPsg={intArryPsg} onValidate={(status) => handleValidation("penumpang", status)} />
-          <PesananKursi onValidate={(status) => handleValidation("kursi", status)} />
+          {
+            dataBooking.seat?.map && <PesananKursi seatList={dataBooking.seat.map} onValidate={(status) => handleValidation("kursi", status)} />
+          }
           <div className="flex justify-center">
             <button
               onClick={handleSave}
