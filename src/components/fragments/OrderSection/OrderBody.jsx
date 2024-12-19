@@ -38,7 +38,7 @@ const OrderBody = () => {
         ...prevState,
         kursi: isValidSeats,
       }));
-      console.log("data kursi ",seats);
+      console.log("Data Kursi:", seats);
     },
     [totalSeatsRequired]
   );
@@ -47,19 +47,37 @@ const OrderBody = () => {
 
   const handleDataPemesanSubmit = (data) => {
     setDataPemesan(data);
-    console.log("data pemesan" ,dataPemesan);
+    setIsValid((prevState) => ({
+      ...prevState,
+      pemesan: !!data,
+    }));
+    console.log("Data Pemesan:", data);
   };
 
   const [dataPenumpang, setDataPenumpang] = useState([]);
 
-  const handlePenumpangDataChange = (index, newData) => {
-    setDataPenumpang((prevData) => {
-      const updatedData = [...prevData];
-      updatedData[index] = newData;
-      return updatedData;
-    });
-    console.log(dataPenumpang);
-  };
+  const handlePenumpangDataChange = useCallback(
+    (index, newData) => {
+      setDataPenumpang((prevData) => {
+        const updatedData = [...prevData];
+        updatedData[index] = newData;
+        return updatedData;
+      });
+
+      // Validasi semua data penumpang
+      const isAllDataValid = dataPenumpang.every((penumpang) =>
+        Object.values(penumpang || {}).every((field) => field)
+      );
+
+      setIsValid((prevState) => ({
+        ...prevState,
+        penumpang: isAllDataValid,
+      }));
+
+      console.log("Data Penumpang:", dataPenumpang);
+    },
+    [dataPenumpang]
+  );
 
   const handleSave = () => {
     if (Object.values(isValid).every((status) => status)) {
@@ -70,13 +88,6 @@ const OrderBody = () => {
     } else {
       alert("Silakan lengkapi semua data sebelum menyimpan.");
     }
-  };
-
-  const handleValidation = (field, status) => {
-    setIsValid((prevState) => ({
-      ...prevState,
-      [field]: status,
-    }));
   };
 
   if (loading) return <div>Loading booking details...</div>;
@@ -93,7 +104,6 @@ const OrderBody = () => {
           <DataPenumpang
             dataPsg={intArryPsg}
             onPenumpangChange={handlePenumpangDataChange}
-            onValidate={(status) => handleValidation("penumpang", status)}
           />
           <PesananKursi
             seatList={seatList}
@@ -103,8 +113,11 @@ const OrderBody = () => {
           <div className="flex justify-center">
             <button
               onClick={handleSave}
-              className={`w-11/12 max-w-2xl py-4 rounded-lg text-xl transition-opacity shadow-md ${isSaved ? "bg-gray-400 text-gray-700 cursor-not-allowed" : "bg-[#7126B5] text-white hover:opacity-90"
-                }`}
+              className={`w-11/12 max-w-2xl py-4 rounded-lg text-xl transition-opacity shadow-md ${
+                isSaved
+                  ? "bg-gray-400 text-gray-700 cursor-not-allowed"
+                  : "bg-[#7126B5] text-white hover:opacity-90"
+              }`}
               disabled={isSaved || Object.values(isValid).includes(false)}
             >
               Simpan
