@@ -1,14 +1,33 @@
 import React, { useState, useCallback } from "react";
 import Skeleton from "react-loading-skeleton";
+import { useNavigate } from "react-router-dom";
+import { useSearchContext } from "../../../contexts/searchFlightContext";
 import "react-loading-skeleton/dist/skeleton.css";
 import useFlightDeals from "../../../hooks/useDestination";
 import ContinentFilter from "../../elements/Categories/Categori";
-import cardImg from "../../../assets/Images/image.png"
+import cardImg from "../../../assets/Images/image.png";
 
 const FlightDeals = () => {
+
   const [page, setPage] = useState(1);
   const [continent, setContinent] = useState("Asia");
   const { deals, loading, error, pagination } = useFlightDeals(page, continent);
+  const { setSearchParams } = useSearchContext();
+  const navigate = useNavigate();
+
+  const handleClickCard = (dpCardCity, arCardCity, dpCardDate) => {
+    const formatDpDate = new Date(dpCardDate)
+    const formatRetDate = new Date()
+    setSearchParams({
+      dpCity: dpCardCity,
+      arCity: arCardCity,
+      dpDate: `${formatDpDate.getFullYear()}-${(formatDpDate.getMonth() + 1).toString().padStart(2, "0")}-${formatDpDate.getDate().toString().padStart(2, "0")}`,
+      retDate: `${formatRetDate.getFullYear()}-${(formatRetDate.getMonth() + 1).toString().padStart(2, "0")}-${formatRetDate.getDate().toString().padStart(2, "0")}`,
+      psg: "1.0.0",
+      seatClass: ""
+    });
+    navigate("/search");
+  }
 
   const handleContinentChange = useCallback((newContinent) => {
     setContinent(newContinent);
@@ -35,7 +54,7 @@ const FlightDeals = () => {
         activeFilter={continent}
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 px-8 md:px-24 max-w-6xl mx-auto pt-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 px-8 md:px-24 max-w-6xl mx-auto pt-5 cursor-pointer">
         {loading ? (
           [...Array(5)].map((_, index) => (
             <div
@@ -60,6 +79,7 @@ const FlightDeals = () => {
             <div
               key={index}
               className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg hover:scale-105 transition-transform duration-300 ease-in-out"
+              onClick={() => handleClickCard(deal.departureCity, deal.arrivalCity, deal.startDate)}
             >
               <div className="relative p-4">
                 <img
@@ -104,11 +124,11 @@ const FlightDeals = () => {
         )}
       </div>
 
-      <div className="flex justify-center mt-4 items-center">
+      <div className="flex justify-center pt-8 items-center">
         <button
           onClick={() => handlePageChange(page - 1)}
           disabled={page <= 1}
-          className={`px-4 py-2 rounded-full text-white bg-purple-600 hover:bg-purple-700 transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed`}
+          className={`px-2 py-3 rounded-full text-white bg-purple-600 hover:bg-purple-700 transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed`}
         >
           Prev
         </button>
@@ -118,7 +138,7 @@ const FlightDeals = () => {
         <button
           onClick={() => handlePageChange(page + 1)}
           disabled={pagination ? page >= pagination.totalPage : false}
-          className={`px-4 py-2 rounded-full text-white bg-purple-600 hover:bg-purple-700 transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed`}
+          className={`px-2 py-3  rounded-full text-white bg-purple-600 hover:bg-purple-700 transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed`}
         >
           Next
         </button>

@@ -10,7 +10,7 @@ const LoadingSearchFlight = () => {
                     <div
                         className="bg-purple-600 h-full w-1/3 absolute animate-slide"
                         style={{
-                            animation: "slide 1.5s infinite linear",
+                            animation: "slide 10s infinite linear",
                         }}
                     />
                 </div>

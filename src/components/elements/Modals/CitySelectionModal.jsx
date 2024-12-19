@@ -3,25 +3,10 @@ import { Search, X } from "lucide-react";
 import ButtonIconClose from "../Button/ButtonIconClose";
 import useFetchCities from "../../../hooks/useFetchCities";
 
-const CitySelectionModal = ({ isOpen, onClose, onSelect }) => {
+const CitySelectionModal = ({ city, isOpen, onClose, onSelect }) => {
+  // console.log(city)
   const [searchQuery, setSearchQuery] = useState("");
-  const [recentCities, setRecentCities] = useState([
-    "Jakarta",
-    "Bandung",
-    "Surabaya",
-    "Chicago",
-    "Delhi",
-    "Sydney",
-    "Cape Town",
-    "Hanoi",
-    "Manila"
-  ]);
-
-  // const { cities, loading } = useFetchCities();
-
-  // useEffect(() => {
-  //   setRecentCities(cities)
-  // }, [])
+  const [recentCities, setRecentCities] = useState(city);
 
   if (!isOpen) return null;
 
@@ -67,15 +52,16 @@ const CitySelectionModal = ({ isOpen, onClose, onSelect }) => {
             <div className="space-y-4 mt-4">
               {recentCities
                 .filter((city) =>
-                  city.toLowerCase().includes(searchQuery.toLowerCase())
+                  city.name.toLowerCase().includes(searchQuery.toLowerCase())
                 )
+                .slice(0, 5)
                 .map((city) => (
                   <div
-                    key={city}
-                    className="flex items-center justify-between p-2 border-b cursor-pointer"
-                    onClick={() => onSelect(city)}
+                    key={city.id}
+                    className="flex items-center justify-between p-2 border-b cursor-pointer hover:bg-[#E2D4F0]"
+                    onClick={() => onSelect(city.name)}
                   >
-                    <span>{city}</span>
+                    <span>{city.name}</span>
                     <X className="w-4 h-4 text-gray-400" />
                   </div>
                 ))}
