@@ -59,6 +59,7 @@ const DataPemesan = ({ title_card, onValidate, onSubmit }) => {
               value={formData.fullName}
               onChange={handleInputChange}
               className="border-2 py-3 px-2 text-sm rounded-[4px]"
+              disabled={true}
             />
           </div>
 
@@ -88,6 +89,7 @@ const DataPemesan = ({ title_card, onValidate, onSubmit }) => {
               value={formData.phoneNumber}
               onChange={handleInputChange}
               className="border-2 py-3 px-2 text-sm rounded-[4px]"
+              disabled={true}
             />
           </div>
 
@@ -99,6 +101,7 @@ const DataPemesan = ({ title_card, onValidate, onSubmit }) => {
               value={formData.email}
               onChange={handleInputChange}
               className="border-2 py-3 px-2 text-sm rounded-[4px]"
+              disabled={true}
             />
           </div>
         </div>
