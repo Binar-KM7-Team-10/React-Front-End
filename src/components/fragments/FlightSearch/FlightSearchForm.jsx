@@ -137,7 +137,7 @@ const FlightSearchForm = () => {
         <div className="p-6 space-y-8">
         <h1 className="text-center sm:text-left text-xl sm:text-xl lg:text-xl font-bold">
           Pilih Jadwal Penerbangan spesial di{" "}
-          <span className="text-purple-600">Tiketku!</span>
+          <span className="text-purple-600">TiketGo!</span>
         </h1>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-24 relative">

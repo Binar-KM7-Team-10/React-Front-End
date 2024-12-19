@@ -20,7 +20,7 @@ const routesConfig = [
   { path: "/login", element: Login, type: "guest" },
   { path: "/register", element: Register, type: "guest" },
   { path: "/payment", element: Payment, type: "auth" },
-  { path: "/checkout", element: OrderPage, type: "auth" },
+  { path: "/checkout/:id", element: OrderPage, type: "auth" },
   { path: "/search", element: SearchPage, type: "public" },
   { path: "/payment-success", element: PaymentSuccess, type: "auth" },
   { path: "/history-order", element: HistoryOrder, type: "auth" },

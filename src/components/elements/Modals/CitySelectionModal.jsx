@@ -9,9 +9,10 @@ const CitySelectionModal = ({ isOpen, onClose, onSelect }) => {
     "Jakarta",
     "Bandung",
     "Surabaya",
-    "Bali",
+    "Chicago",
     "Delhi",
     "Sydney",
+    "Cape Town",
     "Hanoi",
     "Manila",
     "Mumbai",
@@ -27,7 +28,6 @@ const CitySelectionModal = ({ isOpen, onClose, onSelect }) => {
 
   if (!isOpen) return null;
 
-  // Fungsi untuk menghapus semua kota terkini
   const clearRecentCities = () => {
     setRecentCities([]);
   };

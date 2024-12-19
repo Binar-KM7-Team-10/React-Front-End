@@ -6,6 +6,7 @@ import IconArrow from "../../../assets/Images/Arrow.png";
 import FlightDetails from "./FlightDetails";
 import { Link } from "react-router-dom";
 
+
 const FlightItem = ({ flight, isSelected, toggleDetails }) => {
   const departureTime = new Date(flight.departure.dateTime);
   const formattedTimeDp = `${departureTime.getHours()}:${departureTime.getMinutes().toString().padStart(2, "0")}`;
@@ -75,7 +76,8 @@ const FlightItem = ({ flight, isSelected, toggleDetails }) => {
           <div className="font-bold text-purple-800 text-lg">
             IDR {flight.price.toLocaleString("id-ID")}
           </div>
-          <Link to={"/checkout"}>
+          
+          <Link to={`/checkout/${flight.scheduleId}`}>
             <button className="mt-3 bg-purple-800 text-white px-4 py-2 rounded-2xl w-[100px]">
               Pilih
             </button>
