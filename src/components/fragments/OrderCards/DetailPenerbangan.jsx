@@ -5,7 +5,6 @@ import { useGetBookingById } from "../../../hooks/useBooking";
 import ImageFlight from "../../../assets/Images/ImageFlight.png";
 
 const DetailPenerbangan = ({ bookingData, arryPsg }) => {
-  console.log(bookingData)
   if (!bookingData || !bookingData.departure || !bookingData.arrival || !bookingData.price) {
     return <div>Data penerbangan tidak tersedia atau belum lengkap.</div>;
   }

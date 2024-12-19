@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import DataPemesan from "../OrderCards/DataPemesan";
 import DataPenumpang from "../OrderCards/DataPenumpang";
 import PesananKursi from "../OrderCards/PesananKursi";
 import DetailPenerbangan from "../OrderCards/DetailPenerbangan";
 import { Link, useParams } from "react-router-dom";
-import { useBookingContext } from "../../../contexts/BookingContext";
 import { useGetBookingById } from "../../../hooks/useBooking";
 import { useSearchContext } from "../../../contexts/searchFlightContext";
 
@@ -12,21 +11,49 @@ const OrderBody = () => {
   const { id } = useParams();
   const { dataBooking, loading, error } = useGetBookingById(id);
   const { getSearchParamsFromCookies } = useSearchContext();
-  // console.log(dataBooking.seat)
+
   const passangers = getSearchParamsFromCookies().psg;
   const arryPsg = passangers ? passangers.split(".") : [];
   const intArryPsg = arryPsg.map((str) => parseInt(str));
+  const totalSeatsRequired = intArryPsg.reduce((a, b) => a + b, 0); // Total kursi yang diperlukan
 
-  const [isSaved, setIsSaved] = React.useState(false);
-  const [isValid, setIsValid] = React.useState({
+  const [isSaved, setIsSaved] = useState(false);
+  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [isValid, setIsValid] = useState({
     pemesan: false,
     penumpang: false,
     kursi: false,
   });
 
+  const seatList = useMemo(
+    () => (dataBooking?.seat?.map ? dataBooking.seat.map : []),
+    [dataBooking]
+  );
+
+  const handleSeatSelection = useCallback(
+    (seats) => {
+      setSelectedSeats(seats);
+      const isValidSeats = seats.length === totalSeatsRequired; // Validasi jumlah kursi
+      setIsValid((prevState) => ({
+        ...prevState,
+        kursi: isValidSeats,
+      }));
+    },
+    [totalSeatsRequired]
+  );
+
+  const [dataPemesan, setDataPemesan] = useState(null); // Tambahkan state untuk data pemesan
+
+  const handleDataPemesanSubmit = (data) => {
+    setDataPemesan(data); // Simpan data pemesan di state
+    console.log("Data Pemesan:", data); // Debugging data pemesan
+  };
+
   const handleSave = () => {
     if (Object.values(isValid).every((status) => status)) {
       setIsSaved(true);
+      console.log("Data Pemesan:", dataPemesan);
+      console.log("Kursi yang dipilih:", selectedSeats);
     } else {
       alert("Silakan lengkapi semua data sebelum menyimpan.");
     }
@@ -45,13 +72,17 @@ const OrderBody = () => {
   return (
     <div className="my-8">
       <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-screen-lg md:flex gap-6">
-        {/* Bagian kiri */}
         <div className="left-section w-full space-y-6 md:w-7/12 flex-col">
-          <DataPemesan onValidate={(status) => handleValidation("pemesan", status)} />
+        <DataPemesan
+            onValidate={(status) => setIsValid((prev) => ({ ...prev, pemesan: status }))}
+            onSubmit={handleDataPemesanSubmit} // Kirim data setiap kali ada perubahan
+          />
           <DataPenumpang dataPsg={intArryPsg} onValidate={(status) => handleValidation("penumpang", status)} />
-          {
-            dataBooking.seat?.map && <PesananKursi seatList={dataBooking.seat.map} onValidate={(status) => handleValidation("kursi", status)} />
-          }
+          <PesananKursi
+            seatList={seatList}
+            totalSeatsRequired={totalSeatsRequired}
+            onSeatSelect={handleSeatSelection}
+          />
           <div className="flex justify-center">
             <button
               onClick={handleSave}
@@ -65,7 +96,6 @@ const OrderBody = () => {
           </div>
         </div>
 
-        {/* Bagian kanan */}
         <div className="w-full md:w-5/12 mt-8 md:mt-0">
           {dataBooking ? (
             <DetailPenerbangan bookingData={dataBooking} arryPsg={intArryPsg} />

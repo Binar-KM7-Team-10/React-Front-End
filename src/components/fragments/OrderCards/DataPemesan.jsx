@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import Switch from '../../elements/Switch/Switch';
+import Cookies from "js-cookie";
 
-const DataPemesan = ({ title_card, onValidate }) => {
+const DataPemesan = ({ title_card, onValidate, onSubmit }) => {
+
+  console.log()
+
+  const userCookie = Cookies.get("user");
+  const userData = userCookie ? JSON.parse(userCookie) : {};
+
   const [showNamaKeluarga, setShowNamaKeluarga] = useState(false);
   const [formData, setFormData] = useState({
-    fullName: '',
+    fullName: userData.fullName,
     familyName: '',
-    phoneNumber: '',
-    email: '',
+    phoneNumber: userData.phoneNumber,
+    email: userData.email,
   });
 
   const handleSwitchChange = () => {
@@ -16,21 +23,20 @@ const DataPemesan = ({ title_card, onValidate }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    const updatedFormData = { ...formData, [name]: value };
+    setFormData(updatedFormData);
+    onSubmit(updatedFormData); // Kirim data ke parent setiap kali ada perubahan
+  };
+
+  const validateForm = () => {
+    const { fullName, phoneNumber, email } = formData;
+    return fullName && phoneNumber && email;
   };
 
   useEffect(() => {
     const isValid = validateForm();
-    onValidate(isValid); 
+    onValidate(isValid); // Validasi data
   }, [formData]);
-
-  const validateForm = () => {
-    const { fullName, phoneNumber, email } = formData;
-    return fullName && phoneNumber && email; 
-  };
 
   return (
     <div className="border border-black p-5 rounded-md">
@@ -97,4 +103,3 @@ const DataPemesan = ({ title_card, onValidate }) => {
 };
 
 export default DataPemesan;
-
