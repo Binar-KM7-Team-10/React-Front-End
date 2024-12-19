@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 const FormRegister = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const { register, loading, setOtp } = useRegister();
+  const { register, setOtp, loading } = useRegister();
   const [result, setResult] = useState({})
   const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ const FormRegister = () => {
 
   const handleRegister = async (data) => {
     const { fullName, email, phone, password } = data;
-    const resultRegister = await register( email, password, fullName, phone );
+    const resultRegister = await register(email, password, fullName, phone);
     if (resultRegister.length != 0) {
       setResult(resultRegister)
     }
@@ -53,14 +53,13 @@ const FormRegister = () => {
   return (
     <div className="flex justify-center items-center px-1 py-6">
       <div className="w-full bg-white p-4 rounded-lg">
-        {/* Loading spinner jika sedang memproses */}
-        {loading && (
+        {/* {loading && (
           <div className="flex justify-center items-center py-4">
             <div className="spinner-border text-blue-500" role="status">
               <span className="sr-only">Loading...</span>
             </div>
           </div>
-        )}
+        )} */}
 
         <form onSubmit={handleSubmit(handleRegister)}>
           <InputForm
@@ -104,8 +103,8 @@ const FormRegister = () => {
             {...registerForm("phone", {
               required: "Phone number is required",
               pattern: {
-                value: /^[0-9]+$/,
-                message: "Phone number must contain only numbers",
+                value: /^628[0-9]+$/,
+                message: "Phone number must start with '628' and contain only numbers",
               },
             })}
           />
@@ -140,9 +139,9 @@ const FormRegister = () => {
               )}
             </button>
           </div>
-          <ButtonRegister msg="Daftar" />
-          { result.status == "success" && <AlertAuth msg={result.message} type={"success"} /> }
-          { result.status == "error" && <AlertAuth msg={result.message} type={"danger"} /> }
+          <ButtonRegister msg={loading ? "Loading" : "Daftar"} disabled={loading} />
+          {result.status == "success" && <AlertAuth msg={result.message} type={"success"} />}
+          {result.status == "error" && <AlertAuth msg={result.message} type={"danger"} />}
         </form>
       </div>
     </div>

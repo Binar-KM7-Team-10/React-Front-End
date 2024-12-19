@@ -13,15 +13,15 @@ import PassengerSelector from "../../elements/Modals/PassengerModal";
 import DatePickModal from "../../elements/Modals/DateModal";
 import Switch from "../../elements/Switch/Switch";
 import SeatClassModal from "../../elements/Modals/SeatModal";
-import { SearchContext } from "../../../contexts/searchFlightContext";
+import { useSearchContext } from "../../../contexts/searchFlightContext";
 
 const FlightSearchForm = () => {
-  const { setSearchParams } = useContext(SearchContext);
+  const { setSearchParams } = useSearchContext();
 
   const [isRoundTrip, setIsRoundTrip] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedFromCity, setSelectedFromCity] = useState("Jakarta (JKTA)");
-  const [selectedToCity, setSelectedToCity] = useState("Melbourne (MLB)");
+  const [selectedFromCity, setSelectedFromCity] = useState("Jakarta");
+  const [selectedToCity, setSelectedToCity] = useState("Melbourne");
   const [isSelectingFrom, setIsSelectingFrom] = useState(true);
   const [passengerModalOpen, setPassengerModalOpen] = useState(false);
   const [passengerCounts, setPassengerCounts] = useState({
@@ -30,9 +30,10 @@ const FlightSearchForm = () => {
     infant: 0,
   });
 
+  const today = new Date();
   const [dateModalOpen, setDateModalOpen] = useState(false);
   const [isSelectingDeparture, setIsSelectingDeparture] = useState(true);
-  const [departureDate, setDepartureDate] = useState(null);
+  const [departureDate, setDepartureDate] = useState(today);
   const [returnDate, setReturnDate] = useState(null);
 
   const [seatClassModalOpen, setSeatClassModalOpen] = useState(false);
@@ -116,12 +117,14 @@ const FlightSearchForm = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
+    const formatDpDate = new Date(departureDate);
+    const formatRetDate = new Date(returnDate);
     setSearchParams({
       dpCity: selectedFromCity,
       arCity: selectedToCity,
-      dpDate: departureDate,
-      retDate: returnDate,
-      psg: `${passengerCounts.adult},${passengerCounts.child},${passengerCounts.infant}`,
+      dpDate: `${formatDpDate.getFullYear()}-${(formatDpDate.getMonth() + 1).toString().padStart(2, "0")}-${formatDpDate.getDate().toString().padStart(2, "0")}`,
+      retDate: `${formatRetDate.getFullYear()}-${(formatRetDate.getMonth() + 1).toString().padStart(2, "0")}-${formatRetDate.getDate().toString().padStart(2, "0")}`,
+      psg: `${passengerCounts.adult}.${passengerCounts.child}.${passengerCounts.infant}`,
       seatClass: selectedSeatClass,
     });
     navigate("/search");
@@ -136,7 +139,7 @@ const FlightSearchForm = () => {
         <div className="p-4 sm:p-6 space-y-6 sm:space-y-8">
           <h1 className="hidden sm:block text-center sm:text-left text-lg sm:text-xl lg:text-xl font-bold">
             Pilih Jadwal Penerbangan spesial di
-            <span className="text-purple-600">Tiketku!</span>
+            <span className="text-purple-600">TiketGo!</span>
           </h1>
 
           <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 md:gap-24 relative">

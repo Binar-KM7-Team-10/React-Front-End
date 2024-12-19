@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Cookies from "js-cookie";
-import { RegisterOtp } from "../services/auth.service";
+import { RegisterOtp, RegisterOtpResend } from "../services/auth.service";
 import { useRegisterEmail } from "../contexts/RegisterContext";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -14,11 +14,11 @@ const useRegisterOtp = () => {
         try {
             const response = await RegisterOtp({ email, otp });
             if (response.success) {
-                // Simpan token dan user di Cookies
+
                 Cookies.set("token", response.data.accessToken);
                 Cookies.set("user", JSON.stringify(response.data.user));
                 console.log(JSON.stringify(response.data.user));
-                // Update isAuth di AuthContext
+
                 setTimeout(() => {
                     setIsAuth(true);
                 }, 3000);
@@ -43,8 +43,37 @@ const useRegisterOtp = () => {
         }
     }
 
+    const otpResend = async (email) => {
+        setLoading(true);
+        try {
+            const response = await RegisterOtpResend(email);
+            if (response.success === true) {
+                return {
+                    status: "success",
+                    message: response.message || "Login successfully",
+                };
+            }
+            else {
+                return {
+                    status: "error",
+                    message: response.message || "An error occurred",
+                };
+            }
+        }
+        catch (error) {
+            return {
+                status: "error",
+                message: err.message || "An error occurred",
+            };
+        }
+        finally {
+            setLoading(false);
+        }
+    }
+
     return {
         registerOtp,
+        otpResend,
         emailInput,
         loading,
     }

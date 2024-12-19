@@ -1,18 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Search, X } from "lucide-react";
 import ButtonIconClose from "../Button/ButtonIconClose";
+import useFetchCities from "../../../hooks/useFetchCities";
 
 const CitySelectionModal = ({ isOpen, onClose, onSelect }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [recentCities, setRecentCities] = useState([
-    "Jakarta (JKTA)",
-    "Bandung (BDO)",
-    "Surabaya (SUB)",
+    "Jakarta",
+    "Bandung",
+    "Surabaya",
+    "Chicago",
+    "Delhi",
+    "Sydney",
+    "Cape Town",
+    "Hanoi",
+    "Manila",
+    "Mumbai",
+    "Tokyo"
+
   ]);
+
+  // const { cities, loading } = useFetchCities();
+
+  // useEffect(() => {
+  //   setRecentCities(cities)
+  // }, [])
 
   if (!isOpen) return null;
 
-  // Fungsi untuk menghapus semua kota terkini
   const clearRecentCities = () => {
     setRecentCities([]);
   };

@@ -92,6 +92,36 @@ const RegisterOtp = async (body) => {
   }
 };
 
+const RegisterOtpResend = async (email) => {
+  try {
+    console.log(email)
+    const response = await axiosInstance.post("/register/otp/resend", {
+      "email": email,
+    });
+    if (response.data.status == "Success") {
+      console.log("ok")
+      return {
+        success: true,
+        data: response.data?.data || null,
+        message: response.data?.message || "Otp sucessfully resend",
+      };
+    }
+    return {
+      success: false,
+      data: response.data || null,
+      message: response.data?.message || "Failed to register",
+    };
+  }
+  catch (err) {
+    return {
+      success: false,
+      data: err.response.data || null,
+      message:
+        err.response?.data?.message || err.message || "An error occurred",
+    };
+  }
+};
+
 const Logout = async () => {
   try {
     const response = await axiosInstance.get("/logout");
@@ -169,6 +199,7 @@ export {
   Login,
   Register,
   RegisterOtp,
+  RegisterOtpResend,
   Logout,
   ForgotPass,
   ResetPass,

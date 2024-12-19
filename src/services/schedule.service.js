@@ -1,4 +1,4 @@
-import {axiosInstance} from "../api/axiosInstance";
+import { axiosInstance } from "../api/axiosInstance";
 
 const GetSchedules = async (params) => {
     try {
@@ -17,8 +17,9 @@ const GetSchedules = async (params) => {
                 facility: params.facility,
             }
         })
-        if (response.data.status == "OK") {
+        if (response.data.status == "Success") {
             return {
+
                 success: true,
                 data: response.data.data,
             };
@@ -36,8 +37,37 @@ const GetSchedules = async (params) => {
     }
 }
 
-const GetScheduleById = async () => {
+const GetScheduleById = async (id) => {
+    try {
+        const response = await axiosInstance.get(`/schedules/${id}`);
+        return {
+            success: true,
+            data: response.data.data,
+            message: response.data.message || "Schedule successfully retrieved"
+        };
+    } 
+    catch (err) {
+        if (err.response?.status === 404) {
+            return {
+                success: false,
+                data: null,
+                message: "Booking not found"
+            };
+        }
 
+        if (err.response?.status === 400) {
+            return {
+                success: false,
+                data: null,
+                message: "Invalid booking ID"
+            };
+        }
+        return {
+            success: false,
+            data: null,
+            message: err.response?.data?.message || "Failed to fetch booking"
+        };
+    }
 }
 
 const CreateSchedule = async () => {

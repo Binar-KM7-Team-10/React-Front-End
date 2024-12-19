@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import Navbar from "../components/fragments/Navbar/Navbar";
 import FlightSearch from "../components/fragments/FlightSearch/FlightSearch";
-import { SearchContext } from "../contexts/searchFlightContext";
+import { useAuth } from "../contexts/AuthContext";
 
 const SearchPage = () => {
-  const { searchParams } = useContext(SearchContext)
+  const { isAuth } = useAuth();
   return (
     <div>
-      <Navbar search={true} type={"auth"} />
+      <Navbar search={true} type={isAuth ? "auth" : "nonAuth"} />
       <FlightSearch />
     </div>
   );
