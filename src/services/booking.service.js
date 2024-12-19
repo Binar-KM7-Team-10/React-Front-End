@@ -1,15 +1,39 @@
 
 import { axiosInstance } from "../api/axiosInstance";
 
-// const GetBooking = async (params) => {
-//   try {
-//     const response = await axiosInstance.get("/bookings", {params} );
-//     console.log('Bookings fetched successfully:', response.data);
-//     return response.data;
-//   } catch (error) {
-//     throw error;
-//   }
-// };
+
+const GetBookings = async (params) => {
+  try {
+    const response = await axiosInstance.get("/bookings", {
+      params: {
+        userId: params.userId,
+        bookingCode: params.bookingCode,
+        date: params.date,
+      },
+    });
+
+    if (response.data.status === "Success") {
+      return {
+        success: true,
+        data: response.data.data.bookings, // Menyesuaikan dengan contract
+        message: response.data.message || "Bookings successfully retrieved",
+        pagination: response.data.pagination, // Tambahan jika ingin mengakses pagination
+      };
+    }
+
+    return {
+      success: false,
+      data: null,
+      message: response.data.message || "Failed to fetch bookings",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      data: null,
+      message: error.response?.data?.message || "An error occurred",
+    };
+  }
+};
 
 const GetBookingById = async (id) => {
   try {
@@ -71,5 +95,5 @@ const CreatePaymentBooking = async (id, paymentData) => {
   }
 };
 
-export { GetBookingById, CreateBooking, CreatePaymentBooking };
+export { GetBookings, GetBookingById, CreateBooking, CreatePaymentBooking };
 

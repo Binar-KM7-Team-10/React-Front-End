@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react';
 import { BookingHistoryContext } from '../contexts/BookingHistoryContext';
 import { getBookingHistory } from '../services/bookingHistory.service';
 
-export const useBookingHistory = (booking) => {
+export const useBookingHistory = (bookings) => {
     const { state = {}, dispatch } = useContext(BookingHistoryContext);
 
     const { 
@@ -19,7 +19,7 @@ export const useBookingHistory = (booking) => {
             try {
                 dispatch({ type: 'SET_LOADING', payload: true });
                 
-                const response = await getBookingHistory(booking);
+                const response = await getBookingHistory(bookings);
 
                 if (!response?.data) {
                     throw new Error('No data received from server');
@@ -109,7 +109,7 @@ export const useBookingHistory = (booking) => {
         return () => {
             isActive = false;
         };
-    }, [booking, dispatch]);
+    }, [bookings, dispatch]);
 
     return { bookingHistory, loading, error };
 };
