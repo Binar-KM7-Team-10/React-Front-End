@@ -21,6 +21,7 @@ const DataPemesan = ({ title_card, onValidate, onSubmit }) => {
     setShowNamaKeluarga(!showNamaKeluarga);
   };
 
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     const updatedFormData = { ...formData, [name]: value };
@@ -28,6 +29,10 @@ const DataPemesan = ({ title_card, onValidate, onSubmit }) => {
     onSubmit(updatedFormData);
   };
 
+  useEffect(() => {
+    onSubmit(formData);
+  }, [formData, setFormData])
+  
   const validateForm = () => {
     const { fullName, phoneNumber, email } = formData;
     return fullName && phoneNumber && email;

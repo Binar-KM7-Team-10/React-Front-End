@@ -38,7 +38,7 @@ const OrderBody = () => {
         ...prevState,
         kursi: isValidSeats,
       }));
-      console.log(seats);
+      console.log("data kursi ",seats);
     },
     [totalSeatsRequired]
   );
@@ -47,7 +47,7 @@ const OrderBody = () => {
 
   const handleDataPemesanSubmit = (data) => {
     setDataPemesan(data);
-    console.log("Data Pemesan:", dataPemesan);
+    console.log("data pemesan" ,dataPemesan);
   };
 
   const [dataPenumpang, setDataPenumpang] = useState([]);
