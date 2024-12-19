@@ -58,7 +58,7 @@ const CitySelectionModal = ({ city, isOpen, onClose, onSelect }) => {
                 .map((city) => (
                   <div
                     key={city.id}
-                    className="flex items-center justify-between p-2 border-b cursor-pointer"
+                    className="flex items-center justify-between p-2 border-b cursor-pointer hover:bg-[#E2D4F0]"
                     onClick={() => onSelect(city.name)}
                   >
                     <span>{city.name}</span>
