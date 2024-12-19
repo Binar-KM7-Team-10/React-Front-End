@@ -14,7 +14,10 @@ const CitySelectionModal = ({ isOpen, onClose, onSelect }) => {
     "Sydney",
     "Cape Town",
     "Hanoi",
-    "Manila"
+    "Manila",
+    "Mumbai",
+    "Tokyo"
+
   ]);
 
   // const { cities, loading } = useFetchCities();
