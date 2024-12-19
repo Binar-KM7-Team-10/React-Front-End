@@ -5,6 +5,7 @@ import {
   PlaneLanding,
   Calendar1,
   RockingChair,
+  Armchair,
 } from "lucide-react";
 import logoreturn from "../../../assets/Images/return.svg";
 import CitySelectionModal from "../../elements/Modals/CitySelectionModal";
@@ -16,8 +17,7 @@ import { useSearchContext } from "../../../contexts/searchFlightContext";
 import useFetchCities from "../../../hooks/useFetchCities";
 
 const FlightSearchForm = () => {
-
-  const { setSearchParams } = useSearchContext()
+  const { setSearchParams } = useSearchContext();
 
   const { cities, loading } = useFetchCities();
 
@@ -120,8 +120,8 @@ const FlightSearchForm = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    const formatDpDate = new Date(departureDate)
-    const formatRetDate = new Date(returnDate)
+    const formatDpDate = new Date(departureDate);
+    const formatRetDate = new Date(returnDate);
     setSearchParams({
       dpCity: selectedFromCity,
       arCity: selectedToCity,
@@ -190,8 +190,10 @@ const FlightSearchForm = () => {
                   className="cursor-pointer"
                   onClick={() => handleDateModalOpen(true)}
                 >
-                  <span className="text-sm sm:text-base text-[#8A8A8A]">Departure</span>
-                  <p className="border-b-[1.5px] w-[140px] border-gray-300 pb-2 font-medium text-sm">
+                  <span className="text-sm sm:text-base text-[#8A8A8A]">
+                    Departure
+                  </span>
+                  <p className="border-b-[1.5px] w-[120px] md:w-[140px] sm:w-[140px] border-gray-300 pb-2 font-medium text-sm">
                     {departureDate
                       ? `${departureDate.getDate()} ${[
                         "Januari",
@@ -216,24 +218,27 @@ const FlightSearchForm = () => {
                   className={`cursor-pointer ${!isSwitchOn ? "pointer-events-none opacity-50" : ""}`}
                   onClick={isSwitchOn ? () => handleDateModalOpen(false) : null}
                 >
-                  <span className="text-[#8A8A8A] text-md">Return</span>
-                  <p className="border-b-[1.5px] w-[140px] border-[#D0D0D0] pb-3 font-medium text-sm text-[#7126B5]">
+                  <span className="text-[#8A8A8A] text-sm sm:text-md">
+                    Return
+                  </span>
+                  <p className="border-b-[1.5px] w-[120px] md:w-[140px] sm:w-[140px] border-[#D0D0D0] pb-2 font-medium text-sm text-[#7126B5]">
                     {returnDate
-                      ? `${returnDate.getDate()} ${[
-                        "Januari",
-                        "Februari",
-                        "Maret",
-                        "April",
-                        "Mei",
-                        "Juni",
-                        "Juli",
-                        "Agustus",
-                        "September",
-                        "Oktober",
-                        "November",
-                        "Desember",
-                      ][returnDate.getMonth()]
-                      } ${returnDate.getFullYear()}`
+                      ? `${returnDate.getDate()} ${
+                          [
+                            "Januari",
+                            "Februari",
+                            "Maret",
+                            "April",
+                            "Mei",
+                            "Juni",
+                            "Juli",
+                            "Agustus",
+                            "September",
+                            "Oktober",
+                            "November",
+                            "Desember",
+                          ][returnDate.getMonth()]
+                        } ${returnDate.getFullYear()}`
                       : "Pilih Tanggal"}
                   </p>
                 </div>
@@ -248,34 +253,32 @@ const FlightSearchForm = () => {
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2 md:gap-4">
-              <div className="flex items-center gap-2">
-                <RockingChair className="text-gray-400" size={20} />
+            <div className="flex flex-wrap gap-4">
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <Armchair className="text-gray-400" size={20} />
                 <span className="text-sm text-gray-500">To</span>
               </div>
-              <div className="flex gap-4 flex-wrap">
-                <div
-                  className="space-y-1 cursor-pointer"
-                  onClick={handlePassengerModalOpen}
-                >
-                  <span className="text-sm sm:text-base text-[#8A8A8A]">
-                    Passengers
-                  </span>
-                  <p className="border-b-[1.5px] w-[140px] border-gray-300 pb-2 font-medium text-sm">
-                    {`${passengerCounts.adult + passengerCounts.child + passengerCounts.infant} Penumpang`}
-                  </p>
-                </div>
-                <div
-                  className="space-y-1 cursor-pointer"
-                  onClick={handleSeatClassModalOpen}
-                >
-                  <span className="text-sm sm:text-base text-[#8A8A8A]">
-                    Seat Class
-                  </span>
-                  <p className="border-b-[1.5px] w-[140px] border-gray-300 pb-2 font-medium text-sm">
-                    {selectedSeatClass}
-                  </p>
-                </div>
+              <div
+                className="space-y-1 cursor-pointer"
+                onClick={handlePassengerModalOpen}
+              >
+                <span className="text-sm sm:text-base text-[#8A8A8A]">
+                  Passengers
+                </span>
+                <p className="border-b-[1.5px] w-[120px] md:w-[140px] sm:w-[140px] border-gray-300 pb-2 font-medium text-sm">
+                  {`${passengerCounts.adult + passengerCounts.child + passengerCounts.infant} Penumpang`}
+                </p>
+              </div>
+              <div
+                className="space-y-1 cursor-pointer"
+                onClick={handleSeatClassModalOpen}
+              >
+                <span className="text-sm sm:text-base text-[#8A8A8A]">
+                  Seat Class
+                </span>
+                <p className="border-b-[1.5px] w-[120px] md:w-[140px] sm:w-[140px] border-gray-300 pb-2 font-medium text-sm">
+                  {selectedSeatClass}
+                </p>
               </div>
             </div>
           </div>

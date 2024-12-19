@@ -5,7 +5,7 @@ import { useSearchContext } from "../../../contexts/searchFlightContext";
 import "react-loading-skeleton/dist/skeleton.css";
 import useFlightDeals from "../../../hooks/useDestination";
 import ContinentFilter from "../../elements/Categories/Categori";
-import cardImg from "../../../assets/Images/image.png"
+import cardImg from "../../../assets/Images/image.png";
 
 const FlightDeals = () => {
 
