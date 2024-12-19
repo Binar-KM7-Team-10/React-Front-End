@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../components/fragments/Navbar/Navbar';
 import { FiArrowLeft } from "react-icons/fi";
-import ButtonOtp from '../components/elements/Button/ButtonOtp';
 import AlertAuth from '../components/elements/Alert/AlertAuth';
+import useRegisterOtp from '../hooks/useRegisterOtp';
+import { RegisterOtpResend } from '../services/auth.service';
 
 const OtpPage = () => {
-
-    const [otp, setOtp] = useState(Array(6).fill(""));
+    const [otp, setOtp] = useState(Array(6).fill("")); // Array untuk tiap karakter OTP
+    const [otpString, setOtpString] = useState(""); // String gabungan OTP
+    const { registerOtp, emailInput, loading, } = useRegisterOtp();
+    const [result, setResult] = useState({})
 
     const handleChange = (value, index) => {
         if (!/^\d*$/.test(value)) return; // Hanya menerima angka
@@ -14,10 +17,17 @@ const OtpPage = () => {
         updatedOtp[index] = value;
 
         setOtp(updatedOtp);
-        onChange(updatedOtp.join(""));
+
+        // Gabungkan OTP menjadi satu string
+        const joinedOtp = updatedOtp.join("");
+        setOtpString(joinedOtp);
+
+        console.log("OTP Array:", updatedOtp);
+        console.log("OTP String:", joinedOtp);
+        console.log(emailInput[0])
 
         // Pindah ke kotak berikutnya jika angka dimasukkan
-        if (value && index < length - 1) {
+        if (value && index < otp.length - 1) {
             document.getElementById(`otp-${index + 1}`).focus();
         }
     };
@@ -26,6 +36,35 @@ const OtpPage = () => {
         if (e.key === "Backspace" && !otp[index] && index > 0) {
             document.getElementById(`otp-${index - 1}`).focus();
         }
+    };  
+
+    const handleOtp = async () => {
+        const resultRegisterotp = await registerOtp(emailInput[0], otpString);
+        setResult(resultRegisterotp);
+    }
+
+    const handleOtpResend = async () => {
+        setTimeLeft(60)
+        const resultOtpResend = await RegisterOtpResend(emailInput[0]);
+        setResult(resultOtpResend);
+    }
+
+    const [timeLeft, setTimeLeft] = useState(60);
+
+    useEffect(() => {
+        if (timeLeft <= 0) return;
+
+        const timer = setInterval(() => {
+            setTimeLeft((prevTime) => prevTime - 1);
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [timeLeft]);
+
+    const formatTime = (time) => {
+        const minutes = Math.floor(time / 60);
+        const seconds = time % 60;
+        return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
     };
 
     return (
@@ -36,7 +75,7 @@ const OtpPage = () => {
                     <FiArrowLeft size={20} />
                     <div className="flex flex-col w-10/12 justify-center my-7 mx-auto">
                         <h3 className='text-2xl font-bold'>Masukkan OTP</h3>
-                        <p className='text-sm text-center mt-10'>Ketik 6 digit kode yang dikirimkan ke J*****@gmail.com</p>
+                        <p className='text-sm text-center mt-10'>Ketik 6 digit kode yang dikirimkan ke {emailInput[1]}</p>
                         <div className='flex justify-center gap-3 mt-10'>
                             {otp.map((value, index) => (
                                 <input
@@ -55,16 +94,30 @@ const OtpPage = () => {
                                 />
                             ))}
                         </div>
-                        <p className='text-sm text-center mt-5 mb-32'>Kirim Ulang OTP dalam 60 detik</p>
-                        <ButtonOtp />
+                        <p className='text-sm text-center mt-5 mb-32'>Kirim Ulang OTP dalam {formatTime(timeLeft)} detik</p>
+                        <div className='mt-2'>
+                            {
+                                timeLeft == 0 ? (
+                                    <button className="bg-purple-700 w-full text-white py-5 rounded-[16px] font-semibold hover:bg-[#4B1979] transition" onClick={handleOtpResend}>
+                                        Kirim Ulang Otp
+                                    </button>
+                                ) : (
+                                    <button className="bg-purple-700 w-full text-white py-5 rounded-[16px] font-semibold hover:bg-[#4B1979] transition" onClick={handleOtp}>
+                                        Simpan
+                                    </button>
+                                )
+                            }
+                            
+                        </div>
                     </div>
                 </div>
             </div>
             <div className="flex w-full justify-center mt-24">
-                <AlertAuth msg={"Registrasi berhasil"} type={"success"}/>
+                {result.status == "success" && <AlertAuth msg={result.message} type={"success"} />}
+                {result.status == "error" && <AlertAuth msg={result.message} type={"danger"} />}
             </div>
-        </div>
-    )
-}
+        </div >
+    );
+};
 
-export default OtpPage
+export default OtpPage;

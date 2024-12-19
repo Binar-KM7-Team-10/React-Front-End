@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Logo from "../../../assets/Images/logo.png";
+import Logo from "../../../assets/Images/logo_new.png";
 import Button from "../../elements/Button/Button";
 import Search from "../../elements/Search/Search";
 import IconGrubNavbar from "../../elements/IconGrub/IconGrubNavbar";
+
 
 const Navbar = ({ search, type }) => {
   return (

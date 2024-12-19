@@ -1,12 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { ArrowUpDown } from "lucide-react";
+
 import Filter from "../Filter/Filter";
 import ListPenerbangan from "./ListPenerbangan";
-import empty_img from "../../../assets/Images/tiket_habis.png";
+import emptyImg from "../../../assets/Images/tiket_habis.png";
 import FlightSearchHeader from "./FlightSearchHeader";
+import LoadingSearchFlight from "./LoadingSearchFlight.jsx";
+import useFetchSchedule from "../../../hooks/useFetchSchedule.js";
+import { useSearchContext } from "../../../contexts/searchFlightContext";
 
 const FlightSearch = () => {
-  const days = [
+  const { searchParams, setSearchParams, getSearchParamsFromCookies } = useSearchContext();
+  const { schedule, error, loading, onSubmitSchedule } = useFetchSchedule();
+  const [flights, setFlights] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDay, setSelectedDay] = useState();
+
+  const [days, setDays] = useState([
     "Selasa",
     "Rabu",
     "Kamis",
@@ -14,15 +24,19 @@ const FlightSearch = () => {
     "Sabtu",
     "Minggu",
     "Senin",
-    "Selasa",
-  ];
-  const initialDate = new Date("2023-03-01");
+  ]);
+  const initialDate = new Date();
+  const dayList = [];
 
   const generateDates = (startDate, numDays) => {
     const dates = [];
+    const dayNames = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+
     for (let i = 0; i < numDays; i++) {
       const date = new Date(startDate);
       date.setDate(startDate.getDate() + i);
+      const dayName = dayNames[date.getDay()];
+      dayList.push(dayName);
       dates.push(date);
     }
     return dates;
@@ -30,63 +44,7 @@ const FlightSearch = () => {
 
   const dates = generateDates(initialDate, days.length);
 
-  const [flights, setFlights] = useState([
-    {
-      id: 1,
-      airline: "Jet Air",
-      class: "Economy",
-      departuretime: "07:00",
-      citydeparture: "JKT",
-      duration: "4h 0m",
-      status: "Direct",
-      arrivaltime: "11:00",
-      cityarrival: "MLB",
-      price: 4950000,
-    },
-    {
-      id: 2,
-      airline: "Jet Air",
-      class: "Economy",
-      departuretime: "08:00",
-      citydeparture: "JKT",
-      duration: "4h 0m",
-      status: "Direct",
-      arrivaltime: "12:00",
-      cityarrival: "MLB",
-      price: 5950000,
-    },
-    {
-      id: 3,
-      airline: "Jet Air",
-      class: "Economy",
-      departuretime: "13:15",
-      citydeparture: "JKT",
-      duration: "4h 0m",
-      status: "Direct",
-      arrivaltime: "17:15",
-      cityarrival: "MLB",
-      time: "13:15",
-      duration: "4h 0m",
-      price: 7225000,
-    },
-    {
-      id: 4,
-      airline: "Jet Air",
-      class: "Economy",
-      departuretime: "20:15",
-      citydeparture: "JKT",
-      duration: "3h 15m",
-      status: "Direct",
-      arrivaltime: "23:30",
-      cityarrival: "MLB",
-      time: "20:15",
-      duration: "3h 15m",
-      price: 8010000,
-    },
-  ]);
-
-  const [selectedDay, setSelectedDay] = useState("Rabu");
-  const [selectedOption, setSelectedOption] = useState("Termurah");
+  const [selectedOption, setSelectedOption] = useState("Harga - Termurah");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const options = [
@@ -98,29 +56,74 @@ const FlightSearch = () => {
     "Kedatangan - Paling Akhir",
   ];
 
+  const handleSubmitSchedule = useCallback(() => {
+    if (searchParams) {
+      onSubmitSchedule(searchParams);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    handleSubmitSchedule();
+  }, [searchParams]);
+
+  useEffect(() => {
+    setFlights(schedule);
+  }, [schedule]);
+
   const handleSort = (option) => {
     setSelectedOption(option);
+    const sortedFlights = [...flights];
 
-    let sortedFlights = [...flights];
-    if (option === "Harga - Termurah") {
-      sortedFlights.sort((a, b) => a.price - b.price);
-    } else if (option === "Harga - Termahal") {
-      sortedFlights.sort((a, b) => b.price - a.price);
+    switch (option) {
+      case "Harga - Termurah":
+        sortedFlights.sort((a, b) => a.price - b.price);
+        break;
+      case "Durasi - Terpendek":
+        sortedFlights.sort((a, b) => a.duration.localeCompare(b.duration));
+        break;
+      case "Keberangkatan - Paling Awal":
+        sortedFlights.sort((a, b) => new Date(a.departureTime) - new Date(b.departureTime));
+        break;
+      case "Keberangkatan - Paling Akhir":
+        sortedFlights.sort((a, b) => new Date(b.departureTime) - new Date(a.departureTime));
+        break;
+      case "Kedatangan - Paling Awal":
+        sortedFlights.sort((a, b) => new Date(a.arrivalTime) - new Date(b.arrivalTime));
+        break;
+      case "Kedatangan - Paling Akhir":
+        sortedFlights.sort((a, b) => new Date(b.arrivalTime) - new Date(a.arrivalTime));
+        break;
+      default:
+        break;
     }
-
     setFlights(sortedFlights);
     setIsFilterOpen(false);
   };
 
+  useEffect(() => {
+    if (selectedDate) {
+      const resultSearchCookie = getSearchParamsFromCookies()
+      setSearchParams({
+        dpCity: resultSearchCookie.dpCity,
+        arCity: resultSearchCookie.arCity,
+        dpDate: `${selectedDate.getFullYear()}-${(selectedDate.getMonth()+1).toString().padStart(2, "0")}-${selectedDate.getDate().toString().padStart(2, "0")}`,
+        retDate: resultSearchCookie.retDate,
+        psg: resultSearchCookie.psg,
+        seatClass: resultSearchCookie.seatClass,
+      });
+      onSubmitSchedule(searchParams)
+    }
+  }, [selectedDate, setSearchParams]);
+
   return (
     <div className="min-h-screen p-4 md:p-6">
       <FlightSearchHeader
-        days={days}
-        selectedDay={selectedDay}
+        days={dayList}
+        selectedDay={dayList[0]}
         setSelectedDay={setSelectedDay}
+        setSelectedDate={setSelectedDate}
         dates={dates}
       />
-
       <div className="mx-auto md:mx-36 flex justify-end items-center mt-6">
         <button
           onClick={() => setIsFilterOpen(true)}
@@ -142,7 +145,7 @@ const FlightSearch = () => {
                 onClick={() => setIsFilterOpen(false)}
                 className="text-gray-500"
               >
-                <FaTimes size={16} />
+                ×
               </button>
             </div>
             <ul className="py-4">
@@ -155,9 +158,7 @@ const FlightSearch = () => {
                   }`}
                 >
                   <span>{option}</span>
-                  {selectedOption === option && (
-                    <FaCheck className="text-purple-800" />
-                  )}
+                  {selectedOption === option && <span>✔</span>}
                 </li>
               ))}
             </ul>
@@ -171,16 +172,29 @@ const FlightSearch = () => {
         </div>
       )}
 
-      {flights.length === 0 ? (
+      {loading ? (
+        <LoadingSearchFlight />
+      ) : error.error ? (
         <div className="flex justify-center w-full my-10 md:my-20">
-          <div>
-            <img src={empty_img} className="w-32 md:w-48" alt="" />
-            <p className="text-xs md:text-sm text-center mt-4 md:mt-10">
-              Maaf, Tiket terjual habis!
-            </p>
-            <p className="text-xs md:text-sm text-center text-purple-800">
-              Coba cari perjalanan lainnya!
-            </p>
+          <p className="text-red-500">{error.message}</p>
+        </div>
+      ) : !flights || Object.keys(flights).length === 0 ? (
+        <div className="flex flex-col md:flex-row mt-6 max-w-5xl mx-auto gap-4">
+          <div className="w-full md:w-1/4">
+            <Filter />
+          </div>
+          <div className="flex-1 bg-white p-4 md:p-6 rounded-md">
+            <div className="flex justify-center w-full my-10 md:my-20">
+              <div>
+                <img src={emptyImg} className="w-32 md:w-48" alt="Tiket habis" />
+                <p className="text-xs md:text-sm text-center mt-4 md:mt-10">
+                  Maaf, pencarian Anda tidak ditemukan
+                </p>
+                <p className="text-xs md:text-sm text-center text-purple-800">
+                  Coba cari perjalanan lainnya!
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       ) : (
@@ -189,9 +203,7 @@ const FlightSearch = () => {
             <Filter />
           </div>
           <div className="flex-1 bg-white p-4 md:p-6 rounded-md">
-            <ul className="space-y-4">
-              <ListPenerbangan flights={flights} />
-            </ul>
+            <ListPenerbangan flights={flights} />
           </div>
         </div>
       )}

@@ -1,12 +1,42 @@
-import React, { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import React, { useState, useEffect } from "react";
 import Switch from "../../elements/Switch/Switch";
 
-const SubDataPemumpang = ({ title_card }) => {
+const SubDataPenumpang = ({ title_card, onValidate }) => {
   const [showNamaKeluarga, setShowNamaKeluarga] = useState(false);
+  const [formData, setFormData] = useState({
+    tittle: "",
+    fullName: "",
+    familyName: "",
+    dateOfBirth: "",
+    nationality: "",
+    identityNumber: "",
+    issuingCountry: "",
+    expiryDate: "",
+  });
 
   const handleSwitchChange = () => {
     setShowNamaKeluarga(!showNamaKeluarga);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (!name) return;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  useEffect(() => {
+    const isValid = validateForm();
+    if (typeof onValidate === "function") {
+      onValidate(isValid);
+    }
+  }, [formData, onValidate]);
+
+  const validateForm = () => {
+    const { fullName, dateOfBirth, nationality, identityNumber } = formData;
+    return fullName && dateOfBirth && nationality && identityNumber;
   };
 
   return (
@@ -16,113 +46,60 @@ const SubDataPemumpang = ({ title_card }) => {
       </div>
       <div className="body-card px-5">
         <div className="flex flex-col my-6">
-          <label
-            htmlFor=""
-            className="font-semibold text-purple-800 mb-2 text-sm"
-          >
+          <label htmlFor="tittle" className="font-semibold text-purple-800 mb-2 text-sm">
             Tittle
           </label>
           <div className="relative">
-            <select className="border-2 py-3 px-4 text-base rounded-[8px] w-full focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all ease-in-out">
+            <select
+              name="tittle"
+              value={formData.tittle}
+              onChange={handleInputChange}
+              className="border-2 py-3 px-4 text-base rounded-[8px] w-full focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all ease-in-out"
+            >
+              <option value="" disabled>
+                Pilih Tittle
+              </option>
               <option value="mr">Mr</option>
               <option value="mrs">Mrs</option>
             </select>
           </div>
         </div>
+
         <div className="flex flex-col my-6">
-          <label
-            htmlFor=""
-            className="font-semibold text-purple-800 mb-2 text-sm"
-          >
+          <label htmlFor="fullName" className="font-semibold text-purple-800 mb-2 text-sm">
             Nama Lengkap
           </label>
           <input
             type="text"
+            name="fullName"
+            value={formData.fullName}
+            onChange={handleInputChange}
             className="border-2 py-3 px-4 text-sm rounded-[4px] w-full"
           />
         </div>
+
         <div className="flex justify-between">
           <p>Punya Nama Keluarga?</p>
-          <Switch onChange={handleSwitchChange} />
+          <Switch onChange={handleSwitchChange} checked={showNamaKeluarga} />
         </div>
+
         {showNamaKeluarga && (
           <div className="flex flex-col my-6">
-            <label
-              htmlFor=""
-              className="font-semibold text-purple-800 mb-2 text-sm"
-            >
+            <label htmlFor="familyName" className="font-semibold text-purple-800 mb-2 text-sm">
               Nama Keluarga
             </label>
             <input
               type="text"
+              name="familyName"
+              value={formData.familyName}
+              onChange={handleInputChange}
               className="border-2 py-3 px-4 text-sm rounded-[4px] w-full"
             />
           </div>
         )}
-
-        <div className="flex flex-col my-6">
-          <label
-            htmlFor=""
-            className="font-semibold text-purple-800 mb-2 text-sm"
-          >
-            Tanggal Lahir
-          </label>
-          <input
-            type="date"
-            className="border-2 py-3 px-4 text-sm rounded-[4px] w-full"
-          />
-        </div>
-        <div className="flex flex-col my-6">
-          <label
-            htmlFor=""
-            className="font-semibold text-purple-800 mb-2 text-sm"
-          >
-            Kewarganegaraan
-          </label>
-          <input
-            type="text"
-            className="border-2 py-3 px-4 text-sm rounded-[4px] w-full"
-          />
-        </div>
-        <div className="flex flex-col my-6">
-          <label
-            htmlFor=""
-            className="font-semibold text-purple-800 mb-2 text-sm"
-          >
-            Ktp/Paspor
-          </label>
-          <input
-            type="text"
-            className="border-2 py-3 px-4 text-sm rounded-[4px] w-full"
-          />
-        </div>
-        <div className="flex flex-col my-6">
-          <label
-            htmlFor=""
-            className="font-semibold text-purple-800 mb-2 text-sm"
-          >
-            Negara Penerbit
-          </label>
-          <select className="border-2 py-3 px-4 text-sm rounded-[4px] w-full">
-            <option value=""></option>
-            <option value="Indonesia">Indonesia</option>
-          </select>
-        </div>
-        <div className="flex flex-col my-6">
-          <label
-            htmlFor=""
-            className="font-semibold text-purple-800 mb-2 text-sm"
-          >
-            Berlaku Sampai
-          </label>
-          <input
-            type="date"
-            className="border-2 py-3 px-4 text-sm rounded-[4px] w-full"
-          />
-        </div>
       </div>
     </div>
   );
 };
 
-export default SubDataPemumpang;
+export default SubDataPenumpang;
