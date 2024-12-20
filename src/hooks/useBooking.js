@@ -139,34 +139,31 @@ import { GetBookings, CreateBooking, CreatePaymentBooking } from "../services/bo
 import {GetScheduleById} from "../services/schedule.service";
 
 export const useFetchBookings = () => {
+
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
 
-  const fetchBookings = useCallback(async (queryParam) => {
+  const fetchBookings = useCallback(async (data) => {
     setLoading(true);
-    setError(null);
-
-    if (!queryParam || typeof queryParam !== "object") {
-      setLoading(false);
-      setError("Invalid data for booking query");
-      return;
-    }
-
     try {
+      const queryParam = {
+        userId: data.userId,
+        date: data.date,
+        bookingCode: data.bookingCode
+      }
       const response = await GetBookings(queryParam);
-      if (response?.success && response.data?.bookings) {
-        setBookings(response.data.bookings);
+      if (response?.success) {
+        setBookings(response.data);
       } else {
-        setBookings([]);
-        setError(response?.message || "No data available.");
+        setError(response?.message || "Failed to fetch booking details.");
       }
     } catch (err) {
-      setError(err.message || "An error occurred while fetching bookings.");
+      setError(err.message || "An error occurred while fetching booking details.");
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [])
 
   return { bookings, fetchBookings, loading, error };
 };
