@@ -124,11 +124,11 @@ const FlightDeals = () => {
         )}
       </div>
 
-      <div className="flex justify-center mt-4 items-center">
+      <div className="flex justify-center pt-8 items-center">
         <button
           onClick={() => handlePageChange(page - 1)}
           disabled={page <= 1}
-          className={`px-4 py-2 rounded-full text-white bg-purple-600 hover:bg-purple-700 transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed`}
+          className={`px-2 py-3 rounded-full text-white bg-purple-600 hover:bg-purple-700 transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed`}
         >
           Prev
         </button>
@@ -138,7 +138,7 @@ const FlightDeals = () => {
         <button
           onClick={() => handlePageChange(page + 1)}
           disabled={pagination ? page >= pagination.totalPage : false}
-          className={`px-4 py-2 rounded-full text-white bg-purple-600 hover:bg-purple-700 transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed`}
+          className={`px-2 py-3  rounded-full text-white bg-purple-600 hover:bg-purple-700 transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed`}
         >
           Next
         </button>
