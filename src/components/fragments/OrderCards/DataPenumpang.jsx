@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import SubDataPemumpang from './SubDataPenumpang';
 
-const DataPenumpang = ({ dataPsg }) => {
-  let numberPsg = 1; // Variabel untuk melacak nomor penumpang
+const DataPenumpang = ({ dataPsg, onPenumpangChange }) => {
+  let numberPsg = 1;
 
   const itemAdult = [];
   for (let a = 0; a < dataPsg[0]; a++) {
     itemAdult.push(
       <SubDataPemumpang
         key={`adult-${a}`}
+        index={numberPsg - 1} // Kirim index
         title_card={`Data Diri Penumpang ${numberPsg} - Dewasa`}
+        onPenumpangChange={onPenumpangChange} // Callback ke SubDataPenumpang
       />
     );
     numberPsg++;
@@ -20,7 +22,9 @@ const DataPenumpang = ({ dataPsg }) => {
     itemKid.push(
       <SubDataPemumpang
         key={`kid-${b}`}
+        index={numberPsg - 1}
         title_card={`Data Diri Penumpang ${numberPsg} - Anak`}
+        onPenumpangChange={onPenumpangChange}
       />
     );
     numberPsg++;
@@ -31,7 +35,9 @@ const DataPenumpang = ({ dataPsg }) => {
     itemBaby.push(
       <SubDataPemumpang
         key={`baby-${c}`}
+        index={numberPsg - 1}
         title_card={`Data Diri Penumpang ${numberPsg} - Bayi`}
+        onPenumpangChange={onPenumpangChange}
       />
     );
     numberPsg++;
@@ -46,5 +52,6 @@ const DataPenumpang = ({ dataPsg }) => {
     </div>
   );
 };
+
 
 export default DataPenumpang;
