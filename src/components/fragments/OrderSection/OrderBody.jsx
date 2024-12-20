@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import DataPemesan from "../OrderCards/DataPemesan";
 import DataPenumpang from "../OrderCards/DataPenumpang";
 import PesananKursi from "../OrderCards/PesananKursi";
@@ -24,6 +24,7 @@ const OrderBody = () => {
     penumpang: false,
     kursi: false,
   });
+  console.log(isValid)
 
   const seatList = useMemo(
     () => (dataBooking?.seat?.map ? dataBooking.seat.map : []),
@@ -38,7 +39,7 @@ const OrderBody = () => {
         ...prevState,
         kursi: isValidSeats,
       }));
-      console.log("Data Kursi:", seats);
+      // console.log("Data Kursi:", seats);
     },
     [totalSeatsRequired]
   );
@@ -51,33 +52,34 @@ const OrderBody = () => {
       ...prevState,
       pemesan: !!data,
     }));
-    console.log("Data Pemesan:", data);
+    // console.log("Data Pemesan:", data);
   };
 
   const [dataPenumpang, setDataPenumpang] = useState([]);
-
+  console.log("Data Penumpang:", dataPenumpang);
   const handlePenumpangDataChange = useCallback(
     (index, newData) => {
       setDataPenumpang((prevData) => {
         const updatedData = [...prevData];
         updatedData[index] = newData;
+        console.log(updatedData)
         return updatedData;
       });
+    },
+    [dataPenumpang]
+  );
 
-      // Validasi semua data penumpang
+  useEffect(() => {
+    if (dataPenumpang.length != 0) {
       const isAllDataValid = dataPenumpang.every((penumpang) =>
         Object.values(penumpang || {}).every((field) => field)
       );
-
       setIsValid((prevState) => ({
         ...prevState,
         penumpang: isAllDataValid,
       }));
-
-      console.log("Data Penumpang:", dataPenumpang);
-    },
-    [dataPenumpang]
-  );
+    }
+  }, [handlePenumpangDataChange])
 
   const handleSave = () => {
     if (Object.values(isValid).every((status) => status)) {
@@ -114,7 +116,7 @@ const OrderBody = () => {
             <button
               onClick={handleSave}
               className={`w-11/12 max-w-2xl py-4 rounded-lg text-xl transition-opacity shadow-md ${
-                isSaved
+                isSaved || Object.values(isValid).includes(false)
                   ? "bg-gray-400 text-gray-700 cursor-not-allowed"
                   : "bg-[#7126B5] text-white hover:opacity-90"
               }`}

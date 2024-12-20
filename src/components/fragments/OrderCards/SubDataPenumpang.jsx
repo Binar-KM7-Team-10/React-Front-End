@@ -51,11 +51,11 @@ const SubDataPenumpang = ({ title_card, index, onPenumpangChange }) => {
       <div className="body-card px-5">
         {/* Title Field */}
         <div className="flex flex-col my-6">
-          <label htmlFor="tittle" className="font-semibold text-purple-800 mb-2 text-sm">
+          <label htmlFor="title" className="font-semibold text-purple-800 mb-2 text-sm">
             Title
           </label>
           <select
-            name="tittle"
+            name="title"
             value={formData.title}
             onChange={handleInputChange}
             className="border-2 py-3 px-4 text-base rounded-[8px] w-full focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all ease-in-out"
