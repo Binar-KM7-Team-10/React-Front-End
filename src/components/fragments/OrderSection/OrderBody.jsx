@@ -24,8 +24,6 @@ const OrderBody = () => {
     penumpang: false,
     kursi: false,
   });
-  console.log(isValid)
-
   const seatList = useMemo(
     () => (dataBooking?.seat?.map ? dataBooking.seat.map : []),
     [dataBooking]
@@ -39,7 +37,6 @@ const OrderBody = () => {
         ...prevState,
         kursi: isValidSeats,
       }));
-      // console.log("Data Kursi:", seats);
     },
     [totalSeatsRequired]
   );
@@ -52,17 +49,14 @@ const OrderBody = () => {
       ...prevState,
       pemesan: !!data,
     }));
-    // console.log("Data Pemesan:", data);
   };
 
   const [dataPenumpang, setDataPenumpang] = useState([]);
-  console.log("Data Penumpang:", dataPenumpang);
   const handlePenumpangDataChange = useCallback(
     (index, newData) => {
       setDataPenumpang((prevData) => {
         const updatedData = [...prevData];
         updatedData[index] = newData;
-        console.log(updatedData)
         return updatedData;
       });
     },
@@ -84,9 +78,6 @@ const OrderBody = () => {
   const handleSave = () => {
     if (Object.values(isValid).every((status) => status)) {
       setIsSaved(true);
-      console.log("Data Pemesan:", dataPemesan);
-      console.log("Data Penumpang:", dataPenumpang);
-      console.log("Kursi yang dipilih:", selectedSeats);
     } else {
       alert("Silakan lengkapi semua data sebelum menyimpan.");
     }

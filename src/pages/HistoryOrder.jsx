@@ -8,7 +8,6 @@ import { useFetchBookings } from "../hooks/useBooking";
 
 const HistoryOrder = () => {
   const { bookings, fetchBookings, loading, error } = useFetchBookings();
-  console.log(bookings, error)
   const userCookie = Cookies.get("user");
   const userData = userCookie ? JSON.parse(userCookie) : {};
   const userId = userData.id
@@ -16,7 +15,6 @@ const HistoryOrder = () => {
   useEffect(() => {
     const queryParams = { userId: userId };
     fetchBookings(queryParams);
-    console.log(bookings, error)
   }, [userId]);
 
   if (error != "") {
