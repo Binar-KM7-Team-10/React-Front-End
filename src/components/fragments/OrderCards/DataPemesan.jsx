@@ -3,18 +3,15 @@ import Switch from '../../elements/Switch/Switch';
 import Cookies from "js-cookie";
 
 const DataPemesan = ({ title_card, onValidate, onSubmit }) => {
-
-  console.log()
-
   const userCookie = Cookies.get("user");
   const userData = userCookie ? JSON.parse(userCookie) : {};
 
   const [showNamaKeluarga, setShowNamaKeluarga] = useState(false);
   const [formData, setFormData] = useState({
-    fullName: userData.fullName,
-    familyName: '',
-    phoneNumber: userData.phoneNumber,
-    email: userData.email,
+    fullName: userData.fullName || "",
+    familyName: "",
+    phoneNumber: userData.phoneNumber || "",
+    email: userData.email || "",
   });
 
   const handleSwitchChange = () => {
@@ -25,17 +22,22 @@ const DataPemesan = ({ title_card, onValidate, onSubmit }) => {
     const { name, value } = e.target;
     const updatedFormData = { ...formData, [name]: value };
     setFormData(updatedFormData);
-    onSubmit(updatedFormData); // Kirim data ke parent setiap kali ada perubahan
+    onSubmit(updatedFormData);
   };
 
   const validateForm = () => {
     const { fullName, phoneNumber, email } = formData;
+    // Hanya validasi field yang wajib
     return fullName && phoneNumber && email;
   };
 
   useEffect(() => {
     const isValid = validateForm();
-    onValidate(isValid); // Validasi data
+    onValidate(isValid);
+  }, [formData]);
+
+  useEffect(() => {
+    onSubmit(formData);
   }, [formData]);
 
   return (
@@ -54,12 +56,13 @@ const DataPemesan = ({ title_card, onValidate, onSubmit }) => {
               value={formData.fullName}
               onChange={handleInputChange}
               className="border-2 py-3 px-2 text-sm rounded-[4px]"
+              disabled={true}
             />
           </div>
 
           <div className="flex justify-between">
             <p>Punya Nama Keluarga?</p>
-            <Switch onChange={handleSwitchChange} />
+            <Switch onChange={handleSwitchChange} checked={showNamaKeluarga} />
           </div>
 
           {showNamaKeluarga && (
@@ -83,6 +86,7 @@ const DataPemesan = ({ title_card, onValidate, onSubmit }) => {
               value={formData.phoneNumber}
               onChange={handleInputChange}
               className="border-2 py-3 px-2 text-sm rounded-[4px]"
+              disabled={true}
             />
           </div>
 
@@ -94,6 +98,7 @@ const DataPemesan = ({ title_card, onValidate, onSubmit }) => {
               value={formData.email}
               onChange={handleInputChange}
               className="border-2 py-3 px-2 text-sm rounded-[4px]"
+              disabled={true}
             />
           </div>
         </div>

@@ -34,7 +34,7 @@ const IconGrubNavbar = () => {
         />
       </Link>
       
-      <Link to="/notifikasi"> 
+      <Link to="/notification"> 
         <FiBell
           size={20}
           color={isBellActive ? "#A06ECE" : "inherit"} 

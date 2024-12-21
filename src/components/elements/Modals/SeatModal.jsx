@@ -7,10 +7,10 @@ const Modal = ({ isOpen, onClose, onSelect, selectedClass }) => {
   if (!isOpen) return null;
 
   const seatClasses = [
-    { label: "Economy", price: "IDR 4.950.000" },
-    { label: "Premium Economy", price: "IDR 7.550.000" },
-    { label: "Business", price: "IDR 29.220.000" },
-    { label: "First Class", price: "IDR 87.620.000" },
+    { label: "Economy"},
+    { label: "Premium Economy"},
+    { label: "Business"},
+    { label: "First Class"},
   ];
 
   return (
@@ -24,10 +24,10 @@ const Modal = ({ isOpen, onClose, onSelect, selectedClass }) => {
           {seatClasses.map((seat) => (
             <div
               key={seat.label}
-              className={`py-2 px-4 cursor-pointer rounded-md border-b border-gray-300 pb-2 ${
+              className={`py-2 px-4 cursor-pointer border-b border-gray-300 pb-2 ${
                 selectedClass === seat.label
                   ? "bg-[#4B1979] text-white font-bold"
-                  : "hover:bg-gray-50"
+                  : "hover:bg-[#E2D4F0]"
               }`}
               onClick={() => onSelect(seat.label)}
             >
