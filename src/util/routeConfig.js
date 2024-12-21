@@ -12,6 +12,7 @@ import NotificationPage from "../pages/NotificationPage";
 import ProfilePage from "../pages/ProfilePage";
 import ResetPassword from "../pages/ResetPassword";
 import OtpPage from "../pages/OtpPage";
+import PrintTicketPage from "../pages/PrintTicket";
 
 const routesConfig = [
   { path: "/", element: HomePage, type: "public" },
@@ -21,10 +22,11 @@ const routesConfig = [
   { path: "/register", element: Register, type: "guest" },
   { path: "/payment/:id", element: Payment, type: "auth" },
   { path: "/checkout/:id", element: OrderPage, type: "auth" },
+  { path: "/print-ticket", element: PrintTicketPage, type: "public" },
   { path: "/search", element: SearchPage, type: "public" },
   { path: "/payment-success", element: PaymentSuccess, type: "auth" },
   { path: "/history-order", element: HistoryOrder, type: "auth" },
-  { path: "/notifikasi", element: NotificationPage, type: "auth" },
+  { path: "/notification", element: NotificationPage, type: "auth" },
   { path: "/profile/:id", element: ProfilePage, type: "auth" },
   { path: "*", element: NotFoundPage, type: null },
 ];
