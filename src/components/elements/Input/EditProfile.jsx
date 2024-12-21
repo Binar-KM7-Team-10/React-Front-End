@@ -6,7 +6,7 @@ import useDeleteUser from "../../../hooks/useDeleteUser";
 
 const EditProfile = () => {
   const { userData, loading, error } = useUser();
-//   const { deleteUser, loading: deleting, error: deleteError, success: deleteSuccess } = useDeleteUser();
+  //   const { deleteUser, loading: deleting, error: deleteError, success: deleteSuccess } = useDeleteUser();
 
   const [profileData, setProfileData] = useState({
     name: "",
@@ -24,16 +24,18 @@ const EditProfile = () => {
     }
   }, [userData]);
 
-//   const handleDelete = async () => {
-//     if (userData && userData.id) {
-//       const success = await deleteUser(userData.id);
-//       if (success) {
-//         toast.success("User deleted successfully!");
-//       } else {
-//         toast.error(deleteError || "Failed to delete user");
-//       }
-//     }
-//   };
+  console.log(profileData);
+
+  //   const handleDelete = async () => {
+  //     if (userData && userData.id) {
+  //       const success = await deleteUser(userData.id);
+  //       if (success) {
+  //         toast.success("User deleted successfully!");
+  //       } else {
+  //         toast.error(deleteError || "Failed to delete user");
+  //       }
+  //     }
+  //   };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -48,7 +50,9 @@ const EditProfile = () => {
         </div>
         <div className="space-y-4 p-4 border-gray-200 rounded-b-lg">
           <div>
-            <label className="block text-sm font-medium mb-1">Nama Lengkap</label>
+            <label className="block text-sm font-medium mb-1">
+              Nama Lengkap
+            </label>
             <input
               type="text"
               name="name"
@@ -58,7 +62,9 @@ const EditProfile = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Nomor Telepon</label>
+            <label className="block text-sm font-medium mb-1">
+              Nomor Telepon
+            </label>
             <input
               type="tel"
               name="phone"
