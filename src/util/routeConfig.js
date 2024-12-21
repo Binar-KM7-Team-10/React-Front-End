@@ -13,6 +13,7 @@ import ProfilePage from "../pages/ProfilePage";
 import ResetPassword from "../pages/ResetPassword";
 import OtpPage from "../pages/OtpPage";
 import PrintTicketPage from "../pages/PrintTicket";
+import ForgotPasswordPage from "../pages/ForgotPassword";
 
 const routesConfig = [
   { path: "/", element: HomePage, type: "public" },
@@ -23,6 +24,7 @@ const routesConfig = [
   { path: "/payment/:bookCode", element: Payment, type: "auth" },
   { path: "/checkout/:id", element: OrderPage, type: "auth" },
   { path: "/print-ticket/:bookCode", element: PrintTicketPage, type: "public" },
+  { path: "/forgot-password", element: ForgotPasswordPage, type: "guest" },
   { path: "/search", element: SearchPage, type: "public" },
   { path: "/payment-success/:bookCode", element: PaymentSuccess, type: "auth" },
   { path: "/history-order", element: HistoryOrder, type: "auth" },
