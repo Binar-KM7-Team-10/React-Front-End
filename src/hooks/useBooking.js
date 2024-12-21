@@ -4,7 +4,6 @@ import { GetScheduleById } from "../services/schedule.service";
 import { useBookingContext } from "../contexts/BookingContext";
 
 export const useGetBookingById = (id) => {
-  // const { bookingDetails, setBookingDetails } = useBookingContext();
   const [dataBooking, setDataBooking] = useState({})
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -16,8 +15,6 @@ export const useGetBookingById = (id) => {
       try {
         const response = await GetScheduleById(id);
         if (response.success) {
-          // console.log(response.data)
-          // setBookingDetails(response.data);
           setDataBooking(response.data);
         } else {
           setError(response.message || "Failed to fetch booking details.");
@@ -38,31 +35,32 @@ export const useGetBookingById = (id) => {
 };
 
 export const useCreateBooking = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [loadingBooking, setLoadingBooking] = useState(false);
+  const [errorBooking, setErrorBooking] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [bookingCode, setBookingCode] = useState("")
 
   const createBooking = useCallback(async (bookingData) => {
-    setLoading(true);
-    setError(null);
+    setLoadingBooking(true);
+    setErrorBooking(null);
     setSuccess(false);
     try {
       const response = await CreateBooking(bookingData);
       if (response.success) {
         setSuccess(true);
+        return response.data.bookingCode
       } else {
-        setError(response.message);
+        setErrorBooking(response.message);
       }
-      return response;
     } catch (err) {
-      setError(err.message || "An error occurred while creating booking");
+      setErrorBooking(err.message || "An error occurred while creating booking");
       throw err;
     } finally {
-      setLoading(false);
+      setLoadingBooking(false);
     }
   }, []);
 
-  return { createBooking, loading, error, success };
+  return { createBooking, loadingBooking, errorBooking, success, bookingCode };
 };
 
 export const useCreatePaymentBooking = () => {
