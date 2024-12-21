@@ -1,21 +1,24 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import DataPemesan from "../OrderCards/DataPemesan";
 import DataPenumpang from "../OrderCards/DataPenumpang";
 import PesananKursi from "../OrderCards/PesananKursi";
 import DetailPenerbangan from "../OrderCards/DetailPenerbangan";
-import { Link, useParams } from "react-router-dom";
-import { useGetBookingById } from "../../../hooks/useBooking";
+import AlertCheckout from "../../elements/Alert/AlertCheckout";
+import { useCreateBooking, useGetBookingById } from "../../../hooks/useBooking";
 import { useSearchContext } from "../../../contexts/searchFlightContext";
 
 const OrderBody = () => {
   const { id } = useParams();
-  const { dataBooking, loading, error } = useGetBookingById(id);
+  const navigate = useNavigate();
+  const { dataBooking, loading, error, bookingCode } = useGetBookingById(id);
+  const { createBooking, loadingBooking, errorBooking } = useCreateBooking();
   const { getSearchParamsFromCookies } = useSearchContext();
 
   const passangers = getSearchParamsFromCookies().psg;
   const arryPsg = passangers ? passangers.split(".") : [];
   const intArryPsg = arryPsg.map((str) => parseInt(str));
-  const totalSeatsRequired = intArryPsg.reduce((a, b) => a + b, 0);
+  const totalSeatsRequired = intArryPsg[0] + intArryPsg[1];
 
   const [isSaved, setIsSaved] = useState(false);
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -24,6 +27,12 @@ const OrderBody = () => {
     penumpang: false,
     kursi: false,
   });
+  const [alertSubmit, setAlertSubmit] = useState({
+    status: "",
+    message: ""
+  });
+
+
   const seatList = useMemo(
     () => (dataBooking?.seat?.map ? dataBooking.seat.map : []),
     [dataBooking]
@@ -65,15 +74,51 @@ const OrderBody = () => {
 
   useEffect(() => {
     if (dataPenumpang.length != 0) {
-      const isAllDataValid = dataPenumpang.every((penumpang) =>
-        Object.values(penumpang || {}).every((field) => field)
-      );
+      const isAllDataValid = dataPenumpang.every((penumpang) => {
+        const { familyName, ...fieldsToValidate } = penumpang;
+        return Object.values(fieldsToValidate || {}).every((field) => field)
+      });
       setIsValid((prevState) => ({
         ...prevState,
         penumpang: isAllDataValid,
       }));
     }
   }, [handlePenumpangDataChange])
+
+  const mapPassengers = (inputData) => {
+    const result = [];
+    inputData.forEach((item) => {
+      result.push({
+        label: item.label,
+        title: `${item.title}`,
+        ageGroup: item.ageGroup,
+        fullName: item.fullName || "",
+        familyName: item.familyName || "",
+        birthDate: item.dateOfBirth || "",
+        nationality: item.nationality || "",
+        identityNumber: item.identityNumber || "",
+        issuingCountry: item.issuingCountry || "",
+        expiryDate: item.expiryDate || ""
+      });
+    });
+    if (intArryPsg[2] > 0) {
+      for (let i = 0; i < intArryPsg[2]; i++) {
+        result.push({
+          ageGroup: "Baby",
+        });
+      }
+    }
+    return result;
+  };
+
+  const mapSeat = (inputData) => {
+    return inputData.map((item, index) => {
+      return {
+        label: `P${index + 1}`,
+        seatNumber: item
+      };
+    });
+  };
 
   const handleSave = () => {
     if (Object.values(isValid).every((status) => status)) {
@@ -82,6 +127,44 @@ const OrderBody = () => {
       alert("Silakan lengkapi semua data sebelum menyimpan.");
     }
   };
+
+  const handleContinuePayment = async () => {
+    try {
+      const bookCode = await createBooking({
+        "itinerary": {
+          "journeyType": "One-way",
+          "outbound": parseInt(id),
+          "inbound": null
+        },
+        "passenger": {
+          "total": intArryPsg[0] + intArryPsg[1],
+          "adult": intArryPsg[0],
+          "child": intArryPsg[1],
+          "baby": intArryPsg[2],
+          "data": mapPassengers(dataPenumpang)
+        },
+        "seat": {
+          "outbound": mapSeat(selectedSeats),
+          "inbound": null
+        }
+      });
+      setAlertSubmit({
+        status: "success",
+        message: "Checkout Berhasil"
+      })
+      if (bookCode) {
+        setTimeout(() => {
+          navigate(`/payment/${bookCode}`);
+        }, 2000);
+      }
+    }
+    catch (error) {
+      setAlertSubmit({
+        status: "error",
+        message: errorBooking
+      })
+    }
+  }
 
   if (loading) return <div>Loading booking details...</div>;
   if (error) return <div className="text-red-500">{error}</div>;
@@ -106,11 +189,10 @@ const OrderBody = () => {
           <div className="flex justify-center">
             <button
               onClick={handleSave}
-              className={`w-11/12 max-w-2xl py-4 rounded-lg text-xl transition-opacity shadow-md ${
-                isSaved || Object.values(isValid).includes(false)
-                  ? "bg-gray-400 text-gray-700 cursor-not-allowed"
-                  : "bg-[#7126B5] text-white hover:opacity-90"
-              }`}
+              className={`w-11/12 max-w-2xl py-4 rounded-lg text-xl transition-opacity shadow-md ${isSaved || Object.values(isValid).includes(false)
+                ? "bg-gray-400 text-gray-700 cursor-not-allowed"
+                : "bg-[#7126B5] text-white hover:opacity-90"
+                }`}
               disabled={isSaved || Object.values(isValid).includes(false)}
             >
               Simpan
@@ -125,12 +207,16 @@ const OrderBody = () => {
             <div>Memuat detail penerbangan...</div>
           )}
           {isSaved && (
-            <div className="mt-6 flex justify-center">
-              <Link to="/payment">
-                <button className="w-[350px] bg-[#FF0000] text-white py-4 rounded-[12px] text-xl hover:opacity-90 transition-opacity shadow-md">
-                  Lanjut Bayar
-                </button>
-              </Link>
+            <div className="mt-6 flex flex-col gap-10 justify-center">
+              <button onClick={handleContinuePayment} className="w-[350px] bg-[#FF0000] text-white py-4 rounded-[12px] text-xl hover:opacity-90 transition-opacity shadow-md">
+                {loadingBooking ? "Loading" : "Lanjut Bayar"}
+              </button>
+              {
+                alertSubmit.status == "success" && <AlertCheckout type={"success"} text={alertSubmit.message} />
+              }
+              {
+                alertSubmit.status == "error" && <AlertCheckout type={"danger"} text={alertSubmit.message} />
+              }
             </div>
           )}
         </div>

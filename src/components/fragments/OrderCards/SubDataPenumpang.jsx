@@ -1,9 +1,11 @@
 import React, { useState, useCallback } from "react";
 import Switch from "../../elements/Switch/Switch";
 
-const SubDataPenumpang = ({ title_card, index, onPenumpangChange }) => {
+const SubDataPenumpang = ({ title_card, groupAge, index, onPenumpangChange }) => {
   const [showNamaKeluarga, setShowNamaKeluarga] = useState(false);
   const [formData, setFormData] = useState({
+    label: `P${index+1}`,
+    ageGroup: groupAge,
     title: "",
     fullName: "",
     familyName: "",
@@ -63,10 +65,10 @@ const SubDataPenumpang = ({ title_card, index, onPenumpangChange }) => {
             <option value="" disabled>
               Pilih Title
             </option>
-            <option value="Mr">Mr</option>
-            <option value="Mrs">Mrs</option>
-            <option value="Miss">Miss</option>
-            <option value="Ms">Ms</option>
+            <option value="Mr.">Mr</option>
+            <option value="Mrs.">Mrs</option>
+            <option value="Miss.">Miss</option>
+            <option value="Ms.">Ms</option>
             <option value="Master">Master</option>
           </select>
         </div>
