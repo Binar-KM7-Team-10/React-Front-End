@@ -124,30 +124,38 @@ export const useCreateBooking = () => {
 };
 
 export const useCreatePaymentBooking = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(false);
+  const [loadingPayment, setLoadingPayment] = useState(false);
+  const [errorPayment, setErrorPayment] = useState(null);
+  const [successPayment, setSuccessPayment] = useState(false);
 
   const createPayment = useCallback(async (id, paymentData) => {
-    setLoading(true);
-    setError(null);
-    setSuccess(false);
+    setLoadingPayment(true);
+    setErrorPayment(null);
+    setSuccessPayment(false);
 
     try {
       const response = await CreatePaymentBooking(id, paymentData);
       if (response?.success) {
-        setSuccess(true);
+        console.log(response)
+        return {
+          success: true,
+          message: response?.message
+        }
       } else {
-        setError(response?.message || "Failed to process payment.");
+        return {
+          success: false,
+          message: response?.message
+        }
       }
-      return response;
-    } catch (err) {
-      setError(err.message || "An error occurred while creating payment.");
+    } 
+    catch (err) {
+      setErrorPayment(err.message || "An error occurred while creating payment.");
       throw err;
-    } finally {
-      setLoading(false);
+    } 
+    finally {
+      setLoadingPayment(false);
     }
   }, []);
 
-  return { createPayment, loading, error, success };
+  return { createPayment, loadingPayment, errorPayment, successPayment };
 };

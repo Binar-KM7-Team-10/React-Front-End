@@ -1,8 +1,9 @@
 import React from "react";
+import { Link, useParams } from "react-router-dom";
 import image from "../../../assets/Images/PaymentSuccess.png";
-import { Link } from "react-router-dom";
 
 const PaymentComplete = () => {
+  const { bookCode } = useParams();
   return (
     <div className="bg-gray-50 font-sans">
       <div className="w-full">
@@ -23,7 +24,7 @@ const PaymentComplete = () => {
               Transaksi Pembayaran Tiket sukses!
             </p>
             <div className="mt-10 flex flex-col items-center gap-4">
-              <Link to="/print-ticket" className="w-full max-w-[347px] px-6 py-3 rounded-[12px] bg-[#7126B5] text-sm font-semibold text-white shadow-sm hover:bg-[#D0B7E6] transition focus:outline-none">
+              <Link to={`/print-ticket/${bookCode}`} className="w-full max-w-[347px] px-6 py-3 rounded-[12px] bg-[#7126B5] text-sm font-semibold text-white shadow-sm hover:bg-[#D0B7E6] transition focus:outline-none">
                 Terbitkan Tiket
               </Link>
               <button className="w-full max-w-[347px] px-6 py-3 rounded-[12px] bg-[#7126B5] text-sm font-semibold text-white shadow-sm hover:bg-[#D0B7E6] transition focus:outline-none">
