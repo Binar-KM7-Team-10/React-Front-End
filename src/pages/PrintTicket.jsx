@@ -1,12 +1,18 @@
 import React, { useRef } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { jsPDF } from "jspdf";
 import Navbar from "../components/fragments/Navbar/Navbar";
 import html2canvas from "html2canvas";
 import PrintTicket from "../components/fragments/PaymentSection/PrintTicket";
 import images from "../assets/Images/logo_new.png";
-import { Link } from "react-router-dom";
+import { useGetBookingByBookCode } from "../hooks/useBooking";
 
 const PrintTicketPage = () => {
+  const { bookCode } = useParams();
+  const navigate = useNavigate();
+  const { dataBooking, loading, error } = useGetBookingByBookCode(bookCode);
+  console.log(dataBooking)
+
   const ticketRef = useRef();
   const handleDownloadPDF = async () => {
     const pdf = new jsPDF("p", "mm", "a6");
@@ -14,7 +20,7 @@ const PrintTicketPage = () => {
     const imgData = canvas.toDataURL("image/png");
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
-    const imgWidth = pageWidth - 10; 
+    const imgWidth = pageWidth - 10;
     const imgHeight = (canvas.height * imgWidth) / canvas.width;
     const xOffset = (pageWidth - imgWidth) / 2;
     const yOffset = (pageHeight - imgHeight) / 2;
@@ -49,7 +55,17 @@ const PrintTicketPage = () => {
         </div>
         <div className="lg:w-1/2 bg-gray-50 flex justify-center items-center p-4">
           <div ref={ticketRef} className="w-full max-w-sm">
-            <PrintTicket />
+            {!loading && Object.keys(dataBooking).length > 0 && (
+              <PrintTicket
+                bookingData={dataBooking.itinerary.outbound}
+                arryPsg={[
+                  dataBooking.passenger.adult,
+                  dataBooking.passenger.child,
+                  dataBooking.passenger.baby
+                ]}
+                bookingCode={bookCode}
+              />
+            )}
           </div>
         </div>
       </div>

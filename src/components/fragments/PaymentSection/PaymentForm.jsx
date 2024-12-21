@@ -1,59 +1,38 @@
 import React, { useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { CreditCard, ChevronDown, ChevronUp, Plane } from 'lucide-react';
+import { useGetBookingByBookCode, useCreatePaymentBooking } from '../../../hooks/useBooking';
+import DetailPenerbanganPayment from '../OrderCards/DetailPenerbanganPayment';
+import AlertCheckout from "../../elements/Alert/AlertCheckout";
 import visa from "../../../assets/Images/visaLogo.png";
 import mastercard from "../../../assets/Images/mastercardLogo.png";
 import amex from "../../../assets/Images/amexLogo.png";
 import paypal from "../../../assets/Images/paypalLogo.png";
-import { Link } from 'react-router-dom';
-
-const PAYMENT_METHODS = {
-  GOPAY: 'gopay',
-  VIRTUAL_ACCOUNT: 'virtual_account',
-  CREDIT_CARD: 'credit_card',
-};
-
-const FLIGHT_DATA = {
-  bookingCode: '6723y2GHK',
-  departure: {
-    time: '07:00',
-    date: '3 Maret 2023',
-    location: 'Soekarno Hatta - Terminal 1A Domestik',
-  },
-  arrival: {
-    time: '11:00',
-    date: '3 Maret 2023',
-    location: 'Melbourne International Airport',
-  },
-  flight: {
-    airline: 'Jet Air',
-    class: 'Economy',
-    code: 'JT - 203',
-    info: {
-      baggage: '20 kg',
-      cabinBaggage: '7 kg',
-      entertainment: 'In Flight Entertainment',
-    },
-  },
-  price: {
-    adults: {
-      count: 2,
-      price: 9550000,
-    },
-    baby: {
-      count: 1,
-      price: 0,
-    },
-    tax: 300000,
-  },
-};
+import { use } from 'react';
 
 const PaymentForm = () => {
+  const { bookCode } = useParams();
+  const navigate = useNavigate()
+  const { dataBooking, loading, error } = useGetBookingByBookCode(bookCode);
+  const { createPayment, loadingPayment, errorPayment, successPayment } = useCreatePaymentBooking();
+  const [param, setParam] = useState({});
+  const [alertSubmit, setAlertSubmit] = useState({
+    status: "",
+    message: ""
+  });
+
+  const paymentMethod = {
+    GOPAY: 'Gopay',
+    VIRTUAL_ACCOUNT: 'Virtual Account',
+    CREDIT_CARD: 'Credit Card',
+  };
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const [isMethodExpanded, setIsMethodExpanded] = useState({
-    [PAYMENT_METHODS.GOPAY]: false,
-    [PAYMENT_METHODS.VIRTUAL_ACCOUNT]: false,
-    [PAYMENT_METHODS.CREDIT_CARD]: false,
+    [paymentMethod.GOPAY]: false,
+    [paymentMethod.VIRTUAL_ACCOUNT]: false,
+    [paymentMethod.CREDIT_CARD]: false,
   });
+
   const [formData, setFormData] = useState({
     cardNumber: '',
     cardHolder: '',
@@ -62,9 +41,35 @@ const PaymentForm = () => {
     gopayNumber: '',
     virtualAccountNumber: '',
   });
+  const [disabledFields, setDisabledFields] = useState({
+    gopayNumber: false,
+    virtualAccountNumber: false,
+    cardNumber: false,
+    cardHolder: false,
+    cvv: false,
+    expiryDate: false,
+  });
   const [errors, setErrors] = useState({});
 
   const handlePaymentMethodClick = (method) => {
+    if (selectedPaymentMethod != method) {
+      setFormData({
+        ardNumber: '',
+        cardHolder: '',
+        cvv: '',
+        expiryDate: '',
+        gopayNumber: '',
+        virtualAccountNumber: ''
+      })
+      setDisabledFields({
+        gopayNumber: false,
+        virtualAccountNumber: false,
+        cardNumber: false,
+        cardHolder: false,
+        cvv: false,
+        expiryDate: false,
+      })
+    }
     setSelectedPaymentMethod(method);
     setIsMethodExpanded((prev) => ({
       ...prev,
@@ -73,7 +78,49 @@ const PaymentForm = () => {
   };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, disableb } = e.target;
+
+    if (name == "gopayNumber" && value != "") {
+      setDisabledFields({
+        gopayNumber: false,
+        virtualAccountNumber: true,
+        cardNumber: true,
+        cardHolder: true,
+        cvv: true,
+        expiryDate: true,
+      });
+    }
+    else if (name == "virtualAccountNumber" && value != "") {
+      setDisabledFields({
+        gopayNumber: true,
+        virtualAccountNumber: false,
+        cardNumber: true,
+        cardHolder: true,
+        cvv: true,
+        expiryDate: true,
+      });
+    }
+    else if (['cardNumber', 'cardHolder', 'cvv', 'expiryDate'].includes(name) && value !== '') {
+      setDisabledFields((prev) => ({
+        gopayNumber: true,
+        virtualAccountNumber: true,
+        cardNumber: name === 'cardNumber' ? false : prev.cardNumber,
+        cardHolder: name === 'cardHolder' ? false : prev.cardHolder,
+        cvv: name === 'cvv' ? false : prev.cvv,
+        expiryDate: name === 'expiryDate' ? false : prev.expiryDate,
+      }));
+    }
+    else {
+      setDisabledFields({
+        gopayNumber: false,
+        virtualAccountNumber: false,
+        cardNumber: false,
+        cardHolder: false,
+        cvv: false,
+        expiryDate: false,
+      });
+    }
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -88,14 +135,14 @@ const PaymentForm = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    if (selectedPaymentMethod === PAYMENT_METHODS.CREDIT_CARD) {
+    if (selectedPaymentMethod === paymentMethod.CREDIT_CARD) {
       if (!formData.cardNumber) newErrors.cardNumber = 'Card number is required';
       if (!formData.cardHolder) newErrors.cardHolder = 'Card holder name is required';
       if (!formData.cvv) newErrors.cvv = 'CVV is required';
       if (!formData.expiryDate) newErrors.expiryDate = 'Expiry date is required';
-    } else if (selectedPaymentMethod === PAYMENT_METHODS.GOPAY) {
+    } else if (selectedPaymentMethod === paymentMethod.GOPAY) {
       if (!formData.gopayNumber) newErrors.gopayNumber = 'Gopay number is required';
-    } else if (selectedPaymentMethod === PAYMENT_METHODS.VIRTUAL_ACCOUNT) {
+    } else if (selectedPaymentMethod === paymentMethod.VIRTUAL_ACCOUNT) {
       if (!formData.virtualAccountNumber) newErrors.virtualAccountNumber = 'Virtual account number is required';
     }
     setErrors(newErrors);
@@ -103,9 +150,64 @@ const PaymentForm = () => {
   };
 
   const handleSubmit = async () => {
-    if (!validateForm()) return;
-    // Payment submission logic here
-    alert('Payment processed successfully!');
+    try {
+      if (!validateForm()) return;
+
+      let paymentParam = {};
+
+      if (selectedPaymentMethod === paymentMethod.GOPAY) {
+        paymentParam = {
+          method: paymentMethod.GOPAY,
+          accountNumber: formData.gopayNumber,
+        };
+      } else if (selectedPaymentMethod === paymentMethod.VIRTUAL_ACCOUNT) {
+        paymentParam = {
+          method: paymentMethod.VIRTUAL_ACCOUNT,
+          accountNumber: formData.virtualAccountNumber,
+        };
+      } else if (selectedPaymentMethod === paymentMethod.CREDIT_CARD) {
+        paymentParam = {
+          method: paymentMethod.CREDIT_CARD,
+          accountNumber: formData.cardNumber,
+          holderName: formData.cardHolder,
+          CVV: formData.cvv,
+          expiryDate: formData.expiryDate,
+        };
+      } else {
+        setAlertSubmit({
+          status: "error",
+          message: "Metode pembayaran tidak valid.",
+        });
+        return;
+      }
+
+      console.log(paymentParam)
+      const result = await createPayment(dataBooking.bookingId, paymentParam);
+
+      if (result.success) {
+        setAlertSubmit({
+          status: "success",
+          message: result.message
+        })
+        setTimeout(() => {
+          navigate(`/payment-success/${bookCode}`);
+        }, 2000);
+      }
+      else {
+        setAlertSubmit({
+          status: "error",
+          message: result.message
+        })
+      }
+    }
+    catch (err) {
+      setAlertSubmit({
+        status: "error",
+        message: err.message
+      })
+    }
+
+    // alert('Payment processed successfully!');
   };
 
   const PaymentMethodButton = ({ method, label }) => (
@@ -126,9 +228,10 @@ const PaymentForm = () => {
           <div className="flex-1 space-y-6 md:w-7/12 w-full">
             <h2 className="text-xl font-bold text-gray-800">Payment Details</h2>
             <div className="space-y-4">
+
               <div className="bg-white rounded-lg shadow">
-                <PaymentMethodButton method={PAYMENT_METHODS.GOPAY} label="Gopay" />
-                {isMethodExpanded[PAYMENT_METHODS.GOPAY] && (
+                <PaymentMethodButton method={paymentMethod.GOPAY} label="Gopay" />
+                {isMethodExpanded[paymentMethod.GOPAY] && (
                   <div className="p-4">
                     <div className="space-y-2">
                       <label className="block text-sm font-medium text-gray-700">Gopay Number</label>
@@ -139,6 +242,7 @@ const PaymentForm = () => {
                         onChange={handleInputChange}
                         className="w-full p-2 border rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                         placeholder="0812xxxxxxx"
+                        disabled={disabledFields.gopayNumber}
                       />
                       {errors.gopayNumber && (
                         <p className="text-red-500 text-sm">{errors.gopayNumber}</p>
@@ -150,10 +254,10 @@ const PaymentForm = () => {
 
               <div className="bg-white rounded-lg shadow">
                 <PaymentMethodButton
-                  method={PAYMENT_METHODS.VIRTUAL_ACCOUNT}
+                  method={paymentMethod.VIRTUAL_ACCOUNT}
                   label="Virtual Account"
                 />
-                {isMethodExpanded[PAYMENT_METHODS.VIRTUAL_ACCOUNT] && (
+                {isMethodExpanded[paymentMethod.VIRTUAL_ACCOUNT] && (
                   <div className="p-4">
                     <div className="space-y-2">
                       <label className="block text-sm font-medium text-gray-700">
@@ -166,6 +270,7 @@ const PaymentForm = () => {
                         onChange={handleInputChange}
                         className="w-full p-2 border rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                         placeholder="1234567890"
+                        disabled={disabledFields.virtualAccountNumber}
                       />
                       {errors.virtualAccountNumber && (
                         <p className="text-red-500 text-sm">{errors.virtualAccountNumber}</p>
@@ -177,10 +282,10 @@ const PaymentForm = () => {
 
               <div className="bg-white rounded-lg shadow">
                 <PaymentMethodButton
-                  method={PAYMENT_METHODS.CREDIT_CARD}
+                  method={paymentMethod.CREDIT_CARD}
                   label="Credit Card"
                 />
-                {isMethodExpanded[PAYMENT_METHODS.CREDIT_CARD] && (
+                {isMethodExpanded[paymentMethod.CREDIT_CARD] && (
                   <div className="p-4">
                     <div className="space-y-4">
                       <div className="flex justify-center items-center gap-4 mb-4">
@@ -214,6 +319,7 @@ const PaymentForm = () => {
                           onChange={handleInputChange}
                           className="w-full p-2 border rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                           placeholder="4480 0000 0000 0000"
+                          disabled={disabledFields.cardNumber}
                         />
                         {errors.cardNumber && (
                           <p className="text-red-500 text-sm">{errors.cardNumber}</p>
@@ -231,6 +337,7 @@ const PaymentForm = () => {
                           onChange={handleInputChange}
                           className="w-full p-2 border rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                           placeholder="John Doe"
+                          disabled={disabledFields.cardHolder}
                         />
                         {errors.cardHolder && (
                           <p className="text-red-500 text-sm">{errors.cardHolder}</p>
@@ -248,6 +355,7 @@ const PaymentForm = () => {
                             className="w-full p-2 border rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                             placeholder="000"
                             maxLength="3"
+                            disabled={disabledFields.cvv}
                           />
                           {errors.cvv && <p className="text-red-500 text-sm">{errors.cvv}</p>}
                         </div>
@@ -262,6 +370,7 @@ const PaymentForm = () => {
                             onChange={handleInputChange}
                             className="w-full p-2 border rounded focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                             placeholder="MM/YY"
+                            disabled={disabledFields.expiryDate}
                           />
                           {errors.expiryDate && (
                             <p className="text-red-500 text-sm">{errors.expiryDate}</p>
@@ -272,85 +381,32 @@ const PaymentForm = () => {
                   </div>
                 )}
               </div>
+
             </div>
-            <Link to={"/payment-success"}>
-              <button
-                // onClick={handleSubmit}
-                className="w-full bg-purple-600 text-white mt-3 py-3 rounded-lg hover:bg-purple-700 transition-colors font-medium"
-              >
-                Bayar
-              </button>
-            </Link>
+            <button
+              onClick={handleSubmit}
+              className="w-full bg-purple-600 text-white mt-3 py-3 rounded-lg hover:bg-purple-700 transition-colors font-medium"
+            >
+              {loadingPayment ? "Loading" : "Bayar"}
+            </button>
+            {
+              alertSubmit.status == "success" && <AlertCheckout type={"success"} text={alertSubmit.message} />
+            }
+            {
+              alertSubmit.status == "error" && <AlertCheckout type={"danger"} text={alertSubmit.message} />
+            }
           </div>
-
-          <div className="md:w-5/12 w-full">
-            <div className="bg-white rounded-lg shadow p-6 space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="font-bold">
-                  Booking Code:{' '}
-                  <span className="text-purple-600">{FLIGHT_DATA.bookingCode}</span>
-                </span>
-              </div>
-
-              <div className="border-b pb-4">
-                <div className="flex justify-between text-sm">
-                  <span className="font-bold">{FLIGHT_DATA.departure.time}</span>
-                  <span className="text-purple-600">Departure</span>
-                </div>
-                <div className="text-sm text-gray-600">{FLIGHT_DATA.departure.date}</div>
-                <div className="text-sm">{FLIGHT_DATA.departure.location}</div>
-              </div>
-
-              <div className="border-b pb-4">
-                <div className="font-bold">
-                  {FLIGHT_DATA.flight.airline} - {FLIGHT_DATA.flight.class}
-                </div>
-                <div className="text-sm">{FLIGHT_DATA.flight.code}</div>
-                <div className="mt-2 space-y-1">
-                  <div className="flex items-center gap-2">
-                    <Plane className="text-yellow-500" size={16} />
-                    <span className="text-sm font-bold">Flight Info:</span>
-                  </div>
-                  <ul className="text-sm text-gray-600 ml-6 space-y-1">
-                    <li>Baggage: {FLIGHT_DATA.flight.info.baggage}</li>
-                    <li>Cabin Baggage: {FLIGHT_DATA.flight.info.cabinBaggage}</li>
-                    <li>{FLIGHT_DATA.flight.info.entertainment}</li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="border-b pb-4">
-                <div className="flex justify-between text-sm">
-                  <span className="font-bold">{FLIGHT_DATA.arrival.time}</span>
-                  <span className="text-purple-600">Arrival</span>
-                </div>
-                <div className="text-sm text-gray-600">{FLIGHT_DATA.arrival.date}</div>
-                <div className="text-sm">{FLIGHT_DATA.arrival.location}</div>
-              </div>
-
-              <div className="space-y-2">
-                <h3 className="font-bold">Price Details</h3>
-                <div className="flex justify-between text-sm">
-                  <span>{FLIGHT_DATA.price.adults.count} Adults</span>
-                  <span>IDR {FLIGHT_DATA.price.adults.price.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span>{FLIGHT_DATA.price.baby.count} Baby</span>
-                  <span>IDR {FLIGHT_DATA.price.baby.price.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span>Tax</span>
-                  <span>IDR {FLIGHT_DATA.price.tax.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between font-bold pt-2 border-t">
-                  <span>Total</span>
-                  <span className="text-purple-600">
-                    IDR {(FLIGHT_DATA.price.adults.price + FLIGHT_DATA.price.baby.price + FLIGHT_DATA.price.tax).toLocaleString()}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+          {!loading && Object.keys(dataBooking).length > 0 && (
+            <DetailPenerbanganPayment
+              bookingData={dataBooking.itinerary.outbound}
+              arryPsg={[
+                dataBooking.passenger.adult,
+                dataBooking.passenger.child,
+                dataBooking.passenger.baby
+              ]}
+              bookingCode={bookCode}
+            />
+          )}
         </div>
       </div>
     </div>
