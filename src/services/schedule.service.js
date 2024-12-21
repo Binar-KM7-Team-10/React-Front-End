@@ -38,6 +38,7 @@ const GetSchedules = async (params) => {
 }
 
 const GetScheduleById = async (id) => {
+    console.log(id)
     try {
         const response = await axiosInstance.get(`/schedules/${id}`);
         return {

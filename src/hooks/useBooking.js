@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { GetBookings, CreateBooking, CreatePaymentBooking } from "../services/booking.service";
+import { GetBookings, CreateBooking, CreatePaymentBooking, GetBookingByBookCode } from "../services/booking.service";
 import {GetScheduleById} from "../services/schedule.service";
 
 export const useFetchBookings = () => {
@@ -63,6 +63,37 @@ export const useGetBookingById = (id) => {
   return { dataBooking, loading, error };
 };
 
+
+export const useGetBookingByBookCode = (bookCode) => {
+  const [dataBooking, setDataBooking] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchBooking = async () => {
+      if (!bookCode) return;
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await GetBookingByBookCode(bookCode);
+        if (response?.success) {
+          setDataBooking(response.data.bookings[0]);
+        } else {
+          setError(response?.message || "Failed to fetch booking details.");
+        }
+      } catch (err) {
+        setError(err.message || "An error occurred while fetching booking details.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBooking();
+  }, []);
+
+  return { dataBooking, loading, error };
+};
+
 export const useCreateBooking = () => {
   const [loadingBooking, setLoadingBooking] = useState(false);
   const [errorBooking, setErrorBooking] = useState(null);
@@ -94,30 +125,38 @@ export const useCreateBooking = () => {
 };
 
 export const useCreatePaymentBooking = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(false);
+  const [loadingPayment, setLoadingPayment] = useState(false);
+  const [errorPayment, setErrorPayment] = useState(null);
+  const [successPayment, setSuccessPayment] = useState(false);
 
   const createPayment = useCallback(async (id, paymentData) => {
-    setLoading(true);
-    setError(null);
-    setSuccess(false);
+    setLoadingPayment(true);
+    setErrorPayment(null);
+    setSuccessPayment(false);
 
     try {
       const response = await CreatePaymentBooking(id, paymentData);
       if (response?.success) {
-        setSuccess(true);
+        console.log(response)
+        return {
+          success: true,
+          message: response?.message
+        }
       } else {
-        setError(response?.message || "Failed to process payment.");
+        return {
+          success: false,
+          message: response?.message
+        }
       }
-      return response;
-    } catch (err) {
-      setError(err.message || "An error occurred while creating payment.");
+    } 
+    catch (err) {
+      setErrorPayment(err.message || "An error occurred while creating payment.");
       throw err;
-    } finally {
-      setLoading(false);
+    } 
+    finally {
+      setLoadingPayment(false);
     }
   }, []);
 
-  return { createPayment, loading, error, success };
+  return { createPayment, loadingPayment, errorPayment, successPayment };
 };

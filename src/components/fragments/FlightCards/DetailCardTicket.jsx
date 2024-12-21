@@ -23,7 +23,7 @@ const DetailCardTicket = ({ bookings, onClick }) => {
 
   return (
     <div
-      onClick={() => onClick(bookingCode)}
+      onClick={() => onClick(bookings)}
       className="bg-white rounded-[10px] border-[#7126B5BF] border-2 px-[16px] py-[12px] w-full max-w-[468px] mx-auto h-auto sm:h-[215px] cursor-pointer"
     >
       <div className="justify-between items-center pt-1">

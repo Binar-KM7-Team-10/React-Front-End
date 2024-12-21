@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../components/fragments/Navbar/Navbar";
 import PaymentHeader from "../components/fragments/PaymentSection/PaymentHeader";
-import OrderForm from "../components/fragments/OrderSection/OrderForm";
+import PaymentForm from "../components/fragments/PaymentSection/PaymentForm";
 
 const Payment = () => {
   const active = {
@@ -18,7 +18,7 @@ const Payment = () => {
         alertType="danger"
         activeStep={active}
       />
-      <OrderForm />
+      <PaymentForm />
     </div>
   );
 };
