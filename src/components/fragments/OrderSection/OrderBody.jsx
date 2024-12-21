@@ -203,7 +203,7 @@ const OrderBody = () => {
         <div className="w-full md:w-5/12 mt-8 md:mt-0">
           {dataBooking ? (
             <DetailPenerbangan bookingData={dataBooking} arryPsg={intArryPsg} />
-          ) : (
+          ) : ( 
             <div>Memuat detail penerbangan...</div>
           )}
           {isSaved && (

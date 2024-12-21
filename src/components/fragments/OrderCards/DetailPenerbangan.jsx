@@ -37,7 +37,6 @@ const DetailPenerbangan = ({ bookingData, arryPsg }) => {
   return (
     <div className="flex flex-col w-full lg:w-96">
       <div className="bg-white p-5 rounded-md shadow-md">
-        {/* Detail Penerbangan */}
         <div className="py-6 border-t-[1.5px] border-[#8A8A8A]">
           <span className="text-purple-900 font-bold">Detail Penerbangan</span>
           <div className="flex justify-between text-sm">
@@ -48,7 +47,6 @@ const DetailPenerbangan = ({ bookingData, arryPsg }) => {
           <div className="font-medium">{bookingData.departure.location || bookingData.departure.city}</div>
         </div>
 
-        {/* Detail Pesawat */}
         <div className="mb-6 border-b-2 pb-5">
           <div className="font-bold">
             {bookingData.airlineName || "N/A"} - {bookingData.seatClass || "N/A"}
@@ -71,7 +69,6 @@ const DetailPenerbangan = ({ bookingData, arryPsg }) => {
           </div>
         </div>
 
-        {/* Kedatangan */}
         <div className="mb-6">
           <div className="flex justify-between text-sm">
             <span className="font-bold">{formattedArrivalTime}</span>
@@ -81,7 +78,6 @@ const DetailPenerbangan = ({ bookingData, arryPsg }) => {
           <div className="font-medium">{bookingData.arrival.location || bookingData.arrival.city}</div>
         </div>
 
-        {/* Rincian Harga */}
         <div className="border-t pt-4">
           <h3 className="font-medium mb-2">Rincian Harga</h3>
           <div className="space-y-2">

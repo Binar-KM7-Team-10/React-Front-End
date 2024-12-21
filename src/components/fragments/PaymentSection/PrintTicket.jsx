@@ -1,25 +1,31 @@
 import React from "react";
-import logo from  "../../../assets/Images/logo_new.png";
+import logo from "../../../assets/Images/logo_new.png";
+import ImageFlight from "../../../assets/Images/ImageFlight.png";
 
-const PrintTicket = () => {
-  const formattedDepartureTime = "07:00";
-  const formattedDepartureDate = "3 Maret 2023";
-  const formattedArrivalTime = "11:00";
-  const formattedArrivalDate = "3 Maret 2023";
+const PrintTicket = ({ bookingData, arryPsg }) => {
+  if (!bookingData || !bookingData.departure || !bookingData.arrival || !bookingData.price) {
+    return <div>Data penerbangan tidak tersedia atau belum lengkap.</div>;
+  }
 
-  const bookingData = {
-    departure: { location: "Soekarno Hatta - Terminal 1A Domestik", city: "Jakarta" },
-    arrival: { location: "Melbourne International Airport", city: "Melbourne" },
-    airlineName: "Jet Air",
-    seatClass: "Economy",
-    flightNumber: "JT-203",
-    facilities: { "Baggage 20 kg": true, "Cabin baggage 7 kg": true, "In Flight Entertainment": false },
-    price: 9550000,
-    tax: 300000,
-  };
+  const departureDate = new Date(bookingData.departure.dateTime || null);
+  const formattedDepartureTime = departureDate
+    ? `${departureDate.getHours()}:${departureDate.getMinutes().toString().padStart(2, "0")}`
+    : "N/A";
+  const formattedDepartureDate = departureDate
+    ? `${departureDate.getUTCDate()} ${departureDate.toLocaleString("id-ID", { month: "long" })} ${departureDate.getUTCFullYear()}`
+    : "N/A";
 
-  const arryPsg = [2, 1]; // 2 Adults, 1 Child
-  const totalPrice = bookingData.price * arryPsg[0] + bookingData.price * (arryPsg[1] || 0) + bookingData.tax;
+  const arrivalDate = new Date(bookingData.arrival.dateTime || null);
+  const formattedArrivalTime = arrivalDate
+    ? `${arrivalDate.getHours()}:${arrivalDate.getMinutes().toString().padStart(2, "0")}`
+    : "N/A";
+  const formattedArrivalDate = arrivalDate
+    ? `${arrivalDate.getUTCDate()} ${arrivalDate.toLocaleString("id-ID", { month: "long" })} ${arrivalDate.getUTCFullYear()}`
+    : "N/A";
+
+  const totalPrice =
+    (bookingData.price || 0) * (arryPsg[0] || 0) +
+    (bookingData.price || 0) * (arryPsg[1] || 0);
 
   return (
     <div className="flex justify-center">
@@ -41,18 +47,18 @@ const PrintTicket = () => {
 
         <div className="mb-6 border-b-2 pb-5">
           <div className="font-bold">
-            {bookingData.airlineName} - {bookingData.seatClass}
+            {bookingData.airlineName || "N/A"} - {bookingData.seatClass || "N/A"}
           </div>
-          <div className="font-bold">{bookingData.flightNumber}</div>
+          <div className="font-bold">{bookingData.flightNumber || "N/A"}</div>
           <div className="mt-2">
             <div className="text-sm text-black-600 font-bold flex items-center gap-2">
-              <span>🌟</span>
+              <img src={ImageFlight} alt="Image Flight Detail" className="w-5 h-5" />
               Informasi:
             </div>
             <ul className="text-sm text-gray-600 ml-6 list-inside">
-              {Object.entries(bookingData.facilities).map(([key, value], index) => (
+              {Object.entries(bookingData.facilities || {}).map(([key, value], index) => (
                 <li key={index}>
-                  {key}: {value ? "Yes" : "No"}
+                  {key}: {typeof value === "boolean" ? (value ? "Yes" : "No") : value}
                 </li>
               ))}
             </ul>
@@ -72,8 +78,8 @@ const PrintTicket = () => {
           <h3 className="font-medium mb-2">Rincian Harga</h3>
           <div className="space-y-2">
             <div className="flex justify-between text-sm">
-              <span>{arryPsg[0]} Dewasa</span>
-              <span>IDR {(bookingData.price * arryPsg[0]).toLocaleString()}</span>
+              <span>{arryPsg[0] || 0} Dewasa</span>
+              <span>IDR {(bookingData.price * arryPsg[0] || 0).toLocaleString()}</span>
             </div>
             {arryPsg[1] !== 0 && (
               <div className="flex justify-between text-sm">
@@ -83,7 +89,7 @@ const PrintTicket = () => {
             )}
             <div className="flex justify-between text-sm">
               <span>Tax</span>
-              <span>IDR {bookingData.tax.toLocaleString()}</span>
+              <span>IDR {(bookingData.tax || 0).toLocaleString()}</span>
             </div>
             <div className="flex justify-between font-semibold text-purple-600 pt-2 border-t">
               <span>Total</span>
