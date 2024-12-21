@@ -20,7 +20,7 @@ const routesConfig = [
   { path: "/otp-confirm", element: OtpPage, type: "guest" },
   { path: "/login", element: Login, type: "guest" },
   { path: "/register", element: Register, type: "guest" },
-  { path: "/payment/:id", element: Payment, type: "auth" },
+  { path: "/payment/:bookCode", element: Payment, type: "auth" },
   { path: "/checkout/:id", element: OrderPage, type: "auth" },
   { path: "/print-ticket", element: PrintTicketPage, type: "public" },
   { path: "/search", element: SearchPage, type: "public" },

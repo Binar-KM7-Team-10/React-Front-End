@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { GetBookings, CreateBooking, CreatePaymentBooking } from "../services/booking.service";
+import { GetBookings, CreateBooking, CreatePaymentBooking, GetBookingByBookCode } from "../services/booking.service";
 import {GetScheduleById} from "../services/schedule.service";
 
 export const useFetchBookings = () => {
@@ -59,6 +59,36 @@ export const useGetBookingById = (id) => {
 
     fetchBooking();
   }, [id]);
+
+  return { dataBooking, loading, error };
+};
+
+export const useGetBookingByBookCode = (bookCode) => {
+  const [dataBooking, setDataBooking] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchBooking = async () => {
+      if (!bookCode) return;
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await GetBookingByBookCode(bookCode);
+        if (response?.success) {
+          setDataBooking(response.data.bookings[0]);
+        } else {
+          setError(response?.message || "Failed to fetch booking details.");
+        }
+      } catch (err) {
+        setError(err.message || "An error occurred while fetching booking details.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBooking();
+  }, []);
 
   return { dataBooking, loading, error };
 };

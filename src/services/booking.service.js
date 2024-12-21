@@ -68,6 +68,43 @@ const GetBookingById = async (id) => {
     }
 };
 
+const GetBookingByBookCode = async (bookCode) => {
+    try {
+        const response = await axiosInstance.get(`/bookings`, {
+            params: {
+                bookingCode: bookCode
+            }
+        });
+        return {
+            success: true,
+            data: response.data.data,
+            message: response.data.message || "Booking successfully retrieved"
+        };
+    } 
+    catch (err) {
+        if (err.response?.status === 404) {
+            return {
+                success: false,
+                data: null,
+                message: "Booking not found"
+            };
+        }
+
+        if (err.response?.status === 400) {
+            return {
+                success: false,
+                data: null,
+                message: "Invalid booking code"
+            };
+        }
+        return {
+            success: false,
+            data: null,
+            message: err.response?.data?.message || "Failed to fetch booking"
+        };
+    }
+};
+
 const CreateBooking = async (bookingData) => {
     try {
         const response = await axiosInstance.post("/bookings", bookingData);
@@ -106,5 +143,5 @@ const CreatePaymentBooking = async (id, paymentData) => {
     }
 };
 
-export { GetBookings, GetBookingById, CreateBooking, CreatePaymentBooking };
+export { GetBookings, GetBookingById, GetBookingByBookCode, CreateBooking, CreatePaymentBooking };
 

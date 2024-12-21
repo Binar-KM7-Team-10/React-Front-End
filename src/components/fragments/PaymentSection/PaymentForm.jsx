@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import { CreditCard, ChevronDown, ChevronUp, Plane } from 'lucide-react';
+import { useGetBookingByBookCode } from '../../../hooks/useBooking';
+import DetailPenerbanganPayment from '../OrderCards/DetailPenerbanganPayment';
 import visa from "../../../assets/Images/visaLogo.png";
 import mastercard from "../../../assets/Images/mastercardLogo.png";
 import amex from "../../../assets/Images/amexLogo.png";
 import paypal from "../../../assets/Images/paypalLogo.png";
-import { Link } from 'react-router-dom';
+import { use } from 'react';
 
 const PAYMENT_METHODS = {
   GOPAY: 'gopay',
@@ -12,42 +15,11 @@ const PAYMENT_METHODS = {
   CREDIT_CARD: 'credit_card',
 };
 
-const FLIGHT_DATA = {
-  bookingCode: '6723y2GHK',
-  departure: {
-    time: '07:00',
-    date: '3 Maret 2023',
-    location: 'Soekarno Hatta - Terminal 1A Domestik',
-  },
-  arrival: {
-    time: '11:00',
-    date: '3 Maret 2023',
-    location: 'Melbourne International Airport',
-  },
-  flight: {
-    airline: 'Jet Air',
-    class: 'Economy',
-    code: 'JT - 203',
-    info: {
-      baggage: '20 kg',
-      cabinBaggage: '7 kg',
-      entertainment: 'In Flight Entertainment',
-    },
-  },
-  price: {
-    adults: {
-      count: 2,
-      price: 9550000,
-    },
-    baby: {
-      count: 1,
-      price: 0,
-    },
-    tax: 300000,
-  },
-};
-
 const PaymentForm = () => {
+  const { bookCode } = useParams();
+  const { dataBooking, loading, error } = useGetBookingByBookCode(bookCode);
+  console.log(dataBooking)
+
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const [isMethodExpanded, setIsMethodExpanded] = useState({
     [PAYMENT_METHODS.GOPAY]: false,
@@ -282,75 +254,17 @@ const PaymentForm = () => {
               </button>
             </Link>
           </div>
-
-          <div className="md:w-5/12 w-full">
-            <div className="bg-white rounded-lg shadow p-6 space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="font-bold">
-                  Booking Code:{' '}
-                  <span className="text-purple-600">{FLIGHT_DATA.bookingCode}</span>
-                </span>
-              </div>
-
-              <div className="border-b pb-4">
-                <div className="flex justify-between text-sm">
-                  <span className="font-bold">{FLIGHT_DATA.departure.time}</span>
-                  <span className="text-purple-600">Departure</span>
-                </div>
-                <div className="text-sm text-gray-600">{FLIGHT_DATA.departure.date}</div>
-                <div className="text-sm">{FLIGHT_DATA.departure.location}</div>
-              </div>
-
-              <div className="border-b pb-4">
-                <div className="font-bold">
-                  {FLIGHT_DATA.flight.airline} - {FLIGHT_DATA.flight.class}
-                </div>
-                <div className="text-sm">{FLIGHT_DATA.flight.code}</div>
-                <div className="mt-2 space-y-1">
-                  <div className="flex items-center gap-2">
-                    <Plane className="text-yellow-500" size={16} />
-                    <span className="text-sm font-bold">Flight Info:</span>
-                  </div>
-                  <ul className="text-sm text-gray-600 ml-6 space-y-1">
-                    <li>Baggage: {FLIGHT_DATA.flight.info.baggage}</li>
-                    <li>Cabin Baggage: {FLIGHT_DATA.flight.info.cabinBaggage}</li>
-                    <li>{FLIGHT_DATA.flight.info.entertainment}</li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="border-b pb-4">
-                <div className="flex justify-between text-sm">
-                  <span className="font-bold">{FLIGHT_DATA.arrival.time}</span>
-                  <span className="text-purple-600">Arrival</span>
-                </div>
-                <div className="text-sm text-gray-600">{FLIGHT_DATA.arrival.date}</div>
-                <div className="text-sm">{FLIGHT_DATA.arrival.location}</div>
-              </div>
-
-              <div className="space-y-2">
-                <h3 className="font-bold">Price Details</h3>
-                <div className="flex justify-between text-sm">
-                  <span>{FLIGHT_DATA.price.adults.count} Adults</span>
-                  <span>IDR {FLIGHT_DATA.price.adults.price.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span>{FLIGHT_DATA.price.baby.count} Baby</span>
-                  <span>IDR {FLIGHT_DATA.price.baby.price.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span>Tax</span>
-                  <span>IDR {FLIGHT_DATA.price.tax.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between font-bold pt-2 border-t">
-                  <span>Total</span>
-                  <span className="text-purple-600">
-                    IDR {(FLIGHT_DATA.price.adults.price + FLIGHT_DATA.price.baby.price + FLIGHT_DATA.price.tax).toLocaleString()}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+          {!loading && Object.keys(dataBooking).length > 0 && (
+            <DetailPenerbanganPayment
+              bookingData={dataBooking.itinerary.outbound}
+              arryPsg={[
+                dataBooking.passenger.adult,
+                dataBooking.passenger.child,
+                dataBooking.passenger.baby
+              ]}
+              bookingCode={bookCode}
+            />
+          )}
         </div>
       </div>
     </div>
