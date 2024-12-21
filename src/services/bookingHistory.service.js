@@ -1,8 +1,8 @@
 import { axiosInstance } from '../api/axiosInstance';
 
-const getBookingHistory = async (booking) => {
+const getBookingHistory = async (bookings) => {
     try {
-        const response = await axiosInstance.get(`/bookings/${booking}`);
+        const response = await axiosInstance.get(`/bookings/${bookings}`);
         return response.data;
     } catch (error) {
         throw error; 

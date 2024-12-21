@@ -26,7 +26,7 @@ const GetSchedules = async (params) => {
         }
         return {
             success: false,
-            message: response.data.message || "Failed to fetch cars",
+            message: response.data.message || "Failed to fetch schedules",
         };
     }
     catch (error) {

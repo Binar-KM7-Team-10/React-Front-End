@@ -1,10 +1,40 @@
 import { useState, useEffect, useCallback } from "react";
-import { CreateBooking, CreatePaymentBooking } from "../services/booking.service";
-import { GetScheduleById } from "../services/schedule.service";
-import { useBookingContext } from "../contexts/BookingContext";
+import { GetBookings, CreateBooking, CreatePaymentBooking } from "../services/booking.service";
+import {GetScheduleById} from "../services/schedule.service";
+
+export const useFetchBookings = () => {
+
+  const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const fetchBookings = useCallback(async (data) => {
+    setLoading(true);
+    try {
+      const queryParam = {
+        userId: data.userId,
+        date: data.date,
+        bookingCode: data.bookingCode
+      }
+      const response = await GetBookings(queryParam);
+      if (response?.success) {
+        setBookings(response.data);
+      } else {
+        setError(response?.message || "Failed to fetch booking details.");
+      }
+    } catch (err) {
+      setError(err.message || "An error occurred while fetching booking details.");
+    } finally {
+      setLoading(false);
+    }
+  }, [])
+
+  return { bookings, fetchBookings, loading, error };
+};
+
 
 export const useGetBookingById = (id) => {
-  const [dataBooking, setDataBooking] = useState({})
+  const [dataBooking, setDataBooking] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -12,26 +42,25 @@ export const useGetBookingById = (id) => {
     const fetchBooking = async () => {
       if (!id) return;
       setLoading(true);
+      setError(null);
       try {
         const response = await GetScheduleById(id);
-        if (response.success) {
+        if (response?.success) {
           setDataBooking(response.data);
         } else {
-          setError(response.message || "Failed to fetch booking details.");
+          setError(response?.message || "Failed to fetch booking details.");
         }
-      } 
-      catch (err) {
+      } catch (err) {
         setError(err.message || "An error occurred while fetching booking details.");
-      } 
-      finally {
+      } finally {
         setLoading(false);
       }
     };
 
     fetchBooking();
-  }, []);
+  }, [id]);
 
-  return {dataBooking, loading, error };
+  return { dataBooking, loading, error };
 };
 
 export const useCreateBooking = () => {
@@ -44,9 +73,10 @@ export const useCreateBooking = () => {
     setLoadingBooking(true);
     setErrorBooking(null);
     setSuccess(false);
+
     try {
       const response = await CreateBooking(bookingData);
-      if (response.success) {
+      if (response?.success) {
         setSuccess(true);
         return response.data.bookingCode
       } else {
@@ -72,12 +102,17 @@ export const useCreatePaymentBooking = () => {
     setLoading(true);
     setError(null);
     setSuccess(false);
+
     try {
       const response = await CreatePaymentBooking(id, paymentData);
-      setSuccess(true);
+      if (response?.success) {
+        setSuccess(true);
+      } else {
+        setError(response?.message || "Failed to process payment.");
+      }
       return response;
     } catch (err) {
-      setError(err.message || "An error occurred while creating payment");
+      setError(err.message || "An error occurred while creating payment.");
       throw err;
     } finally {
       setLoading(false);
