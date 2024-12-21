@@ -1,5 +1,6 @@
 import React from "react";
 import logo from "../../../assets/Images/logo_new.png";
+import ImageFlight from "../../../assets/Images/ImageFlight.png";
 
 const PrintTicket = ({ bookingData, arryPsg, bookingCode }) => {
 
@@ -65,13 +66,13 @@ const PrintTicket = ({ bookingData, arryPsg, bookingCode }) => {
           <div className="font-bold">{bookingDatas.flightNumber}</div>
           <div className="mt-2">
             <div className="text-sm text-black-600 font-bold flex items-center gap-2">
-              <span>🌟</span>
+              <img src={ImageFlight} alt="Image Flight Detail" className="w-5 h-5" />
               Informasi:
             </div>
             <ul className="text-sm text-gray-600 ml-6 list-inside">
               {Object.entries(bookingDatas.facilities).map(([key, value], index) => (
                 <li key={index}>
-                  {key}: {value ? "Yes" : "No"}
+                  {key}: {typeof value === "boolean" ? (value ? "Yes" : "No") : value}
                 </li>
               ))}
             </ul>

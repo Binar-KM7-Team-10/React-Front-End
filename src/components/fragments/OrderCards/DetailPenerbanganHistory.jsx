@@ -1,10 +1,11 @@
 import React from "react";
 import { useParams, Link } from "react-router-dom";
 import { Plane } from "lucide-react";
-import { useGetBookingById } from "../../../hooks/useBooking"; 
+import { useGetBookingById } from "../../../hooks/useBooking";
 import ImageFlight from "../../../assets/Images/ImageFlight.png";
 
-const DetailPenerbangan = ({ bookingData, arryPsg }) => {
+const DetailPenerbanganHistory = ({ bookingDatas, arryPsg, bookingCode }) => {
+  const bookingData = bookingDatas.itinerary.outbound
   if (!bookingData || !bookingData.departure || !bookingData.arrival || !bookingData.price) {
     return <div>Data penerbangan tidak tersedia atau belum lengkap.</div>;
   }
@@ -25,10 +26,14 @@ const DetailPenerbangan = ({ bookingData, arryPsg }) => {
     ? `${arrivalDate.getUTCDate()} ${arrivalDate.toLocaleString("id-ID", { month: "long" })} ${arrivalDate.getUTCFullYear()}`
     : "N/A";
 
-  // const totalPrice =
-  //   (bookingData.price?.adults?.price || 0) * (bookingData.price?.adults?.count || 0) +
-  //   (bookingData.price?.baby?.price || 0) * (bookingData.price?.baby?.count || 0) +
-  //   (bookingData.price?.tax || 0);
+  const getStatusColor = (status) => {
+    const colors = {
+      Issued: "bg-[#43A047]",
+      Unpaid: "bg-[#FF0000]",
+      Cancelled: "bg-gray-500",
+    };
+    return colors[status] || "bg-gray-500";
+  };
 
   const totalPrice =
     (bookingData.price || 0) * (arryPsg[0] || 0) +
@@ -37,8 +42,20 @@ const DetailPenerbangan = ({ bookingData, arryPsg }) => {
   return (
     <div className="flex flex-col w-full lg:w-96">
       <div className="bg-white p-5 rounded-md shadow-md">
-        <div className="py-6 border-t-[1.5px] border-[#8A8A8A]">
-          <span className="text-purple-900 font-bold">Detail Penerbangan</span>
+        <div className="w-full flex flex-col items-start">
+          <div className="w-full flex justify-between mb-5">
+            <span className="text-purple-900 font-bold">Detail Penerbangan</span>
+            <span className={`px-4 py-1 ${getStatusColor(bookingDatas.status)} text-white text-xs rounded-full font-semibold`}>
+              {bookingDatas.status}
+            </span>
+          </div>
+          <span className="font-bold">
+            Booking Code:{' '}
+            <span className="text-purple-600">{bookingCode}</span>
+          </span>
+        </div>
+        {/* Detail Penerbangan */}
+        <div className="py-6  border-[#8A8A8A]">
           <div className="flex justify-between text-sm">
             <span className="font-bold">{formattedDepartureTime}</span>
             <span className="text-purple-600">Keberangkatan</span>
@@ -47,6 +64,7 @@ const DetailPenerbangan = ({ bookingData, arryPsg }) => {
           <div className="font-medium">{bookingData.departure.location || bookingData.departure.city}</div>
         </div>
 
+        {/* Detail Pesawat */}
         <div className="mb-6 border-b-2 pb-5">
           <div className="font-bold">
             {bookingData.airlineName || "N/A"} - {bookingData.seatClass || "N/A"}
@@ -58,17 +76,18 @@ const DetailPenerbangan = ({ bookingData, arryPsg }) => {
               Informasi:
             </div>
             <ul className="text-sm text-gray-600 ml-6 list-inside">
-            {
-              Object.entries(bookingData.facilities).map(([key, value], index) => (
-                <li key={index}>
-                  {key} : {typeof value === "boolean" ? (value ? "Yes" : "No") : value}
-                </li>
-              ))
-            }
+              {
+                Object.entries(bookingData.facilities).map(([key, value], index) => (
+                  <li key={index}>
+                    {key} : {typeof value === "boolean" ? (value ? "Yes" : "No") : value}
+                  </li>
+                ))
+              }
             </ul>
           </div>
         </div>
 
+        {/* Kedatangan */}
         <div className="mb-6">
           <div className="flex justify-between text-sm">
             <span className="font-bold">{formattedArrivalTime}</span>
@@ -78,6 +97,7 @@ const DetailPenerbangan = ({ bookingData, arryPsg }) => {
           <div className="font-medium">{bookingData.arrival.location || bookingData.arrival.city}</div>
         </div>
 
+        {/* Rincian Harga */}
         <div className="border-t pt-4">
           <h3 className="font-medium mb-2">Rincian Harga</h3>
           <div className="space-y-2">
@@ -91,10 +111,10 @@ const DetailPenerbangan = ({ bookingData, arryPsg }) => {
                 <span>IDR {(bookingData.price * arryPsg[1]).toLocaleString()}</span>
               </div>
             )}
-            <div className="flex justify-between text-sm">
+            {/* <div className="flex justify-between text-sm">
               <span>Tax</span>
               <span>IDR {bookingData.price?.tax?.toLocaleString()}</span>
-            </div>
+            </div> */}
             <div className="flex justify-between font-semibold text-purple-600 pt-2 border-t">
               <span>Total</span>
               <span>IDR {totalPrice.toLocaleString()}</span>
@@ -102,8 +122,19 @@ const DetailPenerbangan = ({ bookingData, arryPsg }) => {
           </div>
         </div>
       </div>
+      {
+        bookingDatas.status == "Unpaid" && (
+          <div className="mt-6 flex justify-center">
+            <Link to={`/payment/${bookingDatas.bookingCode}`}>
+              <button className="w-[350px] bg-[#FF0000] text-white py-4 rounded-[12px] text-xl hover:opacity-90 transition-opacity shadow-md">
+                Lanjut Bayar
+              </button>
+            </Link>
+          </div>
+        )
+      }
     </div>
   );
 };
 
-export default DetailPenerbangan;
+export default DetailPenerbanganHistory;

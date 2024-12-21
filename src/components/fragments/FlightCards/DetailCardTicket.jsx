@@ -2,11 +2,11 @@ import React from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import IconArrow from "../../../assets/Images/Arrow.png";
 
-const DetailCardTicket = ({ bookings }) => {
+const DetailCardTicket = ({ bookings, onClick }) => {
   if (!bookings) return null;
 
   const { status, bookingCode, itinerary } = bookings;
-  const outbound = itinerary.outbound;
+  const outbound = itinerary?.outbound;
 
   const getStatusColor = (status) => {
     const colors = {
@@ -22,7 +22,10 @@ const DetailCardTicket = ({ bookings }) => {
   };
 
   return (
-    <div className="bg-white rounded-[10px] border-[#7126B5BF] border-2 px-[16px] py-[12px] w-full max-w-[468px] mx-auto h-auto sm:h-[215px]">
+    <div
+      onClick={() => onClick(bookings)}
+      className="bg-white rounded-[10px] border-[#7126B5BF] border-2 px-[16px] py-[12px] w-full max-w-[468px] mx-auto h-auto sm:h-[215px] cursor-pointer"
+    >
       <div className="justify-between items-center pt-1">
         <span className={`px-4 py-1 ${getStatusColor(status)} text-white text-xs rounded-full font-semibold`}>
           {status}
@@ -31,22 +34,22 @@ const DetailCardTicket = ({ bookings }) => {
           <div className="flex space-x-2">
             <FaMapMarkerAlt size={24} color="#8A8A8A" />
             <div>
-              <p className="text-black text-[14px] font-bold">{outbound.departure.city}</p>
-              <p className="text-black text-[12px] font-medium">{outbound.departure.day}</p>
-              <p className="text-black text-[12px] font-medium">{new Date(outbound.departure.dateTime).toLocaleString("id-ID")}</p>
+              <p className="text-black text-[14px] font-bold">{outbound?.departure.city}</p>
+              <p className="text-black text-[12px] font-medium">{outbound?.departure.day}</p>
+              <p className="text-black text-[12px] font-medium">{new Date(outbound?.departure.dateTime).toLocaleString("id-ID")}</p>
             </div>
           </div>
 
           <div className="text-center pt-3">
-            <p className="text-black text-xs font-medium">{outbound.duration} min</p>
+            <p className="text-black text-xs font-medium">{outbound?.duration} min</p>
             <img src={IconArrow} alt="Arrow Icon" className="h-2.5" />
           </div>
 
           <div className="flex space-x-2">
             <FaMapMarkerAlt size={24} color="#8A8A8A" />
             <div>
-              <p className="text-black text-[14px] font-bold">{outbound.arrival.city}</p>
-              <p className="text-black text-[12px] font-medium">{new Date(outbound.arrival.dateTime).toLocaleString("id-ID")}</p>
+              <p className="text-black text-[14px] font-bold">{outbound?.arrival.city}</p>
+              <p className="text-black text-[12px] font-medium">{new Date(outbound?.arrival.dateTime).toLocaleString("id-ID")}</p>
             </div>
           </div>
         </div>
@@ -60,11 +63,11 @@ const DetailCardTicket = ({ bookings }) => {
           </div>
           <div className="w-full sm:w-auto mb-2 sm:mb-0">
             <p className="text-black text-xs font-bold">Class:</p>
-            <p className="text-black text-xs font-medium">{outbound.seatClass}</p>
+            <p className="text-black text-xs font-medium">{outbound?.seatClass}</p>
           </div>
           <div className="flex items-center">
             <p className="text-[#4B1979] text-[14px] font-bold">
-              {formatPrice(outbound.price)}
+              {formatPrice(outbound?.price)}
             </p>
           </div>
         </div>
@@ -74,4 +77,3 @@ const DetailCardTicket = ({ bookings }) => {
 };
 
 export default DetailCardTicket;
-
