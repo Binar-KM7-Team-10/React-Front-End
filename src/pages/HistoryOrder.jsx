@@ -3,17 +3,20 @@ import Cookies from "js-cookie";
 import Navbar from "../components/fragments/Navbar/Navbar";
 import OrderHeaderHistory from "../components/fragments/OrderSection/OrderHeaderHistory";
 import DetailCardTicket from "../components/fragments/FlightCards/DetailCardTicket";
-import DetailPenerbangan from "../components/fragments/OrderCards/DetailPenerbangan";
-import { useFetchBookings, useGetBookingById } from "../hooks/useBooking";
+import DetailPenerbanganHistory from "../components/fragments/OrderCards/DetailPenerbanganHistory";
+import { useFetchBookings, useGetBookingByIdHistory } from "../hooks/useBooking";
 
 const HistoryOrder = () => {
   const { bookings, fetchBookings, loading, error } = useFetchBookings();
   const [selectedBookingId, setSelectedBookingId] = useState(null);
+  // const [bookingDetail, setBookingDetail] = useState({});
   const {
     dataBooking,
     loading: loadingBooking,
     error: bookingError,
-  } = useGetBookingById(selectedBookingId);
+    fetchBooking
+  } = useGetBookingByIdHistory();
+  console.log(dataBooking)
 
   const userCookie = Cookies.get("user");
   const userData = userCookie ? JSON.parse(userCookie) : {};
@@ -25,8 +28,12 @@ const HistoryOrder = () => {
   }, [userId]);
 
   const handleTicketClick = (bookings) => {
-    console.log("Selected booking code:", bookings);
-    setSelectedBookingId(bookings);
+    // console.log("Selected booking code:", bookings);
+    setSelectedBookingId(bookings.bookingId);
+    fetchBooking(bookings.bookingId);
+    // if (Object.keys(dataBooking).length > 0) {
+
+    // }
   };
 
   if (error !== "") {
@@ -97,17 +104,19 @@ const HistoryOrder = () => {
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#7126B5]"></div>
             </div>
           ) : (
-            selectedBookingId &&
+            selectedBookingId !== null &&
             dataBooking &&
-            Object.keys(dataBooking).length > 0 && <DetailPenerbangan dataBooking={dataBooking} />
-          )}
-
-          {bookings[0]?.status === "Unpaid" && (
-            <div className="mt-6 px-4 md:px-0">
-              <button className="w-full bg-[#FF0000] text-white py-3 md:py-4 rounded-xl text-lg md:text-xl hover:opacity-90 transition-opacity shadow-md">
-                Lanjut Bayar
-              </button>
-            </div>
+            Object.keys(dataBooking).length > 0 && (
+              <DetailPenerbanganHistory
+                bookingDatas={dataBooking}
+                arryPsg={[
+                  dataBooking.passenger.adult,
+                  dataBooking.passenger.child,
+                  dataBooking.passenger.baby
+                ]}
+                bookingCode={dataBooking.bookingCode}
+              />
+            )
           )}
         </div>
       </div>
