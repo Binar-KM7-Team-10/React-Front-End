@@ -1,60 +1,34 @@
 import React, { useEffect, useState } from "react";
-import { axiosInstance } from "../../../api/axiosInstance";
 import { Bell } from "lucide-react";
+import useNotification from "../../../hooks/useNotification";
 import NotificationModals from "../../elements/Modals/NotificationModal";
-import { useAuth } from "../../../contexts/AuthContext";
 
 const NotificationList = () => {
-  const { user } = useAuth();
-  const [notificationData, setNotificationData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const { notificationData, loading, updateNotificationData, error, refreshNotifications } = useNotification();
 
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      if (user && user.id) {
-        setLoading(true);
-        try {
-          const response = await axiosInstance.get(
-            `/notifications?userId=${user.id}`
-          );
-          if (!response?.success) {
-            setNotificationData(response.data.data);
-            setError(null);
-          } else {
-            setError(response.message);
-            setNotificationData(null);
-          }
-        } catch (err) {
-          setError(err.message || "Failed to fetch notifications");
-          setNotificationData(null);
-        } finally {
-          setLoading(false);
-        }
-      }
+  const dateFunc = (isoDate) => {
+    const date = new Date(isoDate);
+
+    const options = {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false
     };
-
-    fetchNotifications();
-  }, []);
+    let formattedDate = date.toLocaleString('id-ID', options);
+    formattedDate = formattedDate.replace(" pukul", ""); 
+    return formattedDate
+  }
 
   const [selectedNotification, setSelectedNotification] = useState(null);
   const handleClick = async (notification) => {
     setSelectedNotification(notification);
-
     if (!notification.readStatus) {
-      try {
-        await axiosInstance.patch(`/notifications/${notification.id}`, {
-          readStatus: false,
-        });
+      await updateNotificationData(notification.id)
 
-        setNotificationData((prevData) =>
-          prevData.map((item) =>
-            item.id === notification.id ? { ...item, readStatus: false } : item
-          )
-        );
-      } catch (error) {
-        console.error("Failed to update notification read status", error);
-      }
     }
   };
   const closeModal = () => {
@@ -64,7 +38,7 @@ const NotificationList = () => {
   return (
     <div className="mx-auto p-4 max-w-screen-lg md:px-20 px-4">
       <div className="space-y-4">
-        {notificationData.map((notification) => (
+        {!loading && notificationData.map((notification) => (
           <div
             key={notification.id}
             className="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-4 p-4 bg-white rounded-lg shadow-sm cursor-pointer"
@@ -72,19 +46,17 @@ const NotificationList = () => {
           >
             <div className="flex-shrink-0">
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                  notification.title === "Promo Khusus!"
+                className={`w-8 h-8 rounded-full flex items-center justify-center ${notification.title === "Promo Khusus!"
                     ? "bg-purple-100"
                     : "bg-blue-100"
-                }`}
+                  }`}
               >
                 <Bell
                   size={16}
-                  className={`${
-                    notification.title === "Promo Khusus!"
+                  className={`${notification.title === "Promo Khusus!"
                       ? "text-purple-500"
                       : "text-blue-500"
-                  }`}
+                    }`}
                 />
               </div>
             </div>
@@ -100,7 +72,7 @@ const NotificationList = () => {
                 </div>
                 <div className="flex items-center mt-2 sm:mt-0">
                   <span className="text-gray-400 text-sm">
-                    {notification.createdAt}
+                    {dateFunc(notification.createdAt)}
                   </span>
                   {notification.readStatus && (
                     <div className="w-2 h-2 rounded-full bg-[#73CA5C] ml-2"></div>
