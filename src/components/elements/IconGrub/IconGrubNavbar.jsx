@@ -41,7 +41,7 @@ const IconGrubNavbar = () => {
         />
       </Link>
       
-      <Link to="/profile/:id">
+      <Link to="/profile">
         <FiUser
           size={20}
           color={isUserActive ? "#A06ECE" : "inherit"} 
