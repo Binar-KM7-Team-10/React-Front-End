@@ -4,7 +4,6 @@ import {
   PlaneTakeoff,
   PlaneLanding,
   Calendar1,
-  RockingChair,
   Armchair,
 } from "lucide-react";
 import logoreturn from "../../../assets/Images/return.svg";
@@ -139,7 +138,7 @@ const FlightSearchForm = () => {
         className="bg-white rounded-[12px] shadow-xl  mx-4 -mt-14 relative z-10 w-full max-w-[968px] max-H-[232px] space-y-2"
         onSubmit={handleSearch}
       >
-        <div className="p-6 space-y-8">
+        <div className="p-6 space-y-10">
           <h1 className="text-center sm:text-left text-xl sm:text-xl lg:text-xl font-bold">
             Pilih Jadwal Penerbangan spesial di{" "}
             <span className="text-purple-600">TiketGo!</span>
@@ -190,7 +189,7 @@ const FlightSearchForm = () => {
                 <span className="text-sm text-gray-500">Date</span>
               </div>
 
-              <div className="lg:grid-cols-2 grid grid-cols-1 items-center gap-4 w-full">
+              <div className="lg:grid-cols-2 grid grid-cols-1 items-center gap-4 w-full md:max-w-[300px]">
                 <div
                   className="cursor-pointer w-full"
                   onClick={() => handleDateModalOpen(true)}
@@ -265,7 +264,7 @@ const FlightSearchForm = () => {
                   <Armchair className="text-gray-400" size={20} />
                   <span className="text-sm text-gray-500">To</span>
                 </div>
-                <div className="lg:grid-cols-2 grid grid-cols-1 items-center gap-4 w-full">
+                <div className="lg:grid-cols-2 grid grid-cols-1 items-center gap-4 w-full md:max-w-[300px]">
                   <div
                     className="space-y-1 cursor-pointer w-full"
                     onClick={handlePassengerModalOpen}
