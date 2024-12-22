@@ -4,7 +4,7 @@ const GetUsers = async () => {};
 
 const GetUserById = async (id) => {
   if (!id) {
-    throw new Error("User ID is required");
+    throw new Error("User ID diperlukan");
   }
 
   try {
@@ -12,14 +12,14 @@ const GetUserById = async (id) => {
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message || "User successfully retrieved",
+      message: response.data.message || "Berhasil mendapatkan data pengguna",
     };
   } catch (err) {
     if (err.response?.status === 404) {
       return {
         success: false,
         data: null,
-        message: "User not found",
+        message: "Pengguna tidak ditemukan",
       };
     }
 
@@ -27,13 +27,13 @@ const GetUserById = async (id) => {
       return {
         success: false,
         data: null,
-        message: "Invalid user ID",
+        message: "user id tidak valid",
       };
     }
     return {
       success: false,
       data: null,
-      message: err.response?.data?.message || "Failed to fetch user",
+      message: err.response?.data?.message || "Gagal mendapatkan data pengguna",
     };
   }
 };
@@ -42,39 +42,39 @@ const CreateUser = async () => {};
 
 const UpdateUser = async (id, userData) => {
   if (!id || !userData) {
-    throw new Error("User ID or data is missing");
+    throw new Error("User ID atau data tidak ditemukan");
   }
   try {
     const response = await axiosInstance.patch(`/users/${id}`, userData);
     return {
       success: true,
       data: response.data.data,
-      message: response.data.message || "User successfully updated",
+      message: response.data.message || "Berhasil mengubah data pengguna",
     };
   } catch (err) {
     return {
       success: false,
       data: null,
-      message: err.response?.data?.message || "Failed to update user",
+      message: err.response?.data?.message || "Gagal mengubah data pengguna",
     };
   }
 };
 
 const DeleteUser = async (id) => {
   if (!id) {
-    throw new Error("User ID is required");
+    throw new Error("User ID diperlukan");
   }
 
   try {
     const response = await axiosInstance.delete(`/users/${id}`);
     return {
       success: true,
-      message: response.data.message || "User successfully deleted",
+      message: response.data.message || "Berhasil menghapus data pengguna",
     };
   } catch (err) {
     return {
       success: false,
-      message: err.response?.data?.message || "Failed to delete user",
+      message: err.response?.data?.message || "Gagal menghapus data pengguna",
     };
   }
 };

@@ -16,7 +16,7 @@ const GetBookings = async (params) => {
             return {
                 success: true,
                 data: response.data.data.bookings, 
-                message: response.data.message || "Bookings successfully retrieved",
+                message: response.data.message || "Berhasil mendapatkan data booking",
                 pagination: response.data.pagination,
             };
         }
@@ -24,13 +24,13 @@ const GetBookings = async (params) => {
         return {
             success: false,
             data: null,
-            message: response.data.message || "Failed to fetch bookings",
+            message: response.data.message || "Gagal mendapatkan data booking",
         };
     } catch (error) {
         return {
             success: false,
             data: null,
-            message: error.response?.data?.message || "An error occurred",
+            message: error.response?.data?.message || "Terjadi kesalahan, silahkan coba lagi",
         };
     }
 };
@@ -41,7 +41,7 @@ const GetBookingById = async (id) => {
         return {
             success: true,
             data: response.data.data,
-            message: response.data.message || "Booking successfully retrieved"
+            message: response.data.message || "Berhasil mendapatkan data booking"
         };
     }
     catch (err) {
@@ -49,7 +49,7 @@ const GetBookingById = async (id) => {
             return {
                 success: false,
                 data: null,
-                message: "Booking not found"
+                message: "tidak ada data booking"
             };
         }
 
@@ -57,13 +57,13 @@ const GetBookingById = async (id) => {
             return {
                 success: false,
                 data: null,
-                message: "Invalid booking ID"
+                message: "Booking ID tidak ditemukan"
             };
         }
         return {
             success: false,
             data: null,
-            message: err.response?.data?.message || "Failed to fetch booking"
+            message: err.response?.data?.message || "Terjadi kesalahan, silahkan coba lagi"
         };
     }
 };
@@ -78,7 +78,7 @@ const GetBookingByBookCode = async (bookCode) => {
         return {
             success: true,
             data: response.data.data,
-            message: response.data.message || "Booking successfully retrieved"
+            message: response.data.message || "Berhasil mendapatkan data booking"
         };
     }
     catch (err) {
@@ -86,7 +86,7 @@ const GetBookingByBookCode = async (bookCode) => {
             return {
                 success: false,
                 data: null,
-                message: "Booking not found"
+                message: "tidak ada data booking"
             };
         }
 
@@ -94,13 +94,13 @@ const GetBookingByBookCode = async (bookCode) => {
             return {
                 success: false,
                 data: null,
-                message: "Invalid booking code"
+                message: "Booking code tidak ditemukan"
             };
         }
         return {
             success: false,
             data: null,
-            message: err.response?.data?.message || "Failed to fetch booking"
+            message: err.response?.data?.message || "Terjadi kesalahan, silahkan coba lagi"
         };
     }
 };
@@ -112,14 +112,14 @@ const CreateBooking = async (bookingData) => {
             return {
                 success: true,
                 data: response.data.data,
-                message: "Booking successfully created"
+                message: "Berhasil membuat pemesanan"
             };
         }
         else {
             return {
                 success: false,
                 data: null,
-                message: err.response?.data?.message || "Failed to create booking"
+                message: err.response?.data?.message || "Gagal membuat pesanan"
             };
         }
     }
@@ -127,7 +127,7 @@ const CreateBooking = async (bookingData) => {
         return {
             success: false,
             data: null,
-            message: err.response?.data?.message || "Failed to create booking"
+            message: err.response?.data?.message || "Terjadi kesalahan, silahkan coba lagi"
         };
     }
 };
@@ -142,13 +142,13 @@ const CreatePaymentBooking = async (id, paymentData) => {
             return {
                 success: true,
                 data: response.data.data,
-                message: response.data.message || "Booking successfully paid"
+                message: response.data.message || "Pemesanan berhasil di bayar"
             };
         }
         return {
             success: false,
             data: null,
-            message: response.data.message || "Failed to fetch bookings",
+            message: response.data.message || "Gagal melakukan pembayaran pemesanan",
         };
     }
     catch (err) {
@@ -156,7 +156,7 @@ const CreatePaymentBooking = async (id, paymentData) => {
         return {
             success: false,
             data: null,
-            message: err.response?.data?.message || "Failed to paid booking"
+            message: err.response?.data?.message || "Terjadi kesalahan, silahkan coba lagi"
         };
     }
 };
