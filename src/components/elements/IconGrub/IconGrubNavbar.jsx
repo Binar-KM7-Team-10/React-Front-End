@@ -11,16 +11,21 @@ const IconGrubNavbar = () => {
 
   useEffect(() => {
     if (location.pathname === "/") { 
-      setIsListActive(true);
+      setIsListActive(false);
       setIsBellActive(false);
       setIsUserActive(false);
     } else if (location.pathname.includes("/profile")) { 
       setIsListActive(false);
       setIsBellActive(false);
       setIsUserActive(true);
-    } else {
-      setIsListActive(false);
+    }else if (location.pathname.includes("/history-order")) { 
+      setIsListActive(true);
       setIsBellActive(false);
+      setIsUserActive(false);
+    } 
+    else if (location.pathname.includes("/notification")) {
+      setIsListActive(false);
+      setIsBellActive(true);
       setIsUserActive(false);
     }
   }, [location]);
