@@ -3,7 +3,7 @@ import PaymentBreadcrumb from "../../elements/Breadcrumbs/PaymentBreadCrumbs.jsx
 import AlertCheckout from "../../elements/Alert/AlertCheckout.jsx";
 import { useSearchContext } from "../../../contexts/searchFlightContext";
 
-const PaymentHeader = ({ inputText, alertType, activeStep }) => {
+const PaymentHeader = ({ activeStep, setisAvailable }) => {
   const { getSearchParamsFromCookies } = useSearchContext();
 
   const [timeLeft, setTimeLeft] = useState(0);
