@@ -3,15 +3,13 @@ import AlertCheckout from "../../elements/Alert/AlertCheckout.jsx";
 import OrderBreadcrumb from "../../elements/Breadcrumbs/OrderBreadcrumb";
 import { useSearchContext } from "../../../contexts/searchFlightContext";
 
-const OrderHeader = () => {
+const OrderHeader = ({setisAvailable}) => {
   const { getSearchParamsFromCookies } = useSearchContext();
 
   const [timeLeft, setTimeLeft] = useState(0);
   const searchCookies = getSearchParamsFromCookies()
 
   const [isExpireDate, setIsExpireDate] = useState(false)
-
-
 
   useEffect(() => {
 
@@ -21,6 +19,7 @@ const OrderHeader = () => {
 
     if (targetDate <= now) {
       setIsExpireDate(true);
+      setisAvailable(false);
     }
 
     const calculateTimeLeft = () => {
