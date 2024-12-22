@@ -11,7 +11,12 @@ const ResetPasswordForm = () => {
     formState: { errors },
     setFocus,
   } = useForm();
-  const [showPassword, setShowPassword] = useState(false);
+
+  const [showPassword, setShowPassword] = useState({
+    newPassword: false,
+    confirmNewPassword: false,
+  });
+
   const location = useLocation();
   const token = new URLSearchParams(location.search).get("token");
 
@@ -21,7 +26,12 @@ const ResetPasswordForm = () => {
     setFocus("newPassword");
   }, [setFocus]);
 
-  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+  const togglePasswordVisibility = (field) => {
+    setShowPassword((prevState) => ({
+      ...prevState,
+      [field]: !prevState[field],
+    }));
+  };
 
   const navigate = useNavigate();
 
@@ -35,7 +45,7 @@ const ResetPasswordForm = () => {
       if (result) {
         setTimeout(() => {
           navigate("/login");
-        }, 3000);
+        }, 2000);
       }
     } else {
       console.error("Token tidak ditemukan.");
@@ -60,7 +70,7 @@ const ResetPasswordForm = () => {
               <div className="relative">
                 <input
                   id="newPassword"
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword.newPassword ? "text" : "password"}
                   placeholder="Masukkan password baru"
                   className={`w-full rounded-[16px] border-[1.5px] border-gray-200 p-4 mt-2 text-sm shadow-sm focus:outline-none focus:border-[#7126B5] focus:ring-[1] focus:ring-[#7126B5] ${errors.newPassword ? "border-red-500" : "border-gray-300"}`}
                   {...register("newPassword", {
@@ -73,10 +83,10 @@ const ResetPasswordForm = () => {
                 />
                 <button
                   type="button"
-                  onClick={togglePasswordVisibility}
+                  onClick={() => togglePasswordVisibility("newPassword")}
                   className="absolute right-4 top-[60%] transform -translate-y-1/2 text-xl z-10"
                 >
-                  {showPassword ? (
+                  {showPassword.newPassword ? (
                     <FiEyeOff style={{ color: "#8A8A8A" }} />
                   ) : (
                     <FiEye style={{ color: "#8A8A8A" }} />
@@ -95,12 +105,12 @@ const ResetPasswordForm = () => {
                 htmlFor="confirmNewPassword"
                 className="block text-gray-700 font-medium mb-2 text-[12px]"
               >
-                konfirmasi password
+                Konfirmasi Password
               </label>
               <div className="relative">
                 <input
                   id="confirmNewPassword"
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword.confirmNewPassword ? "text" : "password"}
                   placeholder="Masukkan password baru"
                   className={`w-full rounded-[16px] border-[1.5px] border-gray-200 p-4 mt-2 text-sm shadow-sm focus:outline-none focus:border-[#7126B5] focus:ring-[1] focus:ring-[#7126B5] ${errors.confirmNewPassword ? "border-red-500" : "border-gray-300"}`}
                   {...register("confirmNewPassword", {
@@ -113,10 +123,10 @@ const ResetPasswordForm = () => {
                 />
                 <button
                   type="button"
-                  onClick={togglePasswordVisibility}
+                  onClick={() => togglePasswordVisibility("confirmNewPassword")}
                   className="absolute right-4 top-[60%] transform -translate-y-1/2 text-xl z-10"
                 >
-                  {showPassword ? (
+                  {showPassword.confirmNewPassword ? (
                     <FiEyeOff style={{ color: "#8A8A8A" }} />
                   ) : (
                     <FiEye style={{ color: "#8A8A8A" }} />
@@ -132,7 +142,7 @@ const ResetPasswordForm = () => {
 
             <button
               type="submit"
-              className={`bg-purple-700 w-full text-white py-3 rounded-[16px] font-semibold hover:bg-[#4B1979] transition ${loading ? "bg-gray-400" : "bg-purple-600 hover:bg-purple-700"}`}
+              className={`bg-purple-600 w-full text-white py-3 rounded-[16px] font-semibold hover:bg-purple-800 transition ${loading ? "bg-gray-400" : "bg-purple-600 hover:bg-purple-700"}`}
               disabled={loading}
             >
               {loading ? "Mengatur ulang..." : "Reset Password"}

@@ -42,7 +42,7 @@ const FormRegister = () => {
     if (resultRegister.status == "success") {
       setTimeout(() => {
         navigate("/otp-confirm")
-      }, 3000);
+      }, 2000);
     }
   };
 
@@ -53,14 +53,6 @@ const FormRegister = () => {
   return (
     <div className="flex justify-center items-center px-1 py-6">
       <div className="w-full bg-white p-4 rounded-lg">
-        {/* {loading && (
-          <div className="flex justify-center items-center py-4">
-            <div className="spinner-border text-blue-500" role="status">
-              <span className="sr-only">Loading...</span>
-            </div>
-          </div>
-        )} */}
-
         <form onSubmit={handleSubmit(handleRegister)}>
           <InputForm
             label="Nama"

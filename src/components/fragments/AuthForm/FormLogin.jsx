@@ -53,8 +53,8 @@ const FormLogin = () => {
           message: result.message,
         });
       }
-      setLoading(false);  // Set loading to false once the login is complete
-    }, 800);  // Simulate delay for 800ms
+      setLoading(false); 
+    }, 2000); 
   };
 
   const togglePasswordVisibility = () => {
