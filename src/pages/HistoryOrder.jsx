@@ -4,19 +4,17 @@ import Navbar from "../components/fragments/Navbar/Navbar";
 import OrderHeaderHistory from "../components/fragments/OrderSection/OrderHeaderHistory";
 import DetailCardTicket from "../components/fragments/FlightCards/DetailCardTicket";
 import DetailPenerbanganHistory from "../components/fragments/OrderCards/DetailPenerbanganHistory";
-import { useFetchBookings, useGetBookingByIdHistory } from "../hooks/useBooking";
+import {
+  useFetchBookings,
+  useGetBookingByIdHistory,
+} from "../hooks/useBooking";
+import Loading from "../components/elements/Loading/Loading";
 
 const HistoryOrder = () => {
-  const { bookings, fetchBookings, loading, error } = useFetchBookings();
+  const { bookings, fetchBookings, error } = useFetchBookings();
   const [selectedBookingId, setSelectedBookingId] = useState(null);
-  // const [bookingDetail, setBookingDetail] = useState({});
-  const {
-    dataBooking,
-    loading: loadingBooking,
-    error: bookingError,
-    fetchBooking
-  } = useGetBookingByIdHistory();
-  console.log(dataBooking)
+  const { dataBooking, fetchBooking } = useGetBookingByIdHistory();
+  console.log(dataBooking);
 
   const userCookie = Cookies.get("user");
   const userData = userCookie ? JSON.parse(userCookie) : {};
@@ -28,13 +26,18 @@ const HistoryOrder = () => {
   }, [userId]);
 
   const handleTicketClick = (bookings) => {
-    // console.log("Selected booking code:", bookings);
     setSelectedBookingId(bookings.bookingId);
     fetchBooking(bookings.bookingId);
-    // if (Object.keys(dataBooking).length > 0) {
-
-    // }
   };
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, []);
 
   if (error !== "") {
     return (
@@ -52,9 +55,10 @@ const HistoryOrder = () => {
     );
   }
 
-  return loading ? (
+  return isLoading ? (
     <div className="min-h-screen flex flex-col">
       <Navbar search={false} type="auth" />
+      <OrderHeaderHistory />
       <div className="flex justify-center items-center h-screen">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#7126B5]"></div>
       </div>
@@ -99,8 +103,9 @@ const HistoryOrder = () => {
           </div>
         </div>
         <div className="md:w-5/12 mt-6 md:mt-0">
-          {loadingBooking ? (
+          {isLoading ? (
             <div className="text-center py-4">
+              <Loading />
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#7126B5]"></div>
             </div>
           ) : (
@@ -112,7 +117,7 @@ const HistoryOrder = () => {
                 arryPsg={[
                   dataBooking.passenger.adult,
                   dataBooking.passenger.child,
-                  dataBooking.passenger.baby
+                  dataBooking.passenger.baby,
                 ]}
                 bookingCode={dataBooking.bookingCode}
               />
