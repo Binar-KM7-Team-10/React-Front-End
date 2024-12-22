@@ -11,7 +11,7 @@ import { useSearchContext } from "../../../contexts/searchFlightContext";
 const OrderBody = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { dataBooking, loading, error, bookingCode } = useGetBookingById(id);
+  const { dataBooking, loading, error } = useGetBookingById(id);
   const { createBooking, loadingBooking, errorBooking } = useCreateBooking();
   const { getSearchParamsFromCookies } = useSearchContext();
 
@@ -31,6 +31,7 @@ const OrderBody = () => {
     status: "",
     message: ""
   });
+  const [waitingForBookingResponse, setWaitingForBookingResponse] = useState(false);
 
 
   const seatList = useMemo(
@@ -123,6 +124,10 @@ const OrderBody = () => {
   const handleSave = () => {
     if (Object.values(isValid).every((status) => status)) {
       setIsSaved(true);
+      setAlertSubmit({
+        status: "",
+        message: ""
+      })
     } else {
       alert("Silakan lengkapi semua data sebelum menyimpan.");
     }
@@ -130,6 +135,7 @@ const OrderBody = () => {
 
   const handleContinuePayment = async () => {
     try {
+      setWaitingForBookingResponse(true);
       const bookCode = await createBooking({
         "itinerary": {
           "journeyType": "One-way",
@@ -148,10 +154,19 @@ const OrderBody = () => {
           "inbound": null
         }
       });
-      setAlertSubmit({
-        status: "success",
-        message: "Checkout Berhasil"
-      })
+      // if (errorBooking != null) {
+      //   setAlertSubmit({
+      //     status: "success",
+      //     message: "Checkout Berhasil"
+      //   })
+      // } else {
+      //   console.log("ok", errorBooking)
+      //   setAlertSubmit({
+      //     status: "error",
+      //     message: errorBooking
+      //   })
+      //   setIsSaved(false)
+      // }
       if (bookCode) {
         setTimeout(() => {
           navigate(`/payment/${bookCode}`);
@@ -163,8 +178,44 @@ const OrderBody = () => {
         status: "error",
         message: errorBooking
       })
+      setIsSaved(false)
+    }
+    finally {
+      setWaitingForBookingResponse(false);
     }
   }
+
+  useEffect(() => {
+    console.log(errorBooking)
+
+    // if (errorBooking){
+    //   console.log("error");
+    //   setAlertSubmit({
+    //     status: "error",
+    //     message: errorBooking,
+    //   });
+    //   setIsSaved(false);
+    // }
+
+    // if (true) {
+    if (!loadingBooking && errorBooking == null) {
+      console.log("success");
+      setAlertSubmit({
+        status: "success",
+        message: "Checkout Berhasil",
+      });
+    }
+    else if (errorBooking) {
+      console.log("error");
+      setAlertSubmit({
+        status: "error",
+        message: errorBooking,
+      });
+      setIsSaved(false);
+    }
+    setWaitingForBookingResponse(false); // Pastikan flag ini di-reset.
+    // }
+  }, [errorBooking, loadingBooking]);
 
   if (loading) return <div>Loading booking details...</div>;
   if (error) return <div className="text-red-500">{error}</div>;
@@ -203,27 +254,30 @@ const OrderBody = () => {
         <div className="w-full md:w-5/12 mt-8 md:mt-0">
           {dataBooking ? (
             <DetailPenerbangan bookingData={dataBooking} arryPsg={intArryPsg} />
-          ) : ( 
+          ) : (
             <div>Memuat detail penerbangan...</div>
           )}
           {isSaved && (
             <>
-            <div className="mt-6 mb-10 mx-auto flex justify-center">
-              <button onClick={handleContinuePayment} className="w-[350px] bg-[#FF0000] text-white py-4 rounded-[12px] text-xl hover:opacity-90 transition-opacity shadow-md">
-                {loadingBooking ? "Loading" : "Lanjut Bayar"}
-              </button>
-              
-            </div>
-            <div>
-              {
-                alertSubmit.status == "success" && <AlertCheckout type={"success"} text={alertSubmit.message} />
-              }
-              {
-                alertSubmit.status == "error" && <AlertCheckout type={"danger"} text={alertSubmit.message} />
-              }
-            </div>
+              <div className="mt-6 mb-10 mx-auto flex justify-center">
+                <button onClick={handleContinuePayment} className="w-[350px] bg-[#FF0000] text-white py-4 rounded-[12px] text-xl hover:opacity-90 transition-opacity shadow-md">
+                  {loadingBooking ? "Loading" : "Lanjut Bayar"}
+                </button>
+
+              </div>
+              <div>
+
+              </div>
             </>
           )}
+          <div className="mt-6">
+          {
+            alertSubmit.status == "success" && <AlertCheckout type={"success"} text={alertSubmit.message} />
+          }
+          {
+            alertSubmit.status == "error" && <AlertCheckout type={"danger"} text={alertSubmit.message} />
+          }
+          </div>
         </div>
       </div>
     </div>

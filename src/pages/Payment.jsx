@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../components/fragments/Navbar/Navbar";
 import PaymentHeader from "../components/fragments/PaymentSection/PaymentHeader";
 import PaymentForm from "../components/fragments/PaymentSection/PaymentForm";
@@ -10,6 +10,8 @@ const Payment = () => {
     text3: false,
   };
 
+  const [isAvailable, setisAvailable] = useState(true);
+
   return (
     <div>
       <Navbar search={true} type={"auth"} />
@@ -17,8 +19,11 @@ const Payment = () => {
         inputText="Selesaikan Pembayaran sampai 10 Maret 2023 12:00"
         alertType="danger"
         activeStep={active}
+        setisAvailable={setisAvailable}
       />
-      <PaymentForm />
+      {
+        isAvailable && <PaymentForm />
+      }
     </div>
   );
 };

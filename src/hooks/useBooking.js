@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { GetBookings, GetBookingById, CreateBooking, CreatePaymentBooking, GetBookingByBookCode } from "../services/booking.service";
 import { GetScheduleById } from "../services/schedule.service";
+import { set } from "react-hook-form";
 
 export const useFetchBookings = () => {
 
@@ -144,10 +145,9 @@ export const useGetBookingByBookCode = (bookCode) => {
 
 export const useCreateBooking = () => {
   const [loadingBooking, setLoadingBooking] = useState(false);
-  const [errorBooking, setErrorBooking] = useState(null);
+  const [errorBooking, setErrorBooking] = useState("");
   const [success, setSuccess] = useState(false);
-  const [bookingCode, setBookingCode] = useState("")
-
+  
   const createBooking = useCallback(async (bookingData) => {
     setLoadingBooking(true);
     setErrorBooking(null);
@@ -159,17 +159,18 @@ export const useCreateBooking = () => {
         setSuccess(true);
         return response.data.bookingCode
       } else {
+        console.log(response)
         setErrorBooking(response.message);
       }
     } catch (err) {
-      setErrorBooking(err.message || "An error occurred while creating booking");
-      throw err;
+      console.log(err);
+      setErrorBooking(err.response?.data?.message || "An error occurred while creating booking");
     } finally {
       setLoadingBooking(false);
     }
   }, []);
 
-  return { createBooking, loadingBooking, errorBooking, success, bookingCode };
+  return { createBooking, loadingBooking, errorBooking, success};
 };
 
 export const useCreatePaymentBooking = () => {
@@ -190,7 +191,9 @@ export const useCreatePaymentBooking = () => {
           success: true,
           message: response?.message
         }
-      } else {
+      } 
+      else {
+        setErrorPayment(response.message)
         return {
           success: false,
           message: response?.message
