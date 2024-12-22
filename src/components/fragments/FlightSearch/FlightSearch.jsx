@@ -24,8 +24,15 @@ const FlightSearch = () => {
     "Sabtu",
     "Minggu",
     "Senin",
-  ]);
-  const initialDate = new Date();
+  ]); 
+
+  const [initDate, setInitDate] = useState("");
+  useEffect(() => {
+    const searchCookies = getSearchParamsFromCookies()
+    setInitDate(searchCookies.dpDate)
+  }, [])
+ 
+  const initialDate = new Date(initDate);
   const dayList = [];
 
   const generateDates = (startDate, numDays) => {
@@ -39,8 +46,13 @@ const FlightSearch = () => {
       dayList.push(dayName);
       dates.push(date);
     }
+
     return dates;
   };
+
+  // useEffect(() => {
+  //   setSelectedDay(dayList[0])
+  // }, [dayList]);
 
   const dates = generateDates(initialDate, days.length);
 
