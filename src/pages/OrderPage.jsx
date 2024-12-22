@@ -6,7 +6,6 @@ import OrderBody from "../components/fragments/OrderSection/OrderBody";
 const OrderPage = () => {
 
     const [isAvailable, setisAvailable] = useState(true);
-
     return (
         <>
             <Navbar search={true} type={"auth"} />
