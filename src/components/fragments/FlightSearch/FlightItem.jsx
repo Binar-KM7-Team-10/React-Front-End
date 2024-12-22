@@ -14,7 +14,10 @@ const FlightItem = ({ flight, isSelected, toggleDetails }) => {
   const formattedTimeAr = `${arrivalTime.getHours()}:${arrivalTime.getMinutes().toString().padStart(2, "0")}`;
   
   return (
-    <li className="flex flex-col p-4 rounded-lg border mb-4 bg-white shadow-md">
+    <li
+    className={`flex flex-col p-4 rounded-lg border-2 mb-4 bg-white 
+      ${isSelected ? "border-purple-400" : "border-gray-200"}`} 
+  >
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
         <div className="flex flex-col w-full sm:w-3/4 mb-4 sm:mb-0">
           <div className="flex items-center mb-2">

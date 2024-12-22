@@ -15,6 +15,7 @@ const FlightSearch = () => {
   const [flights, setFlights] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedDay, setSelectedDay] = useState();
+  const [selectedFlight, setSelectedFlight] = useState(null); 
 
   const [days, setDays] = useState([
     "Selasa",
@@ -49,10 +50,6 @@ const FlightSearch = () => {
 
     return dates;
   };
-
-  // useEffect(() => {
-  //   setSelectedDay(dayList[0])
-  // }, [dayList]);
 
   const dates = generateDates(initialDate, days.length);
 
@@ -127,6 +124,10 @@ const FlightSearch = () => {
     }
   }, [selectedDate, setSearchParams]);
 
+  const handleSelectFlight = (flightId) => {
+    setSelectedFlight((prev) => (prev === flightId ? null : flightId));
+  };
+
   return (
     <div className="min-h-screen p-4 md:p-6">
       <FlightSearchHeader
@@ -136,7 +137,7 @@ const FlightSearch = () => {
         setSelectedDate={setSelectedDate}
         dates={dates}
       />
-      <div className="mx-auto md:mx-36 flex justify-end items-center mt-6">
+      <div className="mx-auto flex justify-end items-center mt-6 max-w-5xl px-12">
         <button
           onClick={() => setIsFilterOpen(true)}
           className="px-4 py-2 rounded-full bg-white border-2 border-[#A06ECE] text-[#7126B5] flex gap-2 text-xs md:text-sm"
@@ -147,8 +148,8 @@ const FlightSearch = () => {
       </div>
 
       {isFilterOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 w-full md:w-96">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 " >
+          <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 w-full md:w-96 ">
             <div className="flex justify-between items-center pb-4 border-b">
               <span className="text-purple-800 font-bold text-sm md:text-lg">
                 {selectedOption}
@@ -215,7 +216,8 @@ const FlightSearch = () => {
             <Filter />
           </div>
           <div className="flex-1 bg-white p-4 md:p-6 rounded-md">
-            <ListPenerbangan flights={flights} />
+            <ListPenerbangan flights={flights} onSelectFlight={handleSelectFlight} />
+            
           </div>
         </div>
       )}

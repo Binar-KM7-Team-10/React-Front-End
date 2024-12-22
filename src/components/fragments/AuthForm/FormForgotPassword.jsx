@@ -23,9 +23,9 @@ const ForgotPasswordForm = () => {
     if (message) {
       setShowMessage(true);
       const timer = setTimeout(() => {
-        setShowMessage(false); // Hide the message after 3 seconds
-      }, 3000);
-      return () => clearTimeout(timer); // Cleanup the timer on unmount
+        setShowMessage(false); 
+      }, 2000);
+      return () => clearTimeout(timer); 
     }
   }, [message]);
 
@@ -76,7 +76,7 @@ const ForgotPasswordForm = () => {
             </div>
             <button
               type="submit"
-              className={`bg-purple-700 w-full text-white py-3 rounded-[16px] font-semibold hover:bg-[#4B1979] transition ${loading ? "bg-gray-400" : "bg-purple-600 hover:bg-purple-700"}`}
+              className={`bg-purple-600 w-full text-white py-3 rounded-[16px] font-semibold hover:bg-purple-800 transition ${loading ? "bg-gray-400" : "bg-purple-600 hover:bg-purple-700"}`}
               disabled={loading}
             >
               {loading ? "Mengirim..." : "Kirim Tautan Reset"}
