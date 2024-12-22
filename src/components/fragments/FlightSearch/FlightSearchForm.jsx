@@ -284,7 +284,7 @@ const FlightSearchForm = () => {
           </div>
         </div>
 
-        <button className="w-full bg-purple-600 text-white py-3 rounded-b-xl font-bold text-sm sm:text-base hover:bg-[#4B1979] transition">
+        <button className="w-full bg-purple-600 text-white py-3 rounded-b-xl font-bold text-sm sm:text-base hover:bg-purple-800 transition">
           Cari Penerbangan
         </button>
       </form>
