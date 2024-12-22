@@ -133,10 +133,12 @@ const FlightSearchForm = () => {
     navigate("/search");
   };
 
-
   return (
     <div className="flex justify-center items-center px-4 sm:px-6 lg:px-8">
-      <form className="bg-white rounded-[12px] shadow-xl  mx-4 -mt-14 relative z-10 w-full max-w-[968px] max-H-[232px] space-y-6" onSubmit={handleSearch}>
+      <form
+        className="bg-white rounded-[12px] shadow-xl  mx-4 -mt-14 relative z-10 w-full max-w-[968px] max-H-[232px] space-y-2"
+        onSubmit={handleSearch}
+      >
         <div className="p-6 space-y-8">
           <h1 className="text-center sm:text-left text-xl sm:text-xl lg:text-xl font-bold">
             Pilih Jadwal Penerbangan spesial di{" "}
@@ -159,7 +161,10 @@ const FlightSearchForm = () => {
               </div>
             </div>
 
-            <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2  cursor-pointer" onClick={handleCitySwap}>
+            <div
+              className="md:block absolute right-1 md:left-[45%] cursor-pointer"
+              onClick={handleCitySwap}
+            >
               <img src={logoreturn} alt="Return Icon" />
             </div>
 
@@ -179,49 +184,50 @@ const FlightSearchForm = () => {
             </div>
           </div>
           <div className="grid grid-cols-1 gap-1 md:grid-cols-2 md:gap-24">
-            <div className="flex items-center gap-6 ">
+            <div className="flex items-center gap-4 relative flex-wrap">
               <div className="flex items-center gap-2">
                 <Calendar1 className="text-gray-400" size={20} />
                 <span className="text-sm text-gray-500">Date</span>
               </div>
 
-              <div className="flex items-center gap-4">
+              <div className="lg:grid-cols-2 grid grid-cols-1 items-center gap-4 w-full">
                 <div
-                  className="cursor-pointer"
+                  className="cursor-pointer w-full"
                   onClick={() => handleDateModalOpen(true)}
                 >
                   <span className="text-sm sm:text-base text-[#8A8A8A]">
                     Departure
                   </span>
-                  <p className="border-b-[1.5px] w-[120px] md:w-[140px] sm:w-[140px] border-gray-300 pb-2 font-medium text-sm">
+                  <p className="border-b-[1.5px] border-gray-300 pb-2 font-medium text-sm">
                     {departureDate
-                      ? `${departureDate.getDate()} ${[
-                        "Januari",
-                        "Februari",
-                        "Maret",
-                        "April",
-                        "Mei",
-                        "Juni",
-                        "Juli",
-                        "Agustus",
-                        "September",
-                        "Oktober",
-                        "November",
-                        "Desember",
-                      ][departureDate.getMonth()]
-                      } ${departureDate.getFullYear()}`
+                      ? `${departureDate.getDate()} ${
+                          [
+                            "Januari",
+                            "Februari",
+                            "Maret",
+                            "April",
+                            "Mei",
+                            "Juni",
+                            "Juli",
+                            "Agustus",
+                            "September",
+                            "Oktober",
+                            "November",
+                            "Desember",
+                          ][departureDate.getMonth()]
+                        } ${departureDate.getFullYear()}`
                       : "Pilih Tanggal"}
                   </p>
                 </div>
 
                 <div
-                  className={`cursor-pointer ${!isSwitchOn ? "pointer-events-none opacity-50" : ""}`}
+                  className={`cursor-pointer w-full ${!isSwitchOn ? "pointer-events-none opacity-50" : ""}`}
                   onClick={isSwitchOn ? () => handleDateModalOpen(false) : null}
                 >
                   <span className="text-[#8A8A8A] text-sm sm:text-md">
                     Return
                   </span>
-                  <p className="border-b-[1.5px] w-[120px] md:w-[140px] sm:w-[140px] border-[#D0D0D0] pb-2 font-medium text-sm text-[#7126B5]">
+                  <p className="border-b-[1.5px] border-[#D0D0D0] pb-2 font-medium text-sm text-[#7126B5]">
                     {returnDate
                       ? `${returnDate.getDate()} ${
                           [
@@ -244,7 +250,7 @@ const FlightSearchForm = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 absolute right-1 top-0">
                 <Switch
                   checked={isSwitchOn}
                   onChange={handleSwitchChange}
@@ -254,31 +260,35 @@ const FlightSearchForm = () => {
             </div>
 
             <div className="flex flex-wrap gap-4">
-              <div className="flex items-center gap-2 w-full sm:w-auto">
-                <Armchair className="text-gray-400" size={20} />
-                <span className="text-sm text-gray-500">To</span>
-              </div>
-              <div
-                className="space-y-1 cursor-pointer"
-                onClick={handlePassengerModalOpen}
-              >
-                <span className="text-sm sm:text-base text-[#8A8A8A]">
-                  Passengers
-                </span>
-                <p className="border-b-[1.5px] w-[120px] md:w-[140px] sm:w-[140px] border-gray-300 pb-2 font-medium text-sm">
-                  {`${passengerCounts.adult + passengerCounts.child + passengerCounts.infant} Penumpang`}
-                </p>
-              </div>
-              <div
-                className="space-y-1 cursor-pointer"
-                onClick={handleSeatClassModalOpen}
-              >
-                <span className="text-sm sm:text-base text-[#8A8A8A]">
-                  Seat Class
-                </span>
-                <p className="border-b-[1.5px] w-[120px] md:w-[140px] sm:w-[140px] border-gray-300 pb-2 font-medium text-sm">
-                  {selectedSeatClass}
-                </p>
+              <div className="flex items-center gap-4 relative flex-wrap w-full">
+                <div className="flex items-center gap-2">
+                  <Armchair className="text-gray-400" size={20} />
+                  <span className="text-sm text-gray-500">To</span>
+                </div>
+                <div className="lg:grid-cols-2 grid grid-cols-1 items-center gap-4 w-full">
+                  <div
+                    className="space-y-1 cursor-pointer w-full"
+                    onClick={handlePassengerModalOpen}
+                  >
+                    <span className="text-sm sm:text-base text-[#8A8A8A]">
+                      Passengers
+                    </span>
+                    <p className="border-b-[1.5px] border-gray-300 pb-2 font-medium text-sm">
+                      {`${passengerCounts.adult + passengerCounts.child + passengerCounts.infant} Penumpang`}
+                    </p>
+                  </div>
+                  <div
+                    className="space-y-1 cursor-pointer w-full"
+                    onClick={handleSeatClassModalOpen}
+                  >
+                    <span className="text-sm sm:text-base text-[#8A8A8A]">
+                      Seat Class
+                    </span>
+                    <p className="border-b-[1.5px] border-gray-300 pb-2 font-medium text-sm">
+                      {selectedSeatClass}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -288,14 +298,14 @@ const FlightSearchForm = () => {
           Cari Penerbangan
         </button>
       </form>
-      {!loading &&
+      {!loading && (
         <CitySelectionModal
           city={cities}
           isOpen={isModalOpen}
           onClose={handleModalClose}
           onSelect={handleCitySelect}
         />
-      }
+      )}
 
       <PassengerSelector
         isOpen={passengerModalOpen}
