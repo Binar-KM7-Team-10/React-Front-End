@@ -15,9 +15,9 @@ const GetBookings = async (params) => {
         if (response.data.status === "Success") {
             return {
                 success: true,
-                data: response.data.data.bookings, // Menyesuaikan dengan contract
+                data: response.data.data.bookings, 
                 message: response.data.message || "Bookings successfully retrieved",
-                pagination: response.data.pagination, // Tambahan jika ingin mengakses pagination
+                pagination: response.data.pagination,
             };
         }
 
@@ -137,7 +137,6 @@ const CreatePaymentBooking = async (id, paymentData) => {
     console.log(id, paymentData)
     try {
         const response = await axiosInstance.post(`/bookings/${id}/payments`, paymentData);
-        // console.log('Payment created:', response.data);
         if (response.data.status === "Success") {
             console.log("ok")
             return {
