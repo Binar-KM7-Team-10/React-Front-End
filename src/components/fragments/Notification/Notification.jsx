@@ -66,9 +66,6 @@ const NotificationList = () => {
                 <div className="mb-2 sm:mb-0">
                   <p className="text-gray-500 text-sm">{notification.title}</p>
                   <h3 className="font-medium mt-1">{notification.message}</h3>
-                  {/* <p className="text-gray-600 text-sm mt-1">
-                    {notification.title}
-                  </p> */}
                 </div>
                 <div className="flex items-center mt-2 sm:mt-0">
                   <span className="text-gray-400 text-sm">
