@@ -9,18 +9,17 @@ import useLogin from "../../../hooks/useLogin";
 import AlertAuth from "../../elements/Alert/AlertAuth";
 
 const FormLogin = () => {
-
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
-
   const [feedback, setFeedback] = useState({
     status: false,
     type: "",
     message: "",
   });
+  const [loading, setLoading] = useState(false);  // Add local loading state
 
-  const { login, loading } = useLogin();
+  const { login } = useLogin();
 
   const {
     register,
@@ -35,22 +34,27 @@ const FormLogin = () => {
 
   const handleLogin = async (data) => {
     const { email, password } = data;
-    const result = await login(email, password);
 
-    if (result.status === "success") {
-      setFeedback({
-        status: true,
-        type: "success",
-        message: result.message,
-      });
-      navigate('/');
-    } else {
-      setFeedback({
-        status: true,
-        type: "danger",
-        message: result.message,
-      });
-    }
+    setLoading(true);  // Set loading to true when starting the login process
+
+    setTimeout(async () => {
+      const result = await login(email, password);
+      if (result.status === "success") {
+        setFeedback({
+          status: true,
+          type: "success",
+          message: result.message,
+        });
+        navigate('/');
+      } else {
+        setFeedback({
+          status: true,
+          type: "danger",
+          message: result.message,
+        });
+      }
+      setLoading(false);  // Set loading to false once the login is complete
+    }, 800);  // Simulate delay for 800ms
   };
 
   const togglePasswordVisibility = () => {
