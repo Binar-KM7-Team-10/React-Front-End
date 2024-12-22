@@ -207,10 +207,14 @@ const OrderBody = () => {
             <div>Memuat detail penerbangan...</div>
           )}
           {isSaved && (
-            <div className="mt-6 flex flex-col gap-10 justify-center">
+            <>
+            <div className="mt-6 mb-10 mx-auto flex justify-center">
               <button onClick={handleContinuePayment} className="w-[350px] bg-[#FF0000] text-white py-4 rounded-[12px] text-xl hover:opacity-90 transition-opacity shadow-md">
                 {loadingBooking ? "Loading" : "Lanjut Bayar"}
               </button>
+              
+            </div>
+            <div>
               {
                 alertSubmit.status == "success" && <AlertCheckout type={"success"} text={alertSubmit.message} />
               }
@@ -218,6 +222,7 @@ const OrderBody = () => {
                 alertSubmit.status == "error" && <AlertCheckout type={"danger"} text={alertSubmit.message} />
               }
             </div>
+            </>
           )}
         </div>
       </div>

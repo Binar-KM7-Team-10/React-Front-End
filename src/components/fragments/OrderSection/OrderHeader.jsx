@@ -1,25 +1,57 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import AlertCheckout from "../../elements/Alert/AlertCheckout.jsx";
 import OrderBreadcrumb from "../../elements/Breadcrumbs/OrderBreadcrumb";
+import { useSearchContext } from "../../../contexts/searchFlightContext";
 
-const OrderHeader = () => {
-  const [timeLeft, setTimeLeft] = useState(900);
+const OrderHeader = ({setisAvailable}) => {
+  const { getSearchParamsFromCookies } = useSearchContext();
+
+  const [timeLeft, setTimeLeft] = useState(0);
+  const searchCookies = getSearchParamsFromCookies()
+
+  const [isExpireDate, setIsExpireDate] = useState(false)
 
   useEffect(() => {
-    if (timeLeft <= 0) return;
 
+    const targetDate = new Date(`${searchCookies.dpDate}T${searchCookies.dpTime || "00:00:00"}`);
+    targetDate.setHours(targetDate.getHours() - 2);
+    const now = new Date();
+
+    if (targetDate <= now) {
+      setIsExpireDate(true);
+      setisAvailable(false);
+    }
+
+    const calculateTimeLeft = () => {
+      const now = new Date();
+      const difference = targetDate.getTime() - now.getTime();
+      return Math.max(Math.floor(difference / 1000), 0);
+    };
+
+    setTimeLeft(calculateTimeLeft());
     const timer = setInterval(() => {
-      setTimeLeft((prevTime) => prevTime - 1);
+      setTimeLeft((prevTime) => {
+        const newTime = prevTime - 1;
+        if (newTime <= 0) {
+          clearInterval(timer);
+        }
+        return newTime;
+      });
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [timeLeft]);
+  }, [searchCookies.dpDate, searchCookies.dpTime]);
 
   const formatTime = (time) => {
-    const minutes = Math.floor(time / 60);
+    const days = Math.floor(time / (3600 * 24));
+    const hours = Math.floor((time % (3600 * 24)) / 3600);
+    const minutes = Math.floor((time % 3600) / 60);
     const seconds = time % 60;
-    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+
+    if (days > 0) {
+      return `${days} hari ${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    }
+    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   };
 
   return (
@@ -31,10 +63,11 @@ const OrderHeader = () => {
           text3={"Selesai"}
           active={"Isi Data Diri"}
         />
-        <AlertCheckout
-          text={`Selesaikan dalam ${formatTime(timeLeft)}`}
-          type={"danger"}
-        />
+        {
+          isExpireDate ?
+            <AlertCheckout text={`Pemesanan Melebihi jadwal`} type={"danger"} />
+            : <AlertCheckout text={`Selesaikan dalam ${formatTime(timeLeft)}`} type={"danger"} />
+        }
       </div>
     </div>
   );
