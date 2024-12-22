@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Lock } from "lucide-react";
 import useUser from "../../../hooks/useUser";
 import useUpdateUser from "../../../hooks/useUpdateUser";
-import useDeleteUser from "../../../hooks/useDeleteUser";
 import { toast } from "react-hot-toast";
 
 const EditProfile = () => {
   const { userData, loading, error } = useUser();
   const { updateUser, loading: updating, error: updateError, success: updateSuccess } = useUpdateUser();
-  const { deleteUser, loading: deleting, error: deleteError, success: deleteSuccess } = useDeleteUser();
 
   const [settingsData, setSettingsData] = useState({
     name: "",
@@ -19,6 +17,8 @@ const EditProfile = () => {
     confirmPassword: "",
   });
 
+  const [updatingTimeout, setUpdatingTimeout] = useState(false); // State to track timeout
+
   useEffect(() => {
     if (userData) {
       setSettingsData({
@@ -28,7 +28,7 @@ const EditProfile = () => {
         currentPassword: "",
         newPassword: "",
         confirmPassword: "",
-      })
+      });
     }
   }, [userData]);
 
@@ -47,23 +47,18 @@ const EditProfile = () => {
       password: settingsData.newPassword || undefined,
     };
 
-    const success = await updateUser(updatedData);
-    if (success) {
-      toast.success("Account updated successfully!");
-    } else {
-      toast.error(updateError || "Failed to update account");
-    }
-  };
+    // Set the timeout to show "Updating..." message
+    setUpdatingTimeout(true);
 
-  const handleDelete = async () => {
-    if (userData && userData.id) {
-      const success = await deleteUser(userData.id);
+    setTimeout(async () => {
+      const success = await updateUser(updatedData);
       if (success) {
-        toast.success("User deleted successfully!");
+        toast.success("Account updated successfully!");
       } else {
-        toast.error(deleteError || "Failed to delete user");
+        toast.error(updateError || "Failed to update account");
       }
-    }
+      setUpdatingTimeout(false); // Reset after the update
+    }, 800); // 800ms timeout
   };
 
   if (loading) return <div>Loading...</div>;
@@ -149,10 +144,10 @@ const EditProfile = () => {
       <div className="flex flex-col sm:flex-row gap-3 justify-between px-4">
         <button
           onClick={handleUpdate}
-          className={`bg-purple-700 text-white px-6 py-3 rounded-lg hover:bg-purple-800 transition-colors w-full sm:w-[48%] ${updating ? "opacity-50 cursor-not-allowed" : ""}`}
-          disabled={updating}
+          className={`bg-purple-700 text-white px-6 py-3 rounded-lg hover:bg-purple-800 transition-colors w-full sm:w-[48%] ${updatingTimeout ? "opacity-50 cursor-not-allowed" : ""}`}
+          disabled={updatingTimeout}
         >
-          {updating ? "Updating..." : "Simpan"}
+          {updatingTimeout ? "Updating..." : "Simpan"}
         </button>
       </div>
 

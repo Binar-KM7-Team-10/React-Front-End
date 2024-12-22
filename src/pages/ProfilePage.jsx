@@ -4,9 +4,23 @@ import OrderHeaderHistory from "../components/fragments/OrderSection/OrderHeader
 import SidebarProfile from "../components/fragments/Filter/SidebarProfile";
 import EditProfile from "../components/elements/Input/EditProfile";
 import AccountSettings from "../components/elements/Input/AccountSetting";
+import Loading from "../components/elements/Loading/Loading";
 
 const ProfilePage = () => {
   const [activeComponent, setActiveComponent] = useState("profile");
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (activeComponent !== "profile" && activeComponent !== "settings") {
+      return;
+    }
+
+    setIsLoading(true);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 800);
+    return () => clearTimeout(timer);
+  }, [activeComponent]);
 
   return (
     <div>
@@ -17,7 +31,17 @@ const ProfilePage = () => {
           activeComponent={activeComponent}
           setActiveComponent={setActiveComponent}
         />
-        {activeComponent === "profile" ? <EditProfile /> : <AccountSettings />}
+        {isLoading ? (
+          <div className="w-full flex justify-center items-center">
+            <Loading />
+          </div>
+        ) : activeComponent === "profile" ? (
+          <EditProfile />
+        ) : activeComponent === "settings" ? (
+          <AccountSettings />
+        ) : (
+          <div className="w-full flex justify-center items-center"></div>
+        )}
       </div>
     </div>
   );

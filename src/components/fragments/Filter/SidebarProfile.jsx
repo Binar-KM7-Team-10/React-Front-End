@@ -8,7 +8,7 @@ const SidebarProfile = ({ activeComponent, setActiveComponent }) => {
         logout()
     }
     return (
-        <div className="left-section w-full md:w-[370px] h-[189px] flex-col space-y-2">
+        <div className="left-section w-full md:w-[370px] h-[240px] flex-col space-y-2 flex ">
             <div className="space-y-5">
                 <div
                     onClick={() => setActiveComponent('profile')}
