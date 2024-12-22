@@ -29,7 +29,7 @@ const routesConfig = [
   { path: "/payment-success/:bookCode", element: PaymentSuccess, type: "auth" },
   { path: "/history-order", element: HistoryOrder, type: "auth" },
   { path: "/notification", element: NotificationPage, type: "auth" },
-  { path: "/profile/:id", element: ProfilePage, type: "auth" },
+  { path: "/profile", element: ProfilePage, type: "auth" },
   { path: "*", element: NotFoundPage, type: null },
 ];
 
