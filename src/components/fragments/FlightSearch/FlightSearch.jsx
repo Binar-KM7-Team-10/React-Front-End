@@ -15,6 +15,7 @@ const FlightSearch = () => {
   const [flights, setFlights] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedDay, setSelectedDay] = useState();
+  const [selectedFlight, setSelectedFlight] = useState(null); 
 
   const [days, setDays] = useState([
     "Selasa",
@@ -123,6 +124,10 @@ const FlightSearch = () => {
     }
   }, [selectedDate, setSearchParams]);
 
+  const handleSelectFlight = (flightId) => {
+    setSelectedFlight((prev) => (prev === flightId ? null : flightId));
+  };
+
   return (
     <div className="min-h-screen p-4 md:p-6">
       <FlightSearchHeader
@@ -211,7 +216,8 @@ const FlightSearch = () => {
             <Filter />
           </div>
           <div className="flex-1 bg-white p-4 md:p-6 rounded-md">
-            <ListPenerbangan flights={flights} />
+            <ListPenerbangan flights={flights} onSelectFlight={handleSelectFlight} />
+            
           </div>
         </div>
       )}
