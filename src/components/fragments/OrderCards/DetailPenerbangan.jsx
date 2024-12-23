@@ -25,11 +25,6 @@ const DetailPenerbangan = ({ bookingData, arryPsg }) => {
     ? `${arrivalDate.getUTCDate()} ${arrivalDate.toLocaleString("id-ID", { month: "long" })} ${arrivalDate.getUTCFullYear()}`
     : "N/A";
 
-  // const totalPrice =
-  //   (bookingData.price?.adults?.price || 0) * (bookingData.price?.adults?.count || 0) +
-  //   (bookingData.price?.baby?.price || 0) * (bookingData.price?.baby?.count || 0) +
-  //   (bookingData.price?.tax || 0);
-
   const totalPrice =
     (bookingData.price || 0) * (arryPsg[0] || 0) +
     (bookingData.price || 0) * (arryPsg[1] || 0);
