@@ -2,8 +2,6 @@ import {React, useState} from "react";
 import { Link, useParams } from "react-router-dom";
 import image from "../../../assets/Images/PaymentSuccess.png";
 import Loading from "../../elements/Loading/Loading";
-import Navbar from "../Navbar/Navbar";
-import PaymentHeader from "./PaymentHeader";
 
 const PaymentComplete = () => {
   const { bookCode } = useParams();
