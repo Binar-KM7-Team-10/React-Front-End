@@ -116,18 +116,6 @@ const AccountSettings = () => {
           </div>
         </div>
       )}
-      <div className="flex flex-col sm:flex-row gap-3 justify-between px-4">
-        <button
-          onClick={handleDelete}
-          className={`bg-red-700 text-white px-6 py-3 rounded-lg hover:bg-red-800 transition-colors w-full sm:w-[48%] ${deleting ? "opacity-50 cursor-not-allowed" : ""}`}
-          disabled={deleting}
-        >
-          {deleting ? "Deleting..." : "Hapus Akun"}
-        </button>
-      </div>
-
-      {deleteError && <div className="text-red-500 mt-4">{deleteError}</div>}
-      {deleteSuccess && <div className="text-green-500 mt-4">User successfully deleted!</div>}
     </div>
   );
 };
