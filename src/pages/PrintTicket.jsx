@@ -11,7 +11,6 @@ const PrintTicketPage = () => {
   const { bookCode } = useParams();
   const navigate = useNavigate();
   const { dataBooking, loading, error } = useGetBookingByBookCode(bookCode);
-  console.log(dataBooking)
 
   const ticketRef = useRef();
   const handleDownloadPDF = async () => {
@@ -42,7 +41,7 @@ const PrintTicketPage = () => {
             sudah benar sebelum dicetak.
           </p>
           <div className="flex gap-5">
-            <Link to="/payment-success" className="px-6 py-3 bg-white text-purple-600 font-bold rounded-lg shadow-lg hover:bg-purple-100 transition-all">
+            <Link to="/" className="px-6 py-3 bg-white text-purple-600 font-bold rounded-lg shadow-lg hover:bg-purple-100 transition-all">
               KEMBALI
             </Link>
             <button
