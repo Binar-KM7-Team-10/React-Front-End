@@ -14,28 +14,25 @@ const IconGrubNavbar = () => {
   const unreadNotifications = notificationData?.filter(notification => !notification.readStatus).length > 0;
 
   useEffect(() => {
-    setIsBellActive(unreadNotifications); 
-  }, [unreadNotifications]);
+    if (location.pathname === "/notification") {
+      setIsBellActive(unreadNotifications);
+    } else {
+      setIsBellActive(false);
+    }
+  }, [unreadNotifications, location.pathname]);
 
   useEffect(() => {
     if (location.pathname === "/") { 
       setIsListActive(false);
-      setIsBellActive(false);
       setIsUserActive(false);
     } else if (location.pathname.includes("/profile")) { 
       setIsListActive(false);
-      setIsBellActive(false);
       setIsUserActive(true);
     } else if (location.pathname.includes("/history-order")) { 
       setIsListActive(true);
-      setIsBellActive(false);
-      setIsUserActive(false);
-    } else if (location.pathname.includes("/notification")) {
-      setIsListActive(false);
-      setIsBellActive(true);
       setIsUserActive(false);
     }
-  }, [notificationData ,location.pathname]);
+  }, [location.pathname]);
 
   return (
     <div className="flex gap-5">

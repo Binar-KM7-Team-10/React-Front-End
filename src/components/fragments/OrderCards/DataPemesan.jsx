@@ -27,7 +27,6 @@ const DataPemesan = ({ title_card, onValidate, onSubmit }) => {
 
   const validateForm = () => {
     const { fullName, phoneNumber, email } = formData;
-    // Hanya validasi field yang wajib
     return fullName && phoneNumber && email;
   };
 

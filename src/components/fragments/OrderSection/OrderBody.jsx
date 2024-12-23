@@ -154,19 +154,6 @@ const OrderBody = () => {
           "inbound": null
         }
       });
-      // if (errorBooking != null) {
-      //   setAlertSubmit({
-      //     status: "success",
-      //     message: "Checkout Berhasil"
-      //   })
-      // } else {
-      //   console.log("ok", errorBooking)
-      //   setAlertSubmit({
-      //     status: "error",
-      //     message: errorBooking
-      //   })
-      //   setIsSaved(false)
-      // }
       if (bookCode) {
         setTimeout(() => {
           navigate(`/payment/${bookCode}`);
@@ -187,17 +174,6 @@ const OrderBody = () => {
 
   useEffect(() => {
     console.log(errorBooking)
-
-    // if (errorBooking){
-    //   console.log("error");
-    //   setAlertSubmit({
-    //     status: "error",
-    //     message: errorBooking,
-    //   });
-    //   setIsSaved(false);
-    // }
-
-    // if (true) {
     if (!loadingBooking && errorBooking == null) {
       console.log("success");
       setAlertSubmit({
@@ -213,8 +189,8 @@ const OrderBody = () => {
       });
       setIsSaved(false);
     }
-    setWaitingForBookingResponse(false); // Pastikan flag ini di-reset.
-    // }
+    setWaitingForBookingResponse(false); 
+   
   }, [errorBooking, loadingBooking]);
 
   if (loading) return <div>Loading booking details...</div>;

@@ -28,12 +28,12 @@ const FlightSearchHeader = ({
         Pilih Penerbangan
       </h2>
       <div className="flex flex-col md:flex-row gap-2 items-center justify-between mt-4 w-full">
-        <div onClick={handleToHomePage} className="flex items-center space-x-2 bg-purple-500 hover:bg-[#7126B5] text-white py-2 md:py-3 px-4 rounded-[12px] w-full md:w-9/12 gap-4">
+        <button onClick={handleToHomePage} className="flex items-center space-x-2 bg-purple-600 hover:bg-purple-800 text-white py-2 md:py-3 px-4 rounded-[12px] w-full md:w-9/12 gap-4">
           <FiArrowLeft size={20} />
           <span className="text-[16px] md:text-base">
-            JKT &gt; MLB - 2 Penumpang - Economy
+            Kembali Ke Beranda
           </span>
-        </div>
+        </button>
         <div className="w-full md:w-3/12">
           <button onClick={handleToHomePage} className="bg-success text-[16px] md:text-base font-bold text-white px-4 py-2 md:py-3 rounded-[12px] w-full">
             Ubah Pencarian

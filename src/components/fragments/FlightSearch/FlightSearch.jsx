@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { ArrowUpDown } from "lucide-react";
-
 import Filter from "../Filter/Filter";
 import ListPenerbangan from "./ListPenerbangan";
 import emptyImg from "../../../assets/Images/tiket_habis.png";
@@ -8,10 +7,12 @@ import FlightSearchHeader from "./FlightSearchHeader";
 import LoadingSearchFlight from "./LoadingSearchFlight.jsx";
 import useFetchSchedule from "../../../hooks/useFetchSchedule.js";
 import { useSearchContext } from "../../../contexts/searchFlightContext";
+import Loading from "../../elements/Loading/Loading";
 
 const FlightSearch = () => {
   const { searchParams, setSearchParams, getSearchParamsFromCookies } = useSearchContext();
   const { schedule, error, loading, onSubmitSchedule } = useFetchSchedule();
+    const [isPageLoading, setIsPageLoading] = useState(true);
   const [flights, setFlights] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedDay, setSelectedDay] = useState();
@@ -31,6 +32,11 @@ const FlightSearch = () => {
   useEffect(() => {
     const searchCookies = getSearchParamsFromCookies()
     setInitDate(searchCookies.dpDate)
+    const timer = setTimeout(() => {
+      setIsPageLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
   }, [])
  
   const initialDate = new Date(initDate);
@@ -127,6 +133,14 @@ const FlightSearch = () => {
   const handleSelectFlight = (flightId) => {
     setSelectedFlight((prev) => (prev === flightId ? null : flightId));
   };
+
+  if (isPageLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen p-4 md:p-6">
