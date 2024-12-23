@@ -1,0 +1,35 @@
+.switch {
+    width: 50px;
+    height: 25px;
+    background-color: #ccc;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 3px;
+    transition: background-color 0.3s;
+  }
+  
+  .switch.on {
+    background-color: #6a1b9a;
+  }
+  
+  .switch.off {
+    background-color: #ccc;
+  }
+  
+  .toggle {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.3s;
+  }
+  
+  .switch.on .toggle {
+    transform: translateX(25px);
+  }
+  
+  .switch.off .toggle {
+    transform: translateX(0);
+  }
