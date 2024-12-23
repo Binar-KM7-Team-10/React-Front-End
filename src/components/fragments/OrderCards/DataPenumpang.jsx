@@ -10,9 +10,9 @@ const DataPenumpang = ({ dataPsg, onPenumpangChange }) => {
       <SubDataPemumpang
         key={`adult-${a}`}
         groupAge={"Adult"}
-        index={numberPsg - 1} // Kirim index
+        index={numberPsg - 1} 
         title_card={`Data Diri Penumpang ${numberPsg} - Dewasa`}
-        onPenumpangChange={onPenumpangChange} // Callback ke SubDataPenumpang
+        onPenumpangChange={onPenumpangChange} 
       />
     );
     numberPsg++;
@@ -31,27 +31,11 @@ const DataPenumpang = ({ dataPsg, onPenumpangChange }) => {
     );
     numberPsg++;
   }
-
-  // const itemBaby = [];
-  // for (let c = 0; c < dataPsg[2]; c++) {
-  //   itemBaby.push(
-  //     <SubDataPemumpang
-  //       key={`baby-${c}`}
-  //       groupAge={"Baby"}
-  //       index={numberPsg - 1}
-  //       title_card={`Data Diri Penumpang ${numberPsg} - Bayi`}
-  //       onPenumpangChange={onPenumpangChange}
-  //     />
-  //   );
-  //   numberPsg++;
-  // }
-
   return (
     <div className="border border-black p-5 rounded-md">
       <h1 className="text-xl font-bold mb-4">Isi Data Penumpang</h1>
       {itemAdult}
       {itemKid}
-      {/* {itemBaby} */}
     </div>
   );
 };

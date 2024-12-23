@@ -25,11 +25,6 @@ const DetailPenerbanganPayment = ({ bookingData, arryPsg, bookingCode }) => {
     ? `${arrivalDate.getUTCDate()} ${arrivalDate.toLocaleString("id-ID", { month: "long" })} ${arrivalDate.getUTCFullYear()}`
     : "N/A";
 
-  // const totalPrice =
-  //   (bookingData.price?.adults?.price || 0) * (bookingData.price?.adults?.count || 0) +
-  //   (bookingData.price?.baby?.price || 0) * (bookingData.price?.baby?.count || 0) +
-  //   (bookingData.price?.tax || 0);
-
   const totalPrice =
     (bookingData.price || 0) * (arryPsg[0] || 0) +
     (bookingData.price || 0) * (arryPsg[1] || 0);
@@ -43,7 +38,6 @@ const DetailPenerbanganPayment = ({ bookingData, arryPsg, bookingCode }) => {
             <span className="text-purple-600">{bookingCode}</span>
           </span>
         </div>
-        {/* Detail Penerbangan */}
         <div className="py-6  border-[#8A8A8A]">
           <div className="flex justify-between text-sm">
             <span className="font-bold">{formattedDepartureTime}</span>
@@ -53,7 +47,6 @@ const DetailPenerbanganPayment = ({ bookingData, arryPsg, bookingCode }) => {
           <div className="font-medium">{bookingData.departure.location || bookingData.departure.city}</div>
         </div>
 
-        {/* Detail Pesawat */}
         <div className="mb-6 border-b-2 pb-5">
           <div className="font-bold">
             {bookingData.airlineName || "N/A"} - {bookingData.seatClass || "N/A"}
@@ -76,7 +69,6 @@ const DetailPenerbanganPayment = ({ bookingData, arryPsg, bookingCode }) => {
           </div>
         </div>
 
-        {/* Kedatangan */}
         <div className="mb-6">
           <div className="flex justify-between text-sm">
             <span className="font-bold">{formattedArrivalTime}</span>
@@ -86,7 +78,6 @@ const DetailPenerbanganPayment = ({ bookingData, arryPsg, bookingCode }) => {
           <div className="font-medium">{bookingData.arrival.location || bookingData.arrival.city}</div>
         </div>
 
-        {/* Rincian Harga */}
         <div className="border-t pt-4">
           <h3 className="font-medium mb-2">Rincian Harga</h3>
           <div className="space-y-2">
