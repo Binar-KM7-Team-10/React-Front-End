@@ -4,13 +4,6 @@ import ImageFlight from "../../../assets/Images/ImageFlight.png";
 
 const PrintTicket = ({ bookingData, arryPsg, bookingCode }) => {
 
-  console.log(bookingData)
-
-  // const formattedDepartureTime = "07:00";
-  // const formattedDepartureDate = "3 Maret 2023";
-  // const formattedArrivalTime = "11:00";
-  // const formattedArrivalDate = "3 Maret 2023";
-
   const departureDate = new Date(bookingData.departure.dateTime || null);
   const formattedDepartureTime = departureDate
     ? `${departureDate.getHours()}:${departureDate.getMinutes().toString().padStart(2, "0")}`
@@ -35,10 +28,8 @@ const PrintTicket = ({ bookingData, arryPsg, bookingCode }) => {
     flightNumber: `${bookingData.flightNumber}`,
     facilities: bookingData.facilities,
     price: bookingData.price,
-    // tax: 300000,
   };
 
-  // const arryPsg = [2, 1]; // 2 Adults, 1 Child
   const totalPrice = bookingDatas.price * arryPsg[0] + bookingDatas.price * (arryPsg[1] || 0) + bookingDatas.tax;
 
   return (
@@ -101,10 +92,6 @@ const PrintTicket = ({ bookingData, arryPsg, bookingCode }) => {
                 <span>IDR {(bookingDatas.price * arryPsg[1]).toLocaleString()}</span>
               </div>
             )}
-            {/* <div className="flex justify-between text-sm">
-              <span>Tax</span>
-              <span>IDR {bookingDatas.tax.toLocaleString()}</span>
-            </div> */}
             <div className="flex justify-between font-semibold text-purple-600 pt-2 border-t">
               <span>Total</span>
               <span>IDR {totalPrice.toLocaleString()}</span>
