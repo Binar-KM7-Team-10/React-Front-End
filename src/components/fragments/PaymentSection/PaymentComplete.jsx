@@ -1,7 +1,9 @@
-import React from "react";
+import {React, useState} from "react";
 import { Link, useParams } from "react-router-dom";
 import image from "../../../assets/Images/PaymentSuccess.png";
 import Loading from "../../elements/Loading/Loading";
+import Navbar from "../Navbar/Navbar";
+import PaymentHeader from "./PaymentHeader";
 
 const PaymentComplete = () => {
   const { bookCode } = useParams();
@@ -15,16 +17,6 @@ const PaymentComplete = () => {
   return (
     <div className="bg-gray-50 font-sans">
       <div className="w-full">
-        <Navbar search={true} type={"auth"} />
-        <PaymentHeader
-          inputText="Terimakasih atas pembayaran transaksi"
-          alertType="success"
-          activeStep={{
-            text1: true,
-            text2: true,
-            text3: true,
-          }}
-        />
         {isLoading ? (
           <div className="flex justify-center items-center h-screen">
             <Loading />
