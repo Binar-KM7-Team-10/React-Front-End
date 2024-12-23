@@ -187,28 +187,28 @@ Berikut adalah daftar route yang digunakan dalam aplikasi ini:
 ## ✨ Teknologi yang Digunakan
 
 - ![React.js](https://img.shields.io/badge/React.js-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)  
-  **React.js**: Library JavaScript untuk membangun antarmuka pengguna.
+  **Library JavaScript untuk membangun antarmuka pengguna**
 
 - ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)  
-  **Tailwind CSS**: Framework CSS untuk styling yang cepat dan responsif.
+  **Framework CSS untuk styling yang cepat dan responsif**
 
 - ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)  
-  **Node.js**: Runtime JavaScript di sisi server untuk membangun backend aplikasi.
+  **Node.js Runtime JavaScript di sisi server untuk membangun backend aplikasi**
 
 - ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)  
-  **Vite**: Build tool modern yang cepat untuk pengembangan aplikasi berbasis JavaScript.
+  **Vite Build tool modern yang cepat untuk pengembangan aplikasi berbasis JavaScript**
 
 - ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)  
-  **Vercel**: Platform untuk melakukan deployment aplikasi secara cepat, dengan dukungan serverless.
+  **Vercel Platform untuk melakukan deployment aplikasi secara cepat, dengan dukungan serverless**
 
 - ![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white)  
-  **Axios**: Library untuk melakukan HTTP request ke backend (GET, POST, PUT, DELETE).
+  **Axios Library untuk melakukan HTTP request ke backend (GET, POST, PUT, DELETE)**
 
 - ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)  
-  **Postman**: Tool API testing yang digunakan untuk menguji endpoint backend.
+  **Postman Tool API testing yang digunakan untuk menguji endpoint backend**
 
 - ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)  
-  **JavaScript**: Bahasa pemrograman utama yang digunakan untuk logika aplikasi di frontend dan backend.
+  **JavaScript Bahasa pemrograman utama yang digunakan untuk logika aplikasi di frontend dan backend**
 
 
 ---
