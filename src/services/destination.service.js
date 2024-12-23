@@ -10,7 +10,7 @@ const GetDestination = async (page = 1, continent = "All") => {
     });
     return response.data;
   } catch (error) {
-    throw new Error("Failed to fetch destination data");
+    throw new Error("Gagal mendapatkan data tujuan");
   }
 };
 

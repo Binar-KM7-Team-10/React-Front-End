@@ -3,7 +3,7 @@ import { axiosInstance } from "../api/axiosInstance";
 
 const GetNotificationById = async (id) => {
   if (!id) {
-    throw new Error("User ID is required");
+    throw new Error("User ID diperlukan");
   }
 
   try {
@@ -23,20 +23,20 @@ const GetNotificationById = async (id) => {
     return {
       success: false,
       data: null,
-      message: response.data.message || "Failed to fetch cars",
+      message: response.data.message || "Gagal mendapatkan data notofikasi",
     };
   } catch (err) {
     return {
       success: false,
       data: null,
-      message: error.response?.data?.message || "An error occurred",
+      message: error.response?.data?.message || "Terjadi kesalahan, silahkan coba lagi",
     };
   }
 };
 
 const updateNotification = async (id) => {
   if (!id) {
-    throw new Error("User ID is required");
+    throw new Error("User ID diperlukan");
   }
 
   try {
@@ -54,13 +54,13 @@ const updateNotification = async (id) => {
     return {
       success: false,
       data: null,
-      message: response.data.message || "Failed to fetch cars",
+      message: response.data.message || "Gagal mendapatkan data notofikasi",
     };
   } catch (err) {
     return {
       success: false,
       data: null,
-      message: error.response?.data?.message || "An error occurred",
+      message: error.response?.data?.message || "Terjadi kesalahan, silahkan coba lagi",
     };
   }
 

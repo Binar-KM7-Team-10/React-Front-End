@@ -11,13 +11,13 @@ const GetCities = async () => {
         }
         return {
             success: false,
-            message: response.data.message || "Failed to fetch cars",
+            message: response.data.message || "Gagal mendapatkan data kota",
         };
     } 
     catch (err) {
         return {
             success: false,
-            message: err.response?.data?.message || "An error occurred",
+            message: err.response?.data?.message || "Terjadi kesalahan, silahkan coba lagi",
         };
     }
 }

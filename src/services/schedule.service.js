@@ -21,18 +21,18 @@ const GetSchedules = async (params) => {
             return {
                 success: true,
                 data: response.data.data,
-                message: response.data.message || "Schedule successfully retrieved"
+                message: response.data.message || "Berhasil mendapatkan data jadwal"
             };
         }
         return {
             success: false,
-            message: response.data.message || "Failed to fetch schedules",
+            message: response.data.message || "Gagal mendapatkan data jadwal",
         };
     }
     catch (error) {
         return {
             success: false,
-            message: error.response?.data?.message || "An error occurred",
+            message: error.response?.data?.message || "Terjadi kesalahan, silahkan coba lagi",
         };
     }
 }
@@ -44,7 +44,7 @@ const GetScheduleById = async (id) => {
         return {
             success: true,
             data: response.data.data,
-            message: response.data.message || "Schedule successfully retrieved"
+            message: response.data.message || "Berhasil mendapatkan data jadwal"
         };
     } 
     catch (err) {
@@ -52,7 +52,7 @@ const GetScheduleById = async (id) => {
             return {
                 success: false,
                 data: null,
-                message: "Booking not found"
+                message: "Jadwal tidak ditemukan"
             };
         }
 
@@ -60,13 +60,13 @@ const GetScheduleById = async (id) => {
             return {
                 success: false,
                 data: null,
-                message: "Invalid booking ID"
+                message: "Booking ID tidak valid"
             };
         }
         return {
             success: false,
             data: null,
-            message: err.response?.data?.message || "Failed to fetch booking"
+            message: err.response?.data?.message || "Gagal mendapatkan data jadwal"
         };
     }
 }

@@ -16,14 +16,14 @@ const Login = async (body) => {
       return {
         success: false,
         data: response.data,
-        message: response.message || "Failed to login",
+        message: response.message || "Gagal untuk login",
       };
     }
   } catch (err) {
     return {
       success: false,
       data: err.response.data,
-      message: err.response.data.message || "An error occurred",
+      message: err.response.data.message || "Terjadi kesalahan, silahkan coba lagi",
     };
   }
 };
@@ -42,13 +42,13 @@ const Register = async (body) => {
       return {
         success: true,
         data: response.data?.data || null,
-        message: response.data?.message || "Registration successful",
+        message: response.data?.message || "Registration berhasil",
       };
     }
     return {
       success: false,
       data: response.data || null,
-      message: response.data?.message || "Failed to register",
+      message: response.data?.message || "Gagal registrasi!",
     };
   }
   catch (err) {
@@ -56,7 +56,7 @@ const Register = async (body) => {
       success: false,
       data: err.response.data || null,
       message:
-        err.response?.data?.message || err.message || "An error occurred",
+        err.response?.data?.message || err.message || "Terjadi kesalahan, silahkan coba lagi",
     };
   }
 };
@@ -73,13 +73,13 @@ const RegisterOtp = async (body) => {
       return {
         success: true,
         data: response.data?.data || null,
-        message: response.data?.message || "Registration successful",
+        message: response.data?.message || "Otp Berhasil dikirim ",
       };
     }
     return {
       success: false,
       data: response.data || null,
-      message: response.data?.message || "Failed to register",
+      message: response.data?.message || "Gagal mengirim otp",
     };
   }
   catch (err) {
@@ -87,7 +87,7 @@ const RegisterOtp = async (body) => {
       success: false,
       data: err.response.data || null,
       message:
-        err.response?.data?.message || err.message || "An error occurred",
+        err.response?.data?.message || err.message || "Terjadi kesalahan, silahkan coba lagi",
     };
   }
 };
@@ -103,13 +103,13 @@ const RegisterOtpResend = async (email) => {
       return {
         success: true,
         data: response.data?.data || null,
-        message: response.data?.message || "Otp sucessfully resend",
+        message: response.data?.message || "Otp berhasil dikirim ulang",
       };
     }
     return {
       success: false,
       data: response.data || null,
-      message: response.data?.message || "Failed to register",
+      message: response.data?.message || "Gagal mengirim otp kembali",
     };
   }
   catch (err) {
@@ -117,7 +117,7 @@ const RegisterOtpResend = async (email) => {
       success: false,
       data: err.response.data || null,
       message:
-        err.response?.data?.message || err.message || "An error occurred",
+        err.response?.data?.message || err.message || "Terjadi kesalahan, silahkan coba lagi",
     };
   }
 };
@@ -135,10 +135,17 @@ const Logout = async () => {
       return {
         success: false,
         data: response.data,
-        message: response.message || "Failed to logout",
+        message: response.message || "Gagal untuk logout",
       };
     }
-  } catch (err) { }
+  } catch (err) { 
+    return {
+      success: false,
+      data: err.response.data || null,
+      message:
+        err.response?.data?.message || err.message || "Terjadi kesalahan, silahkan coba lagi",
+    };
+  }
 };
 
 const ForgotPass = async (email) => {
@@ -153,13 +160,13 @@ const ForgotPass = async (email) => {
     } else {
       return {
         success: false,
-        message: response.data.message || 'Failed to send email',
+        message: response.data.message || 'Gagal mengirim email',
       };
     }
   } catch (err) {
     return {
       success: false,
-      message: err.response?.data?.message || 'An error occurred',
+      message: err.response?.data?.message || 'Terjadi kesalahan, silahkan coba lagi',
     };
   }
 };
@@ -180,14 +187,14 @@ const ResetPass = async (token, newPassword, confirmNewPassword) => {
     } else {
       return {
         success: false,
-        message: response.data.message || 'Failed to reset password',
+        message: response.data.message || 'Gagal mengubah password',
       };
     }
   } catch (err) {
     console.error("Error during password reset:", err); 
     return {
       success: false,
-      message: err.response?.data?.message || 'An error occurred',
+      message: err.response?.data?.message || 'Terjadi kesalahan, silahkan coba lagi',
     };
   }
 };
