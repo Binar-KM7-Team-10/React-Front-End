@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "../components/fragments/Navbar/Navbar";
-import PaymentHeader from "../components/fragments/PaymentSection/PaymentHeader";
+import AlertCheckout from "../components/elements/Alert/AlertCheckout";
 import PaymentComplete from "../components/fragments/PaymentSection/PaymentComplete";
 
 const PaymentSuccess = () => {
@@ -13,11 +13,11 @@ const PaymentSuccess = () => {
   return (
     <div>
       <Navbar search={true} type={"auth"} />
-      <PaymentHeader
-        inputText="Terimakasih atas pembayaran transaksi"
-        alertType="success"
-        activeStep={active}
-      />
+      <div className="shadow-md py-10">
+        <div className="mx-4 sm:mx-8 lg:mx-20 xl:mx-40 2xl:mx-60 px-4 sm:px-8 lg:px-20 xl:px-40 2xl:px-60">
+          <AlertCheckout text={"Terimakasih atas pembayaran transaksi"} type={"success"} />
+        </div>
+      </div>
       <PaymentComplete />
     </div>
   );
