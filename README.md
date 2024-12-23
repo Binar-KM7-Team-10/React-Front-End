@@ -29,6 +29,7 @@ Aplikasi ini dibuat untuk mempermudah pengguna dalam melakukan pemesanan tiket p
 
 ### 🔔 **Notifikasi**
 - Memberikan pemberitahuan terkait pembelian tiket.
+- Memberikan pemberitahuan terkait update profile akun.
 
 ---
 
@@ -38,7 +39,7 @@ Aplikasi ini dibuat untuk mempermudah pengguna dalam melakukan pemesanan tiket p
 - **Logout**
 - **Reset Password**
 - **Forgot Password**
-- **Profil User**: Melihat informasi profil pengguna.
+- **Profil User**
 - **Update Profile Password**
 
 ---
@@ -47,55 +48,64 @@ Aplikasi ini dibuat untuk mempermudah pengguna dalam melakukan pemesanan tiket p
 
 Berikut adalah daftar route yang digunakan dalam aplikasi ini:
 
-1. **`/`**: Halaman Utama (Homepage)
-   - Menampilkan informasi dan rekomendasi penerbangan.
-   - Dapat diakses oleh semua pengguna yang belum login.
+1. **`/login`**: Halaman Login
+   - Digunakan oleh pengguna untuk masuk ke akun mereka.
+   - Hanya dapat diakses oleh pengguna yang belum login (guest).
 
-2. **`/reset-password`**: Reset Password
-   - Digunakan oleh pengguna yang ingin mereset password.
+2. **`/register`**: Halaman Registrasi
+   - Digunakan oleh pengguna baru untuk membuat akun.
    - Hanya dapat diakses oleh pengguna yang belum login (guest).
 
 3. **`/otp-confirm`**: Halaman OTP
    - Digunakan untuk konfirmasi OTP setelah registrasi atau reset password.
+
+4. **`/reset-password`**: Reset Password
+   - Digunakan oleh pengguna yang ingin mereset password.
+   - Hanya dapat diakses oleh pengguna yang belum login (guest).
    - Hanya dapat diakses oleh pengguna yang belum login (guest).
 
-4. **`/login`**: Halaman Login
-   - Digunakan oleh pengguna untuk masuk ke akun mereka.
+5. **`/forgot-password`**: Forgot Password
+   - Digunakan oleh pengguna mengirim token untuk reset password.
+   - Hanya dapat diakses oleh pengguna yang belum login (guest).
    - Hanya dapat diakses oleh pengguna yang belum login (guest).
 
-5. **`/register`**: Halaman Registrasi
-   - Digunakan oleh pengguna baru untuk membuat akun.
-   - Hanya dapat diakses oleh pengguna yang belum login (guest).
+6. **`/`**: Halaman Utama (Homepage)
+   - Menampilkan informasi dan rekomendasi penerbangan.
+   - Dapat diakses oleh semua pengguna yang belum login.
 
-6. **`/payment`**: Halaman Pembayaran
-   - Digunakan untuk melakukan pembayaran pesanan tiket.
-   - Hanya dapat diakses oleh pengguna yang sudah login (auth).
-
-7. **`/checkout`**: Halaman Pemesanan
-   - Digunakan untuk memproses pemesanan tiket penerbangan.
-   - Hanya dapat diakses oleh pengguna yang sudah login (auth).
-
-8. **`/search`**: Halaman Pencarian Jadwal Penerbangan
+7. **`/search`**: Halaman Pencarian Jadwal Penerbangan
    - Digunakan untuk mencari penerbangan yang tersedia.
    - Hanya dapat diakses oleh pengguna yang sudah login (auth).
 
-9. **`/payment-success`**: Halaman Pembayaran Berhasil
-   - Menampilkan status pembayaran setelah pembayaran berhasil.
+8. **`/checkout`**: Halaman Pemesanan
+   - Digunakan untuk memproses pemesanan tiket penerbangan.
    - Hanya dapat diakses oleh pengguna yang sudah login (auth).
 
-10. **`/history-order`**: Riwayat Pemesanan
+9. **`/history-order`**: Riwayat Pemesanan
     - Menampilkan riwayat pembelian tiket penerbangan pengguna.
     - Hanya dapat diakses oleh pengguna yang sudah login (auth).
 
-11. **`/notifikasi`**: Halaman Notifikasi
+10. **`/notification`**: Halaman Notifikasi
     - Menampilkan notifikasi terkait pembelian tiket.
     - Hanya dapat diakses oleh pengguna yang sudah login (auth).
 
-12. **`/profile/:id`**: Halaman Profil Pengguna
+11. **`/profile/:id`**: Halaman Profil Pengguna
     - Menampilkan informasi profil pengguna dan memungkinkan mereka untuk memperbarui data.
     - Hanya dapat diakses oleh pengguna yang sudah login (auth).
 
-13. **`*`**: Halaman Not Found
+12. **`/payment:bookCode`**: Halaman Pembayaran
+   - Digunakan untuk melakukan pembayaran pesanan tiket.
+   - Hanya dapat diakses oleh pengguna yang sudah login (auth).
+
+13. **`/payment-success:bookCode`**: Halaman Pembayaran Berhasil
+   - Menampilkan status pembayaran setelah pembayaran berhasil.
+   - Hanya dapat diakses oleh pengguna yang sudah login (auth).
+
+14. **`/print-ticket:bookCode`**: Halaman Cetak Tiket
+   - Menampilkan detail tiket yang sudah di berhasil melakukan transaksi.
+   - Dapat melakukan download tiket dalam format pdf.
+
+15. **`*`**: Halaman Not Found
     - Menampilkan halaman error jika route yang diminta tidak ditemukan.
 
 
@@ -109,6 +119,15 @@ Berikut adalah daftar route yang digunakan dalam aplikasi ini:
 | `react-hook-form`       | ^7.53.2  | Mengelola form dengan mudah dan efisien, termasuk validasi input.     |
 | `react-loading-skeleton`| ^3.5.0   | Menampilkan skeleton loading untuk meningkatkan pengalaman pengguna.  |
 | `react-router-dom`      | ^7.0.0   | Mengelola routing di aplikasi React, seperti navigasi antar halaman.  |
+| `flowbite`              | ^2.5.2   | Menyediakan komponen UI berbasis Tailwind CSS untuk pengembangan cepat.|
+| `html2canvas`           | ^1.4.1   | Mengambil tangkapan layar dari elemen HTML dan mengubahnya menjadi canvas. |
+| `jspdf`                 | ^2.5.2   | Membuat dan mengunduh file PDF langsung dari browser.                  |
+| `lucide-react`          | ^0.460.0 | Menyediakan ikon SVG modern yang dapat digunakan di aplikasi React.    |
+| `prettier`              | ^3.3.3   | Alat untuk memastikan konsistensi format kode secara otomatis.         |
+| `react-hot-toast`       | ^2.4.1   | Menampilkan notifikasi ringan dan interaktif di aplikasi React.        |
+| `react-icon`            | ^1.0.0   | Menyediakan ikon berbasis SVG untuk digunakan di aplikasi React.       |
+| `react-icons`           | ^5.3.0   | Menyediakan kumpulan ikon populer seperti FontAwesome dan Material Icons. |
+| `react`                 | ^18.3.1  | Library utama untuk membangun antarmuka pengguna berbasis komponen.    |
 
 ---
 
@@ -167,8 +186,30 @@ Berikut adalah daftar route yang digunakan dalam aplikasi ini:
 
 ## ✨ Teknologi yang Digunakan
 
-- **React.js**: Library JavaScript untuk membangun antarmuka pengguna.
-- **Tailwind CSS**: Framework CSS untuk styling yang cepat dan responsif.
+![React.js](https://img.shields.io/badge/React.js-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)  
+  **Library JavaScript untuk membangun antarmuka pengguna**
+
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)  
+  **Framework CSS untuk styling yang cepat dan responsif**
+
+![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)  
+  **Node.js Runtime JavaScript di sisi server untuk membangun backend aplikasi**
+
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)  
+  **Vite Build tool modern yang cepat untuk pengembangan aplikasi berbasis JavaScript**
+
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)  
+  **Vercel Platform untuk melakukan deployment aplikasi secara cepat, dengan dukungan serverless**
+
+![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white)  
+  **Axios Library untuk melakukan HTTP request ke backend (GET, POST, PUT, DELETE)**
+
+![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)  
+  **Postman Tool API testing yang digunakan untuk menguji endpoint backend**
+
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)  
+  **JavaScript Bahasa pemrograman utama yang digunakan untuk logika aplikasi di frontend dan backend**
+
 
 ---
 
