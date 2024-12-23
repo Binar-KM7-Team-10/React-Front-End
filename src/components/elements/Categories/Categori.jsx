@@ -6,7 +6,7 @@ const ContinentFilter = ({ onFilterChange, activeFilter }) => {
   return (
     <div className="mt-6 sm:mt-8 max-w-6xl mx-auto px-8 sm:px-6 md:px-24">
       <h1 className="font-bold text-lg py-3">Destinasi Favorit</h1>
-      <div className="hidden md:block overflow-x-auto">
+      <div className="md:block overflow-x-auto">
         <div className="flex gap-2 flex-nowrap">
           {continents.map((continent) => (
             <button
